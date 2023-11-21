@@ -15,13 +15,11 @@ import AboutPage from './Pages/AboutPage'
 import ErrorBoundaryComponent from 'SharedComponents/ErrorBoundaryComponent'
 import { appsProviderStore } from 'Apps/Common/ProviderStore'
 import { StaticDataLoader } from 'Apps/Common/StaticDataLoader'
-import NavBarRowDefinition from 'Apps/Common/HeaderComponent/NavBarRowDefinition'
 
 export default function MainSiteApp() {
     const [isLoading, setIsLoading] = useState(false);
 
     const currentUser = useSelector((state) => state.userReducer.currentUser);
-    const currentPage = useSelector((state) => state.navBarReducer.currentPage);
 
     const handleDoneLoading = () => {
         setIsLoading(false);
