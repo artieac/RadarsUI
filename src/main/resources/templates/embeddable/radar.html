@@ -1,0 +1,51 @@
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+       xmlns:ng="http://angularjs.org" ng-app="theApp">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+
+    <div th:replace="fragments/header :: scriptHeader"></div>
+    <script type="text/javascript" src="/script/lib/protovis-3.2/protovis-d3.2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/utils.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/lib/lodash.underscore.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarSubjectService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarItemService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarInstanceService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Services/RadarTemplateService.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/script/Controllers/RadarController.js"></script>
+
+    <style type="text/css" media="screen">
+
+        #fig {
+        height: 1000px;
+        width: 1200px;
+        }
+
+    </style>
+    <script type="text/javascript" src="/script/radar.js" charset="utf-8"></script>
+</head>
+<body>
+<input sec:authorize="isAuthenticated()" type="text" id="isAnonymous" name="isAnonymous" value="false"/>
+<input sec:authorize="isAnonymous()" type="text" id="isAnonymous" name="isAnonymous" value="true"/>
+<input type="hidden" id="userId" name="userId" th:value="${userId}"/>
+<input type="hidden" id="radarInstanceId" name="radarInstanceId" th:value="${radarInstanceId}"/>
+<input type="hidden" id="radarTemplateId" name="radarInstanceId" th:value="${radarTemplateId}"/>
+<div class="panel-primary"  ng-controller="RadarController">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <div ng-init="getRadarTemplates(currentUserId, true)">{{selectedRadarTemplate.name}}</div>
+            </div>
+            <div class="col-sm-3">
+                <div>{{getDropdownLabel(selectedRadarInstance)}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div id="radar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
