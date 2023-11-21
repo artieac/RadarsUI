@@ -4,7 +4,7 @@ import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import NavBarComponent from 'SharedComponents/NavbarComponent'
+import NavBarComponent from 'SharedComponents/NavBarComponent'
 import { UserRepository } from 'Repositories/UserRepository'
 import { setCurrentUser } from 'Redux/UserReducer'
 
