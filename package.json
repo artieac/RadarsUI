@@ -1,11 +1,11 @@
 {
-  "name": "AlwaysMoveForward",
+  "name": "AlwaysMoveForward Technology Radar",
   "version": "1.0.0",
-  "description": "Always Move Forward Landing Page",
+  "description": "Always Move Forward Technology Radar UI",
   "author": "Arthur Correa",
   "repository": {
     "type": "git",
-    "url": "git://github.com/artieac/alwaysmoveforward.git"
+    "url": "git://github.com/artieac/TechnologyRadarUI.git"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
