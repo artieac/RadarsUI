@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ES6",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "Apps/*": ["src/main/resources/code/react/Apps/*"],
+      "SharedComponents/*": ["src/main/resources/code/react/components"],
+      "Repositories/*": ["src/main/resources/code/react/Repositories"],
+      "Redux/*": ["src/main/resources/code/react/redux"],
+      "CSS/*": ["src/main/resources/static/css"],
+      "MainSite/*": ["src/main/resources/code/react/apps/MainSite"]
+    }
+  }
+}
