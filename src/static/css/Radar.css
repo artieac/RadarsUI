@@ -1,0 +1,192 @@
+body{
+}
+
+.homePageBody{
+    horiz-align: center;
+}
+
+.container{
+    margin-top:5%;
+    margin-left:5%;
+    margin-right:5%;
+    width:90%;
+    display:block;
+}
+
+.detailsSection{
+    margin-top:20%;
+    margin-bottom:20%;
+}
+
+.heroContainer{
+    vertical-align: middle;
+    vertical-align: middle;
+    margin-left:5%;
+    margin-right:5%;
+}
+
+.heroTitle{
+    font-size: larger;
+    font-weight: bold;
+    text-align:center;
+}
+
+.detailsAction{
+    margin-top:5%;
+    horiz-align: center;
+}
+
+.featurePanel{
+    height:25rem;
+    width:90%;
+    margin-top:2%;
+    margin-bottom:2%;
+}
+
+.heroPanel{
+    background-color: rgba(158, 158, 158, 0.2);
+    horiz-align: center;
+    width:95%;
+}
+
+.heroPanel > .panel-info > .panel-heading {
+    background-image: none;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    background-color: rgba(158, 158, 158, 0.2);
+}
+
+.heroCopy{
+    text-align:center;
+}
+
+.versionPanel{
+    background-color: rgba(143,162,39, 0.5);
+}
+
+.versionPanel > .panel-info > .panel-heading {
+    background-image: none;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    background-color: rgba(143, 162, 39, 0.5);
+}
+
+.comparePanel{
+    background-color: rgba(88,116,134, 0.5);
+}
+
+.comparePanel > .panel-info > .panel-heading{
+    background-image: none;
+    text-align: center;
+    color:black;
+    font-weight:bold;
+    background-color: rgba(88,116,134, 0.5);
+}
+
+.sharePanel{
+    background-color: rgba(220,111,29, 0.5);
+}
+
+.sharePanel > .panel-info > .panel-heading{
+    background-image: none;
+    text-align: center;
+    color:black;
+    font-weight:bold;
+    background-color: rgba(220,111,29, 0.5);
+}
+
+.accessPanel{
+    background-color: rgba(183,0,98, 0.5);
+}
+
+.accessPanel > .panel-info > .panel-heading{
+    background-image: none;
+    text-align: center;
+    color:black;
+    font-weight:bold;
+    background-color: rgba(183,0,98, 0.5);
+}
+
+.homePagePanelBody{
+    margin-top:1%;
+}
+
+.homePageGraphic{
+    background-image: url("/images/OpaqueRadarBackground.PNG");
+    background-repeat: no-repeat;
+    background-size:100%;
+}
+
+.graphicPanel{
+    margin-top: 5%;
+    margin-bottom:5%;
+}
+
+.graphic{
+    background-image: url("/images/RadarBackground.PNG");
+    background-repeat: no-repeat;
+    background-size:contain;
+    width:200%;
+    height:200%;
+}
+
+textarea
+{
+    display:block;
+    width: 100em;
+    height:100%;
+}
+
+#technologyAssessmentDetailsPanel
+{
+    margin-left:5%;
+    width:90%;
+}
+
+.adminMenuPanel{
+    min-height:250;
+    max-height:250;
+    horizontal-align:center;
+    text-align:center;
+}
+
+.errorText{
+    color: red;
+}
+
+.alternatingRow{
+    background-color: WhiteSmoke;
+    color: DimGray;
+}
+
+.btn-techradar{
+  background-color: #3898EC;
+  color: white;
+  border-radius: 0;
+  display: inline-block;
+  padding: 9px 15px;
+  border: 1px;
+  line-height: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  border-color: White;
+  margin-top:5px;
+}
+
+.panel-heading-techradar{
+    color: #fff;
+    background-color: #3898EC;
+    border-color: #3898EC;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.panel-techradar{
+  color: #3898EC !important;
+  background-color: #fff !important;
+  border-color: #3898EC !important;
+}
