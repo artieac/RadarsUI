@@ -22,5 +22,8 @@ src/main/resources/[Nn]ode_modules/*
 src/main/resources/static/script/dist/
 src/main/resources/static/script/dist/*
 package-lock.json
-
+src/main/**
 application-production.properties
+.idea/*
+
+pom.xml
