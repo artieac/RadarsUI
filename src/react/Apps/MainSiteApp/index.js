@@ -20,12 +20,12 @@ export default function MainSiteApp() {
     const [isLoading, setIsLoading] = useState(false);
 
     const currentUser = useSelector((state) => state.userReducer.currentUser);
+    const currentPage = "";
 
     const handleDoneLoading = () => {
         setIsLoading(false);
     }
 
-    render
     return (
         <div>
             <HeaderComponent doneLoadingNotifier = { handleDoneLoading }/>

@@ -2,7 +2,7 @@ import jQuery from 'jquery';
 import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
-     webServiceUrlRoot = "http://technologyradar.amflocal.com:8081";
+     webServiceUrlRoot = "http://technologyradarapi.alwaysmoveforward.com";
 
      getRequest(url: string, responseHandler: Function) {
         jQuery.ajax({
