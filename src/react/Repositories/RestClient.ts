@@ -2,7 +2,7 @@ import jQuery from 'jquery';
 import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
-     webServiceUrlRoot = "http://technologyradarapi.alwaysmoveforward.com";
+    webServiceUrlRoot = "http://api.technologyradar.alwaysmoveforward.com";
 
      getRequest(url: string, responseHandler: Function) {
         jQuery.ajax({
@@ -13,13 +13,16 @@ export class RestClient {
              },
              type: "GET",
              url: this.webServiceUrlRoot + url,
+             xhrFields: {
+                 withCredentials: true
+             },
              async: true,
              dataType: 'json',
              success: function(data: any) {
                    responseHandler(true, data);
               },
              error: function(xhr: any, status: any, err: any) {
-                   responseHandler(false);
+                   responseHandler(false, err);
              }
        });
     }
@@ -34,6 +37,9 @@ export class RestClient {
                   },
                   type: "POST",
                   url: this.webServiceUrlRoot + url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
                   data: JSON.stringify(params),
                   success: function(data: any) {
                         responseHandler(true, data);
@@ -52,6 +58,9 @@ export class RestClient {
                   },
                   type: "POST",
                   url: this.webServiceUrlRoot + url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
                   success: function(data: any) {
                         responseHandler(true, data);
                    },
@@ -72,6 +81,9 @@ export class RestClient {
                   },
                   type: "PUT",
                   url: this.webServiceUrlRoot + url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
                   data: JSON.stringify(params),
                   success: function(data: any) {
                         responseHandler(true, data);
@@ -90,6 +102,9 @@ export class RestClient {
                   },
                   type: "PUT",
                   url: url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
                   success: function(data: any) {
                         responseHandler(true, data);
                    },

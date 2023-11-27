@@ -4,10 +4,11 @@ import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import NavBarComponent from 'SharedComponents/NavbarComponent'
+import NavBarComponent from 'SharedComponents/NavBarComponent'
 import { UserRepository } from 'Repositories/UserRepository'
 import { setCurrentUser } from 'Redux/UserReducer'
 import NavBarRowDefinition from './NavBarRowDefinition'
+import { RestClient } from 'Repositories/RestClient'
 
 export const HeaderComponent = ({ doneLoadingNotifier }) => {
     const dispatch = useDispatch();
@@ -28,9 +29,14 @@ export const HeaderComponent = ({ doneLoadingNotifier }) => {
         doneLoadingNotifier();
     }
 
+    const buildLoginUrl = (loginUrl) => {
+        let restClient = new RestClient();
+        return restClient.webServiceUrlRoot + loginUrl;
+    }
+
     return (
         <div>
-            <NavBarComponent title="Technology Radar" navBarRowDefinition={ NavBarRowDefinition(currentUser, currentPage) } currentUser = { currentUser } loginUrl= "http://technologyradarapi.alwaysmoveforward.com/login"  />
+            <NavBarComponent title="Technology Radar" navBarRowDefinition={ NavBarRowDefinition(currentUser, currentPage) } currentUser = { currentUser } loginUrl= { buildLoginUrl("/login") }  />
         </div>
     );
 };
