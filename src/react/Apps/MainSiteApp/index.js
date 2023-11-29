@@ -15,6 +15,7 @@ import AboutPage from './Pages/AboutPage'
 import ErrorBoundaryComponent from 'SharedComponents/ErrorBoundaryComponent'
 import { appsProviderStore } from 'Apps/Common/ProviderStore'
 import { StaticDataLoader } from 'Apps/Common/StaticDataLoader'
+import NavBarRowDefinition from './NavBarRowDefinition'
 
 export default function MainSiteApp() {
     const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function MainSiteApp() {
 
     return (
         <div>
-            <HeaderComponent doneLoadingNotifier = { handleDoneLoading }/>
+            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) }/>
             {isLoading
                 ? <div/>
                 : <Routes>

@@ -2,7 +2,13 @@ import jQuery from 'jquery';
 import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
-    webServiceUrlRoot = "http://api.technologyradar.alwaysmoveforward.com";
+    getWebServiceUrlRoot() {
+        if(process.env.NODE_ENV=="development"){
+            return process.env.REACT_APP_TECHNOLOGY_API_URL_DEV;
+        }
+
+        return process.env.REACT_APP_TECHNOLOGY_API_URL_PROD;
+    }
 
      getRequest(url: string, responseHandler: Function) {
         jQuery.ajax({
@@ -12,7 +18,7 @@ export class RestClient {
                      'credentials': 'include',
              },
              type: "GET",
-             url: this.webServiceUrlRoot + url,
+             url: this.getWebServiceUrlRoot() + url,
              xhrFields: {
                  withCredentials: true
              },
@@ -36,7 +42,7 @@ export class RestClient {
                      'credentials': 'include',
                   },
                   type: "POST",
-                  url: this.webServiceUrlRoot + url,
+                  url: this.getWebServiceUrlRoot() + url,
                   xhrFields: {
                     withCredentials: true
                   },
@@ -57,7 +63,7 @@ export class RestClient {
                      'credentials': 'include',
                   },
                   type: "POST",
-                  url: this.webServiceUrlRoot + url,
+                  url: this.getWebServiceUrlRoot() + url,
                   xhrFields: {
                     withCredentials: true
                   },
@@ -80,7 +86,7 @@ export class RestClient {
                      'credentials': 'include',
                   },
                   type: "PUT",
-                  url: this.webServiceUrlRoot + url,
+                  url: this.getWebServiceUrlRoot() + url,
                   xhrFields: {
                     withCredentials: true
                   },
@@ -123,7 +129,7 @@ export class RestClient {
                      'credentials': 'include',
               },
               type: "DELETE",
-              url: this.webServiceUrlRoot + url,
+              url: this.getWebServiceUrlRoot() + url,
               success: function(data: any) {
                     responseHandler(true, data);
                },

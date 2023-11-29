@@ -17,12 +17,12 @@ export const ManageRadarTemplatesPage = () => {
 
     const dispatch = useDispatch();
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const radarTemplates = useSelector((state) => state.radarTemplateReducer.radarTemplates);
 
     useEffect(() => {
         let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getMostRecentByUserId(loggedInUser.id, handleGetRadarTemplatesByUserIdResponse);
+        radarTemplateRepository.getMostRecentByUserId(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
     },[]);
 
     const handleGetRadarTemplatesByUserIdResponse = (wasSuccessful, radarTemplates) => {
@@ -33,10 +33,10 @@ export const ManageRadarTemplatesPage = () => {
     }
 
     const canAddRadarTemplates = () => {
-        if(isValid(loggedInUser)){
+        if(isValid(authenticatedUser)){
             if(isValid(radarTemplates)){
                 if(isLoading==false){
-                    if(radarTemplates.length < loggedInUser.canHaveNRadarTemplates){
+                    if(radarTemplates.length < authenticatedUser.canHaveNRadarTemplates){
                         return true;
                     }
                 } else {
@@ -57,14 +57,14 @@ export const ManageRadarTemplatesPage = () => {
     const handleDeleteClick = (radarTemplate) => {
         if(confirm("This will permanently remove all radars of this type.  Are you sure you want to proceed?")){
             let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.deleteRadarTemplate(loggedInUser.id, radarTemplate.id, handleDeleteResponse);
+            radarTemplateRepository.deleteRadarTemplate(authenticatedUser.id, radarTemplate.id, handleDeleteResponse);
         }
     }
 
     const handleDeleteResponse = (wasSuccessful) => {
         if(wasSuccessful==true){
             let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.getByUserId(loggedInUser.id, false, handleGetRadarTemplatesByUserIdResponse);
+            radarTemplateRepository.getByUserId(authenticatedUser.id, false, handleGetRadarTemplatesByUserIdResponse);
         }
     }
 

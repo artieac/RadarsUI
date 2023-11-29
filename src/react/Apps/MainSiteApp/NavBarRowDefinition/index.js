@@ -9,18 +9,36 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
        metadata: [
         {
             label: 'Home',
-            target: '/',
-            secureTarget: '/home/secureradar'
+            loggedInOnly: true,
+            internal: true,
+            roles: '',
+            target: '/home/secureradar'
         },
         {
             label: 'Search',
+            loggedInOnly: false,
+            internal: true,
+            roles: '',
             target: '/search',
-            secureTarget: '/search'
+        },
+        {
+            label: 'Manage Radars',
+            loggedInOnly: true,
+            roles: '',
+            target: "http://manage.technologyradar.alwaysmoveforward.com"
+        },
+        {
+            label: 'Admin',
+            loggedInOnly: true,
+            internal: false,
+            roles: "ROLE_ADMIN",
+            target: "http://admin.technologyradar.alwaysmoveforward.com"
         },
         {
             label: 'About',
+            loggedInOnly: false,
+            roles: '',
             target: '/about',
-            secureTarget: '/about'
         }
        ],
        render: rowData => {

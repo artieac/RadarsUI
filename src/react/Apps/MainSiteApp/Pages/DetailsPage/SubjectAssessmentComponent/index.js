@@ -5,7 +5,7 @@ import { isValid } from 'Apps/Common/Utilities';
 import Moment from 'moment'
 
 export const SubjectAssessmentComponent = ({ rowData }) => {
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ export const SubjectAssessmentComponent = ({ rowData }) => {
     return (
         <div>
             <div className="row">
-                { isValid(loggedInUser) && loggedInUser.id==rowData.assessmentUser.id ?
+                { isValid(authenticatedUser) && authenticatedUser.id==rowData.assessmentUser.id ?
                     <h4>
                         <a href={ "/home/secureradar/" + rowData.assessmentId }>{ rowData.assessmentName}</a> - { formatDate(rowData.assessmentDate) }
                     </h4>

@@ -16,11 +16,11 @@ export const ManageAssociatedRadarTemplatesPage = () => {
 
     const dispatch = useDispatch();
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useEffect(() => {
         let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getAssociatedRadarTemplates(loggedInUser.id, handleGetAssociatedRadarTemplatesResponse);
+        radarTemplateRepository.getAssociatedRadarTemplates(authenticatedUser.id, handleGetAssociatedRadarTemplatesResponse);
     }, []);
 
     const handleGetAssociatedRadarTemplatesResponse = (wasSuccessful, data) => {
@@ -29,7 +29,7 @@ export const ManageAssociatedRadarTemplatesPage = () => {
         }
 
         let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getOtherUsersSharedRadarTemplates(loggedInUser.id, handleGetOtherUsersSharedRadarTemplatesResponse);
+        radarTemplateRepository.getOtherUsersSharedRadarTemplates(authenticatedUser.id, handleGetOtherUsersSharedRadarTemplatesResponse);
     }
 
     const handleGetOtherUsersSharedRadarTemplatesResponse = (wasSuccessful, data) => {

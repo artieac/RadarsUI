@@ -47,6 +47,8 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
+    "dotenv-webpack": "^8.0.1",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
     "moment": "^2.20.1",
@@ -68,8 +70,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack",
     "watch": "webpack -d --watch",
-    "build": "webpack --config webpack.production.js",
-    "build-dev": "webpack --config webpack.development.js"
+    "build": "webpack --config webpack.development.js",
+    "build-prod": "webpack --config webpack.production.js"
   },
   "keywords": [],
   "license": "ISC"

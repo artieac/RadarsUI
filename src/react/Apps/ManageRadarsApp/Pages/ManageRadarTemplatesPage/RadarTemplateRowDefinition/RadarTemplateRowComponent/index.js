@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom'
 import { isValid } from 'Apps/Common/Utilities'
 
 export const RadarTemplateRowComponent = ({ rowData, handleViewClick, handleDeleteClick }) => {
-
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
-
     return (
         <tr key={ rowData.id } >
             <td>{rowData.name}</td>

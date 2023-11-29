@@ -17,7 +17,7 @@ export const PublicRadarPage = ({ mostRecent } ) => {
     let { radarTemplateId } = useParams();
     let { radarId } = useParams();
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ export const PublicRadarPage = ({ mostRecent } ) => {
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <SelectRadarControl radarViewParams = { new RadarViewParams(true, userId, loggedInUser, radarTemplateId, radarId, mostRecent) } />
+                            <SelectRadarControl radarViewParams = { new RadarViewParams(true, userId, authenticatedUser, radarTemplateId, radarId, mostRecent) } />
                         </div>
                     </div>
                 </div>

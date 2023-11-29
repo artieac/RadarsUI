@@ -12,8 +12,6 @@ export const DetailsPage = () => {
 
     let { subjectId } = useParams();
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
-
     const dispatch = useDispatch();
 
      useEffect(() => {

@@ -7,10 +7,9 @@ import { connect } from "react-redux";
 import NavBarComponent from 'SharedComponents/NavBarComponent'
 import { UserRepository } from 'Repositories/UserRepository'
 import { setCurrentUser } from 'Redux/UserReducer'
-import NavBarRowDefinition from './NavBarRowDefinition'
 import { RestClient } from 'Repositories/RestClient'
 
-export const HeaderComponent = ({ doneLoadingNotifier }) => {
+export const HeaderComponent = ({ doneLoadingNotifier, navBarRowDefinition }) => {
     const dispatch = useDispatch();
 
     const currentUser = useSelector((state) => state.userReducer.currentUser);
@@ -36,7 +35,7 @@ export const HeaderComponent = ({ doneLoadingNotifier }) => {
 
     return (
         <div>
-            <NavBarComponent title="Technology Radar" navBarRowDefinition={ NavBarRowDefinition(currentUser, currentPage) } currentUser = { currentUser } loginUrl= { buildLoginUrl("/login") }  />
+            <NavBarComponent title="Technology Radar" navBarRowDefinition={ navBarRowDefinition } currentUser = { currentUser } loginUrl= { buildLoginUrl("/login") }  />
         </div>
     );
 };

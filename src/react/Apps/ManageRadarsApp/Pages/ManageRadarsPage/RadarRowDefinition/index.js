@@ -5,7 +5,7 @@ import { InsertRadarRowComponent } from './InsertRadarRowComponent'
 import { isValid } from 'Apps/Common/Utilities'
 import './component.css';
 
-export const RadarRowDefinition = (loggedInUser) => {
+export const RadarRowDefinition = (authenticatedUser) => {
 
     return (
     {

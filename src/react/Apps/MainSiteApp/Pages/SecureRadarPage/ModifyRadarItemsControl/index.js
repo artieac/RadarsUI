@@ -25,7 +25,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
     const [confidenceLevel, setConfidenceLevel] = useState({text: "Select"});
     const [assessmentDetails, setAssessmentDetails] = useState("");
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const radarState = useSelector((state) => state.radarReducer);
     const selectedRadar = useSelector((state) => state.radarReducer.currentRadar);
 
@@ -104,7 +104,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
 
         if (!isValid(currentEditItemId)){
             if (isValid(radarSubjectId) && isValid(radarSubject.id) && radarSubject.id > 0){
-                radarItemRepository.addRadarItemExistingSubject(loggedInUser.id,
+                radarItemRepository.addRadarItemExistingSubject(authenticatedUser.id,
                    selectedRadar.id,
                    radarCategory,
                    radarRing,
@@ -114,7 +114,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                    saveRadarItemResponseHandler);
             }
             else{
-                radarItemRepository.addRadarItemNewSubject(loggedInUser.id,
+                radarItemRepository.addRadarItemNewSubject(authenticatedUser.id,
                    selectedRadar.id,
                    radarCategory,
                    radarRing,
@@ -137,7 +137,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
 
     const handleRemoveRadarItem = () => {
         let radarItemRepository = new RadarItemRepository();
-        radarItemRepository.deleteRadarItem(loggedInUser.id, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
+        radarItemRepository.deleteRadarItem(authenticatedUser.id, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
     }
 
     const handleRemoveRadarItemResponse = (wasSuccessful, userId, radarId) => {

@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 const BundleAnalyzerPlugin =
     require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
@@ -56,7 +57,7 @@ module.exports = {
         ]
     },
     plugins: [
-//        new BundleAnalyzerPlugin()
+        new Dotenv()
     ],
 	resolve: {
 		extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.less', '.css'],
