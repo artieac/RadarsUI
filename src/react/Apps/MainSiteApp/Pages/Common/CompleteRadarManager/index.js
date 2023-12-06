@@ -1,6 +1,6 @@
 export default class CompleteRadarManager {
    completeRadarId = -9999;
-   completeRadarName = "Current";
+   completeRadarName = "Complete View";
 
    generateCompleteViewDropdownItem(userId, radarTemplate) {
         let retVal = {

@@ -12,6 +12,7 @@ import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { radarTemplateDropdownMap } from './radarTemplateDropdownMap'
 import { isValid } from 'Apps/Common/Utilities'
 import RadarSelectionComponent from './RadarSelectionComponent'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const SelectRadarControl = ({ radarViewParams }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +31,11 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 radarRepository.getByUserIdAndRadarId(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarIdParam, getRadarResponseHandler);
             } else {
                 if(radarViewParams.getMostRecent==true){
-                    radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getUserIdToView(), getRadarResponseHandler);
+                    if(isValid(radarViewParams.radarTemplateIdParam) && radarViewParams.radarTemplateIdParam > 0){
+                        radarRepository.getMostRecentRadarByTemplate(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
+                    } else {
+                        radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getUserIdToView(), getRadarResponseHandler);
+                    }
                 } else {
                     if(radarViewParams.getFullView==true){
                         radarRepository.getFullView(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
@@ -59,6 +64,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     const getRadarResponseHandler = (wasSuccessful, data) =>{
         if(wasSuccessful){
             setTargetedRadar(data);
+
             for(var i = 0; i < radarTemplates.length; i++){
                 if(radarTemplates[i].id==data.radarTemplate.id){
                     handleRadarTemplateSelection(radarTemplates[i]);
@@ -75,11 +81,13 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     }
 
     const generateSharingLinks = (radarTemplate) => {
+        let configurationSettings = new ConfigurationSettings();
+
         if(isValid(radarTemplate) && isValid(radarTemplate.id)){
-            setMostRecentRadarsLink("?userId=" + radarViewParams.getUserIdToView() + "&radarTemplateId=" + radarTemplate.id + "&mostRecent=true");
+            setMostRecentRadarsLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + radarViewParams.getUserIdToView() + "&radarTemplateId=" + radarTemplate.id + "&mostRecent=true");
         }
         else {
-            setMostRecentRadarsLink("?userId=" + radarViewParams.getUserIdToView());
+            setMostRecentRadarsLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + radarViewParams.getUserIdToView());
         }
     }
 

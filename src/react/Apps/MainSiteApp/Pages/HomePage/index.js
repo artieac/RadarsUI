@@ -26,14 +26,18 @@ export const HomePage = () => {
                     if(isValid(fullView) && fullView=="true"){
                         navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/fullView');
                     } else {
-                        navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars');
+                        if(isValid(mostRecent) && mostRecent=="true"){
+                            navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/mostRecent');
+                        } else {
+                            navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars');
+                        }
                     }
                 } else {
                     if(isValid(mostRecent) && mostRecent=="true"){
                         navigate('/public/home/user/' + userId + '/radar?mostRecent=true');
                     } else {
                         navigate('/public/home/user/' + userId + '/radars');
-                     }
+                    }
                 }
             }
         }
@@ -106,7 +110,7 @@ export const HomePage = () => {
                     </div>
                     <div className="row">
                         <div className="col-md-6">
-                            <Link className="button" aria-current="page" to="/public/home/user/1/radars" >My Public Radar</Link>
+                            <Link className="button" aria-current="page" to="/public/home/user/1/radarTemplate/3/radars/fullView" >My Public Radar</Link>
                         </div>
                         <div className="col-md-6"><a href="/login" className="button">Sign in</a></div>
                     </div>

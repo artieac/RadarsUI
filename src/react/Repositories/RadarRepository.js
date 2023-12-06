@@ -89,7 +89,12 @@ export class RadarRepository extends RestClient {
     }
 
     getMostRecentRadar(isAnonymous, userId, responseHandler){
-        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/Radar/mostRecent'
+        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/Radar/MostRecent'
+        this.getRequest(url, responseHandler);
+    }
+
+    getMostRecentRadarByTemplate(isAnonymous, userId, radarTemplateId, responseHandler){
+        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/RadarTemplate/' + radarTemplateId + '/Radars/MostRecent'
         this.getRequest(url, responseHandler);
     }
 

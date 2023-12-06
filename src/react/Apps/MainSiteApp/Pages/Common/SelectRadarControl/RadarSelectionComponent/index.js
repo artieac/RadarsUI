@@ -9,6 +9,7 @@ import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { radarDropdownMap } from './radarDropdownMap'
 import { isValid } from 'Apps/Common/Utilities'
 import CompleteRadarManager from '../../CompleteRadarManager'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, isPublic }) => {
     const [radars, setRadars] = useState([]);
@@ -54,11 +55,13 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
     }
 
     const generateSharingLinks = (targetRadar) => {
+        let configurationSettings = new ConfigurationSettings();
+
         if(isValid(targetRadar) && isValid(targetRadar.id)){
-            setPublicRadarLink("?userId=" + userId + "&radarId=" + targetRadar.id);
+            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + userId + "&radarId=" + targetRadar.id);
         }
         else {
-            setPublicRadarLink("?userId=" + userId + "&mostRecent=true");
+            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + userId + "&mostRecent=true");
         }
     }
 
