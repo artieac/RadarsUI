@@ -11,39 +11,37 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
    {
        metadata: [
         {
-            label: 'View Radars',
-            loggedInOnly: false,
-            internal: false,
+            label: 'Home',
+            loggedInOnly: true,
+            internal: true,
             roles: '',
-            target: configurationSettings.getMainSiteUrlRoot()
+            target: configurationSettings.getMainSiteUrlRoot() + '/home/secureradar'
+        },
+        {
+            label: 'Search',
+            loggedInOnly: false,
+            internal: true,
+            roles: '',
+            target: '/search',
         },
         {
             label: 'Manage Radars',
             loggedInOnly: true,
-            internal: true,
             roles: '',
-            target: "/"
+            target: configurationSettings.getManageRadarsUrlRoot()
         },
         {
             label: 'Admin',
             loggedInOnly: true,
             internal: false,
             roles: "ROLE_ADMIN",
-            target: configurationSettings.getAdminRadarsUrlRoot()
-        },
-        {
-            label: 'Search',
-            loggedInOnly: false,
-            internal: false,
-            roles: '',
-            target: configurationSettings.getMainSiteUrlRoot() + '/search',
+            target: "/"
         },
         {
             label: 'About',
-            internal: false,
             loggedInOnly: false,
             roles: '',
-            target: configurationSettings.getMainSiteUrlRoot() + '/about',
+            target: '/about',
         }
        ],
        render: rowData => {

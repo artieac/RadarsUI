@@ -15,11 +15,12 @@ import ManageRadarsPage from './Pages/ManageRadarsPage'
 import AddFromPreviousRadarPage from './Pages/AddFromPreviousRadarPage'
 import ManageTeamsPage from './Pages/ManageTeamsPage'
 import NavBarRowDefinition from './NavBarRowDefinition'
+import { isValid } from 'Apps/Common/Utilities'
 
 export default function ManageRadarsApp() {
     const [isLoading, setIsLoading] = useState(false);
 
-    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
+    const currentUser = useSelector((state) => state.userReducer.currentUser);
     const currentPage = "";
 
     const handleDoneLoading = () => {
@@ -28,17 +29,17 @@ export default function ManageRadarsApp() {
 
     return (
         <div>
-            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(authenticatedUser, currentPage) }/>
-            {isLoading
-                ? <div/>
-                : <Routes>
+            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) }/>
+            {!isLoading && isValid(currentUser) && currentUser.isAuthenticated==true
+                ? <Routes>
                     <Route path="/" element={ <HomePage />} />
                     <Route path="/radarTemplates" element={ <ManageRadarTemplatesPage />} />
                     <Route path="/associatedRadarTemplates" element={ <ManageAssociatedRadarTemplatesPage />} />
-                    <Route path="/radars" element={ <ManageRadarsPage authenticatedUser = { authenticatedUser } /> } />
+                    <Route path="/radars" element={ <ManageRadarsPage authenticatedUser = { currentUser } /> } />
                     <Route path="/user/:userId/radar/:destinationRadarId/addfromprevious" element={ <AddFromPreviousRadarPage />} />
                     <Route path="/teams" element={ <ManageTeamsPage /> } />
-                </Routes>
+                  </Routes>
+                : <div/>
             }
         </div>
     );
