@@ -12,6 +12,7 @@ import ModifyRadarItemsControl from './ModifyRadarItemsControl'
 import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { isValid } from 'Apps/Common/Utilities'
 import { RadarViewParams } from '../Common/RadarViewParams'
+import CompleteRadarManager from '../Common/CompleteRadarManager'
 
 export const SecureRadarPage = ({ mostRecent }) => {
     const [showModifyItemsPanel, setShowModifyItemsPanel] = useState(false);
@@ -25,7 +26,12 @@ export const SecureRadarPage = ({ mostRecent }) => {
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
 
     const disableModifyRadarItemsButton = (radar) => {
-        if(isValid(radar) && isValid(radar.id) && !radar.isLocked) {
+        let completeRadarManager = new CompleteRadarManager();
+
+        if(isValid(radar) &&
+            isValid(radar.id) &&
+            !radar.isLocked &&
+            completeRadarManager.isRadarTheCompleteView(radarId, radar.name)) {
             return false;
         }
 

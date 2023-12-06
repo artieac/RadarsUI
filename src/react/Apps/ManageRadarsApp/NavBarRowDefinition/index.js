@@ -2,8 +2,11 @@
 import React from 'react';
 import { isValid } from 'Apps/Common/Utilities'
 import NavBarItem from 'SharedComponents/NavBarComponent/NavBarItem'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const NavBarRowDefinition = (currentUser, currentPage) => {
+    let configurationSettings = new ConfigurationSettings();
+
    return (
    {
        metadata: [
@@ -12,7 +15,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: false,
             internal: false,
             roles: '',
-            target: "http://technologyradar.alwaysmoveforward.com"
+            target: configurationSettings.getMainSiteUrlRoot()
         },
         {
             label: 'Manage Radars',
@@ -26,21 +29,21 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: true,
             internal: false,
             roles: "Admin",
-            target: "http://admin.technologyradar.alwaysmoveforward.com"
+            target: configurationSettings.getAdminRadarsUrlRoot()
         },
         {
             label: 'Search',
             loggedInOnly: false,
             internal: false,
             roles: '',
-            target: 'https://technologyradar.alwaysmoveforward.com/search',
+            target: configurationSettings.getMainSiteUrlRoot() + '/search',
         },
         {
             label: 'About',
             internal: false,
             loggedInOnly: false,
             roles: '',
-            target: 'https://technologyradar.alwaysmoveforward.com/about',
+            target: configurationSettings.getMainSiteUrlRoot() + '/about',
         }
        ],
        render: rowData => {

@@ -1,11 +1,44 @@
 'use strict'
 import jQuery from 'jquery';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams  } from 'react-router-dom';
+import { isValid } from 'Apps/Common/Utilities'
 
 export const HomePage = () => {
+    const [searchParams] = useSearchParams();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const userId = searchParams.get('userId');
+        const radarTemplateId = searchParams.get('radarTemplateId');
+        const radarId = searchParams.get('radarId');
+        const fullView = searchParams.get('fullView');
+        const mostRecent = searchParams.get('mostRecent');
+
+        if(isValid(userId) && userId > 0){
+            if(isValid(radarId) && radarId > 0){
+                navigate('/public/home/user/' + userId + '/radar/' + radarId);
+            } else {
+                if(isValid(radarTemplateId) && radarTemplateId > 0){
+                    if(isValid(fullView) && fullView=="true"){
+                        navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/fullView');
+                    } else {
+                        navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars');
+                    }
+                } else {
+                    if(isValid(mostRecent) && mostRecent=="true"){
+                        navigate('/public/home/user/' + userId + '/radar?mostRecent=true');
+                    } else {
+                        navigate('/public/home/user/' + userId + '/radars');
+                     }
+                }
+            }
+        }
+    });
+
     return (
         <div>
             <div className="hero-section centered">

@@ -30,7 +30,7 @@ export const HeaderComponent = ({ doneLoadingNotifier, navBarRowDefinition }) =>
 
     const buildLoginUrl = (loginUrl) => {
         let restClient = new RestClient();
-        return restClient.webServiceUrlRoot + loginUrl;
+        return restClient.getWebServiceUrlRoot() + loginUrl;
     }
 
     return (

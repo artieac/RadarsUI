@@ -31,6 +31,10 @@ export const SelectRadarControl = ({ radarViewParams }) => {
             } else {
                 if(radarViewParams.getMostRecent==true){
                     radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getUserIdToView(), getRadarResponseHandler);
+                } else {
+                    if(radarViewParams.getFullView==true){
+                        radarRepository.getFullView(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
+                    }
                 }
             }
         }
@@ -72,10 +76,10 @@ export const SelectRadarControl = ({ radarViewParams }) => {
 
     const generateSharingLinks = (radarTemplate) => {
         if(isValid(radarTemplate) && isValid(radarTemplate.id)){
-            setMostRecentRadarsLink("/public/home/user/" + radarViewParams.getUserIdToView() + "/radartemplate/" + radarTemplate.id + "/radars?mostrecent=true");
+            setMostRecentRadarsLink("?userId=" + radarViewParams.getUserIdToView() + "&radarTemplateId=" + radarTemplate.id + "&mostRecent=true");
         }
         else {
-            setMostRecentRadarsLink("/public/home/radars/" + radarViewParams.getUserIdToView());
+            setMostRecentRadarsLink("?userId=" + radarViewParams.getUserIdToView());
         }
     }
 
@@ -88,8 +92,14 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     }
 
     const getRadarIdParam = (testRadar) => {
-        if(isValid(testRadar) && isValid(testRadar.id)){
-            return testRadar.id;
+        if(isValid(testRadar)){
+            if(isValid(testRadar.id)){
+                return testRadar.id;
+            }
+
+            if(isValid(testRadar.radarId)){
+                return testRadar.radarId;
+            }
         }
 
         return -1;

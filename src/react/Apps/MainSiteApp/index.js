@@ -38,7 +38,7 @@ export default function MainSiteApp() {
                       <Route path="/public/home/user/:userId/radars?mostrecent=true" element={ <PublicRadarPage mostRecent={ true } /> } />
                       <Route path="/public/home/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true }/> } />
                       <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
-                      <Route path="/home/secureradar" element={ <SecureRadarPage /> } />
+                      <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } /><Route path="/home/secureradar" element={ <SecureRadarPage /> } />
                       <Route path="/home/secureradar/:radarId" element={ <SecureRadarPage /> } />
                       <Route path="/search" element={ <SearchPage /> } />
                       <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />

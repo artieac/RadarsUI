@@ -10,7 +10,7 @@ import RadarViewControl from '../Common/RadarViewControl'
 import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { RadarViewParams } from '../Common/RadarViewParams';
 
-export const PublicRadarPage = ({ mostRecent } ) => {
+export const PublicRadarPage = ({ mostRecent, fullView } ) => {
     const [radarViewParams, setRadarViewParams] = useState({});
 
     let { userId } = useParams();
@@ -32,7 +32,7 @@ export const PublicRadarPage = ({ mostRecent } ) => {
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <SelectRadarControl radarViewParams = { new RadarViewParams(true, userId, authenticatedUser, radarTemplateId, radarId, mostRecent) } />
+                            <SelectRadarControl radarViewParams = { new RadarViewParams(true, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView) } />
                         </div>
                     </div>
                 </div>
