@@ -30,7 +30,7 @@ export default function MainSiteApp() {
 
     return (
         <div>
-            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) }/>
+            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) } userDetailsRoute="/userDetails"/>
             {isLoading
                 ? <div/>
                 : <Routes>
@@ -47,7 +47,7 @@ export default function MainSiteApp() {
                       <Route path="/search" element={ <SearchPage /> } />
                       <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
                       <Route path="/about" element={ <AboutPage /> } />
-                      <Route path="/user" element= { <UserPage authenticatedUser={ currentUser } /> } />
+                      <Route path="/userDetails" element= { <UserPage authenticatedUser={ currentUser } /> } />
                   </Routes>
             }
             <FooterComponent />

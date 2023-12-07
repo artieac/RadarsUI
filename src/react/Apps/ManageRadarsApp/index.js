@@ -14,6 +14,7 @@ import ManageAssociatedRadarTemplatesPage from './Pages/ManageAssociatedRadarTem
 import ManageRadarsPage from './Pages/ManageRadarsPage'
 import AddFromPreviousRadarPage from './Pages/AddFromPreviousRadarPage'
 import ManageTeamsPage from './Pages/ManageTeamsPage'
+import UserPage from 'Apps/Common/Pages/UserPage'
 import NavBarRowDefinition from './NavBarRowDefinition'
 import { isValid } from 'Apps/Common/Utilities'
 
@@ -29,7 +30,7 @@ export default function ManageRadarsApp() {
 
     return (
         <div>
-            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) }/>
+            <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) } />
             {!isLoading && isValid(currentUser) && currentUser.isAuthenticated==true
                 ? <Routes>
                     <Route path="/" element={ <HomePage />} />
@@ -38,6 +39,7 @@ export default function ManageRadarsApp() {
                     <Route path="/radars" element={ <ManageRadarsPage authenticatedUser = { currentUser } /> } />
                     <Route path="/user/:userId/radar/:destinationRadarId/addfromprevious" element={ <AddFromPreviousRadarPage />} />
                     <Route path="/teams" element={ <ManageTeamsPage /> } />
+                    <Route path="/userDetails" element={ <UserPage authenticatedUser={ currentUser } />} />
                   </Routes>
                 : <div/>
             }

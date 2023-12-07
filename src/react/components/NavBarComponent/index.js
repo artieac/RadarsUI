@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { isValid } from 'Apps/Common/Utilities'
 import "./component.css"
 
-const NavBarComponent = ({ title, navBarRowDefinition, currentUser, loginUrl }) => {
+const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
     const isUserLoggedIn = () => {
         if(isValid(currentUser) && isValid(currentUser.id) && currentUser.id > 0){
             return true;
@@ -15,7 +15,7 @@ const NavBarComponent = ({ title, navBarRowDefinition, currentUser, loginUrl }) 
     }
 
     const onSignInClick = () => {
-        window.open(loginUrl, "_self");
+        window.open(navBarRowDefinition.loginUrl, "_self");
     }
 
     const getUserLabel = (currentUser) => {
@@ -33,7 +33,7 @@ const NavBarComponent = ({ title, navBarRowDefinition, currentUser, loginUrl }) 
     const renderLoginElement = () => {
         if(isUserLoggedIn(currentUser)){
             return (
-                <Link className="nav-link" aria-current="page" to="/user" > { getUserLabel(currentUser) }</Link>
+                <Link className="nav-link" aria-current="page" to={ navBarRowDefinition.userDetailsRoute } > { getUserLabel(currentUser) }</Link>
             );
         } else {
             return (
@@ -55,7 +55,7 @@ const NavBarComponent = ({ title, navBarRowDefinition, currentUser, loginUrl }) 
     return (
         <nav className="navbar navbar-default navbar-expand">
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">{ title }</a>
+                <a className="navbar-brand" href="#">{ navBarRowDefinition.title }</a>
                 <div className="navbar navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav nav me-auto mb-2 mb-lg-0" id="navbarSupportedContent">
                         { renderNavBarItems(navBarRowDefinition) }

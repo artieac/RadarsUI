@@ -9,6 +9,9 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
 
    return (
    {
+       title: "Technology Radars",
+       loginUrl: configurationSettings.getWebServiceUrlRoot() + "/login",
+       userDetailsRoute: "/userDetails",
        metadata: [
         {
             label: 'Home',
