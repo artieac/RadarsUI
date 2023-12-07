@@ -130,6 +130,9 @@ export class RestClient {
               },
               type: "DELETE",
               url: this.getWebServiceUrlRoot() + url,
+              xhrFields: {
+                withCredentials: true
+              },
               success: function(data: any) {
                     responseHandler(true, data);
                },

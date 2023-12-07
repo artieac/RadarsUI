@@ -33,7 +33,7 @@ const NavBarComponent = ({ title, navBarRowDefinition, currentUser, loginUrl }) 
     const renderLoginElement = () => {
         if(isUserLoggedIn(currentUser)){
             return (
-                    <Link className="nav-link" aria-current="page" to="/user" > { getUserLabel(currentUser) }</Link>
+                <Link className="nav-link" aria-current="page" to="/user" > { getUserLabel(currentUser) }</Link>
             );
         } else {
             return (
