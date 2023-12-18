@@ -10,6 +10,8 @@ import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { dropdownItem } from 'SharedComponents/DropdownComponent/dropdownItem'
 import { radarDropdownMap } from './radarDropdownMap';
 import RadarCopyControl from './RadarCopyControl';
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
+import { isValid } from 'Apps/Common/Utilities'
 
 export const AddFromPreviousRadarPage = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -55,9 +57,14 @@ export const AddFromPreviousRadarPage = () => {
     }
 
     const getRadarCollectionByUserIdAndRadarTemplateId = (userId, radarTemplateId) => {
-        fetch( '/api/User/' + userId + '/Radars?radarTemplateId=' + radarTemplateId,)
-            .then(response => response.json())
-            .then(json => setFilteredRadarCollection(json));
+        let radarRepository = new RadarRepository();
+        radarRepository.getRadarsByUserIdAndRadarTemplateId(false, userId, radarTemplateId, getFilteredRadarsResponse);
+    }
+
+    const getFilteredRadarsResponse = (wasSuccessful, data) => {
+        if(wasSuccessful==true){
+            setFilteredRadarCollection(data);
+        }
     }
 
     const handleAddRemoveItemsResponse = (wasSuccessful) =>{
@@ -112,12 +119,12 @@ export const AddFromPreviousRadarPage = () => {
     const onHandleAddRadarItem = (event, assessmentItem) => {
         var filteredRadarItemsToAdd = [];
 
-        if(radarItemsToAdd!=null && radarItemsToAdd!='undefined' && radarItemsToAdd.length==0){
+        if(isValid(radarItemsToAdd) && radarItemsToAdd.length > 0){
             filteredRadarItemsToAdd = radarItemsToAdd.filter(() => true);
         }
 
         if(event.target.checked==true){
-            filteredRadarItemsToAdd = filteredRadarItemsToAdd.concat(createRadarItemForExistingTechnology(assessmentItem));
+            filteredRadarItemsToAdd.push(createRadarItemForExistingTechnology(assessmentItem));
             setRadarItemsToAdd(filteredRadarItemsToAdd);
         } else {
             filteredRadarItemsToAdd =

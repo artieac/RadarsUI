@@ -17,6 +17,7 @@ import ErrorBoundaryComponent from 'SharedComponents/ErrorBoundaryComponent'
 import { appsProviderStore } from 'Apps/Common/ProviderStore'
 import { StaticDataLoader } from 'Apps/Common/StaticDataLoader'
 import NavBarRowDefinition from './NavBarRowDefinition'
+import { isValid } from 'Apps/Common/Utilities'
 
 export default function MainSiteApp() {
     const [isLoading, setIsLoading] = useState(false);
@@ -28,27 +29,53 @@ export default function MainSiteApp() {
         setIsLoading(false);
     }
 
+    const isUserLoaded = (testUser) => {
+        if(isLoading==false && isValid(testUser) && !isValid(testUser.unloaded)){
+            return true;
+        }
+        return false;
+    }
+
+    const isUserLoggedIn = (testUser) => {
+        if(isUserLoaded(testUser) && testUser.isAuthenticated==true){
+            return true;
+        }
+
+        return false;
+    }
+
     return (
         <div>
             <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) } userDetailsRoute="/userDetails"/>
-            {isLoading
-                ? <div/>
-                : <Routes>
-                      <Route path="/" element={ <HomePage /> } />
-                      <Route path="/public/home/user/:userId/radars" element={ <PublicRadarPage mostRecent={ true } /> } />
-                      <Route path="/public/home/user/:userId/radars?mostrecent=true" element={ <PublicRadarPage mostRecent={ true } /> } />
-                      <Route path="/public/home/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true }/> } />
-                      <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
-                      <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } />
-                      <Route path="/home/secureradar" element={ <SecureRadarPage /> } />
-                      <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={true}/> } />
-                      <Route path="/home/secureradar" element={ <SecureRadarPage /> } />
-                      <Route path="/home/secureradar/:radarId" element={ <SecureRadarPage /> } />
-                      <Route path="/search" element={ <SearchPage /> } />
-                      <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
-                      <Route path="/about" element={ <AboutPage /> } />
-                      <Route path="/userDetails" element= { <UserPage authenticatedUser={ currentUser } /> } />
-                  </Routes>
+            {isUserLoaded(currentUser)
+                ? isUserLoggedIn(currentUser)
+                    ? <Routes>
+                          <Route path="/" element={ <HomePage /> } />
+                          <Route path="/home/user/:userId/radars" element={ <SecureRadarPage mostRecent={ true } /> } />
+                          <Route path="/home/user/:userId/radars?mostrecent=true" element={ <SecureRadarPage mostRecent={ true } /> } />
+                          <Route path="/home/user/:userId/radar/:radarId" element={ <SecureRadarPage mostRecent={ true }/> } />
+                          <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <SecureRadarPage /> } />
+                          <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <SecureRadarPage fullView={true}/> } />
+                          <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <SecureRadarPage mostRecent={true}/> } />
+                          <Route path="/search" element={ <SearchPage /> } />
+                          <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
+                          <Route path="/about" element={ <AboutPage /> } />
+                          <Route path="/userDetails" element= { <UserPage authenticatedUser={ currentUser } /> } />
+                      </Routes>
+                    : <Routes>
+                            <Route path="/" element={ <HomePage /> } />
+                          <Route path="/home/user/:userId/radars" element={ <PublicRadarPage mostRecent={ true } /> } />
+                          <Route path="/home/user/:userId/radars?mostrecent=true" element={ <PublicRadarPage mostRecent={ true } /> } />
+                          <Route path="/home/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true }/> } />
+                          <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
+                          <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } />
+                          <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={true}/> } />
+                          <Route path="/search" element={ <SearchPage /> } />
+                          <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
+                          <Route path="/about" element={ <AboutPage /> } />
+                          <Route path="/userDetails" element= { <UserPage authenticatedUser={ currentUser } /> } />
+                     </Routes>
+              : <div/>
             }
             <FooterComponent />
         </div>

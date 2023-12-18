@@ -3,7 +3,7 @@ import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux"
-import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
+import { addRadarsToState, setCurrentRadarInstanceToState, setCurrentDiagramRadarInstanceToState } from 'Redux/RadarReducer'
 import { RadarRepository} from 'Repositories/RadarRepository'
 import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { radarDropdownMap } from './radarDropdownMap'

@@ -23,6 +23,8 @@ export const HeaderComponent = ({ doneLoadingNotifier, navBarRowDefinition }) =>
     const getUserResponseHandler = (wasSuccessful, data) => {
         if(wasSuccessful==true){
             dispatch(setCurrentUser(data));
+        } else {
+            dispatch(setCurrentUser({ isAuthenticated: false }));
         }
 
         doneLoadingNotifier();

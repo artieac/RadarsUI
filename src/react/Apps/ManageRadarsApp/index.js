@@ -28,21 +28,37 @@ export default function ManageRadarsApp() {
         setIsLoading(false);
     }
 
+    const isUserLoaded = (testUser) => {
+        if(isLoading==false && isValid(testUser) && !isValid(testUser.unloaded)){
+            return true;
+        }
+        return false;
+    }
+
+    const isUserLoggedIn = (testUser) => {
+        if(isUserLoaded(testUser) && testUser.isAuthenticated==true){
+            return true;
+        }
+
+        return false;
+    }
+
     return (
         <div>
             <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) } />
-            {!isLoading && isValid(currentUser) && currentUser.isAuthenticated==true
+            {isUserLoggedIn(currentUser)
                 ? <Routes>
                     <Route path="/" element={ <HomePage />} />
                     <Route path="/radarTemplates" element={ <ManageRadarTemplatesPage />} />
                     <Route path="/associatedRadarTemplates" element={ <ManageAssociatedRadarTemplatesPage />} />
                     <Route path="/radars" element={ <ManageRadarsPage authenticatedUser = { currentUser } /> } />
-                    <Route path="/user/:userId/radar/:destinationRadarId/addfromprevious" element={ <AddFromPreviousRadarPage />} />
+                    <Route path="/radars/user/:userId/radar/:destinationRadarId/addfromprevious" element={ <AddFromPreviousRadarPage />} />
                     <Route path="/teams" element={ <ManageTeamsPage /> } />
                     <Route path="/userDetails" element={ <UserPage authenticatedUser={ currentUser } />} />
                   </Routes>
                 : <div/>
             }
+            <FooterComponent/>
         </div>
     );
 }

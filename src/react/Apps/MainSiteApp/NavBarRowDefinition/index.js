@@ -18,7 +18,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: true,
             internal: true,
             roles: '',
-            target: '/home/secureradar'
+            target: '/home/user/' + currentUser.id + '/radars'
         },
         {
             label: 'Search',

@@ -5,6 +5,7 @@ import { addRadarsToState } from 'Redux/RadarReducer'
 import { setCurrentUser } from 'Redux/UserReducer'
 import { RadarRepository } from 'Repositories/RadarRepository'
 import { isValid } from 'Apps/Common/Utilities'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const RadarRowComponent = ({ rowData }) => {
     const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -66,6 +67,31 @@ export const RadarRowComponent = ({ rowData }) => {
         radarRepository.deleteRadar(authenticatedUser.id, rowData.id, handleRadarChangeResponse);
     }
 
+    const getRadarViewLink = (authenticatedUser, rowData) => {
+        let configurationSettings = new ConfigurationSettings();
+        return configurationSettings.getMainSiteUrlRoot() + "?userId=" + authenticatedUser.id + "&radarId=" + rowData.id;
+    }
+
+    const renderActions = (rowData) => {
+        if(!rowData.isLocked){
+            return(
+                <span>
+                    <img src="/images/action_delete.png" disabled={(rowData.isPublished==true) || (rowData.isLocked==true)} visible={ rowData.isLocked==true } onClick = {(event) =>  handleDeleteClick(event, rowData.id)} alt="Delete radar"/>
+                    <a href={ getRadarViewLink(authenticatedUser, rowData)}><img src="/images/pencil-square.svg" alt="Edit Radar"/></a>
+                    <Link to={ "/radars/user/" + authenticatedUser.id + "/radar/" + rowData.id + "/addfromprevious"}>
+                        <button className="btn btn-techradar">Add From Previous</button>
+                    </Link>
+                </span>
+            );
+        } else {
+            return (
+                <span>
+                    <a href={ getRadarViewLink(authenticatedUser, rowData)}><img src="/images/eye.svg" alt="View Radar"/></a>
+                </span>
+            );
+        }
+    }
+
     return (
         <tr key={ rowData.id } >
             <td>{rowData.name}</td>
@@ -78,13 +104,7 @@ export const RadarRowComponent = ({ rowData }) => {
                 <input id={ "lockedCheckbox" + rowData.id } type="checkbox" checked={ isLocked } onChange = { handleIsLockedClick }/>
             </td>
             <td>
-                <span>
-                    <img src="/images/action_delete.png" disabled={(rowData.isPublished==true) || (rowData.isLocked==true)} onClick = {(event) =>  handleDeleteClick(event, rowData.id)} alt="Delete radar"/>
-                    <Link to={ "/manageradars/user/" + authenticatedUser.id + "/radar/" + rowData.id + "/addfromprevious"}>
-                        <img src="/images/action_add.PNG" disabled={(rowData.isPublished==true) || (rowData.isLocked==true)}/>
-                    </Link>
-                    <a href={ "/home/secureradar/" + rowData.id}><img src="/images/arrow_right.png" alt="Go to radar"/></a>
-                </span>
+                { renderActions(rowData) }
             </td>
         </tr>
     );

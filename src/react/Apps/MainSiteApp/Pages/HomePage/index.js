@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux"
 import ReactDOM from 'react-dom';
 import { Link, useLocation, useNavigate, useSearchParams  } from 'react-router-dom';
 import { isValid } from 'Apps/Common/Utilities'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const HomePage = () => {
     const [searchParams] = useSearchParams();
 
     const navigate = useNavigate();
+
+    let configurationSettings = new ConfigurationSettings();
 
     useEffect(() => {
         const userId = searchParams.get('userId');
@@ -20,23 +23,23 @@ export const HomePage = () => {
 
         if(isValid(userId) && userId > 0){
             if(isValid(radarId) && radarId > 0){
-                navigate('/public/home/user/' + userId + '/radar/' + radarId);
+                navigate('/home/user/' + userId + '/radar/' + radarId);
             } else {
                 if(isValid(radarTemplateId) && radarTemplateId > 0){
                     if(isValid(fullView) && fullView=="true"){
-                        navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/fullView');
+                        navigate('/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/fullView');
                     } else {
                         if(isValid(mostRecent) && mostRecent=="true"){
-                            navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/mostRecent');
+                            navigate('/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/mostRecent');
                         } else {
-                            navigate('/public/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars');
+                            navigate('/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars');
                         }
                     }
                 } else {
                     if(isValid(mostRecent) && mostRecent=="true"){
-                        navigate('/public/home/user/' + userId + '/radar?mostRecent=true');
+                        navigate('/home/user/' + userId + '/radar?mostRecent=true');
                     } else {
-                        navigate('/public/home/user/' + userId + '/radars');
+                        navigate('/home/user/' + userId + '/radars');
                     }
                 }
             }
@@ -47,7 +50,7 @@ export const HomePage = () => {
         <div>
             <div className="hero-section centered">
                 <div data-ix="new-interaction" className="container">
-                    <h1 data-ix="fade-in-bottom-page-loads" className="hero-heading">This is Your Radar</h1>
+                    <h1 data-ix="fade-in-bottom-page-loads" className="hero-heading">What's on your radar?</h1>
                     <div data-ix="fade-in-bottom-page-loads" className="hero-subheading">
                         <p>A free tool for tracking how much you like or dislike different things.</p>
                         <p>This site got it's start from <a href="https://www.thoughtworks.com/radar/byor">Thoughtworks Technology Radar</a> and I used it to track my technology assessments and usage.  However the more I used it the more I got ideas for other things I could categorize with this same concept.</p>
@@ -110,9 +113,11 @@ export const HomePage = () => {
                     </div>
                     <div className="row">
                         <div className="col-md-6">
-                            <Link className="button" aria-current="page" to="/public/home/user/1/radarTemplate/3/radars/fullView" >My Public Radar</Link>
+                            <Link className="button" aria-current="page" to="/home/user/1/radarTemplate/3/radars/fullView" >My Public Radar</Link>
                         </div>
-                        <div className="col-md-6"><a href="/login" className="button">Sign in</a></div>
+                        <div className="col-md-6">
+                            <a href="/login" className="button">Sign in</a>
+                        </div>
                     </div>
                 </div>
             </div>

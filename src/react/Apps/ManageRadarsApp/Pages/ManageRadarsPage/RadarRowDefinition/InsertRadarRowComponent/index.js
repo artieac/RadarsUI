@@ -41,6 +41,7 @@ export const InsertRadarRowComponent = ({ rowData }) => {
     }
 
     const handleSelectedTemplateChanged = (template) => {
+        setRadarName(template.name);
         setSelectedTemplate(template);
     }
 

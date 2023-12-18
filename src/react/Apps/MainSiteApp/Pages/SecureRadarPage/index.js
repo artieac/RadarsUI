@@ -31,7 +31,7 @@ export const SecureRadarPage = ({ mostRecent }) => {
         if(isValid(radar) &&
             isValid(radar.id) &&
             !radar.isLocked &&
-            completeRadarManager.isRadarTheCompleteView(radarId, radar.name)) {
+            !completeRadarManager.isRadarTheCompleteView(radar.id, radar.name)) {
             return false;
         }
 
@@ -56,7 +56,7 @@ export const SecureRadarPage = ({ mostRecent }) => {
 
     return (
         <div className="card">
-            <div className="card-title panel-heading-techradar">Which Radar?</div>
+            <div className="card-title panel-heading-techradar">Which of your Radars?</div>
             <div className="card">
                 <div className="card-body">
                     <div className="row">

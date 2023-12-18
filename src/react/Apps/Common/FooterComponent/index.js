@@ -23,7 +23,7 @@ export const FooterComponent = ({ mostRecent } ) => {
                             <h5>social</h5>
                             <div className="footer-link-wrapper w-clearfix">
                                 <img src="/images/social-09.svg" width="20" alt="" className="info-icon"/>
-                                <a href="https://www.linkedin.com/in/arthur-correa-00864a1" className="footer-link with-icon">Linked In</a>
+                                <a href="https://www.linkedin.com/in/arthur--correa" className="footer-link with-icon">Linked In</a>
                             </div>
                             <div className="footer-link-wrapper w-clearfix">
                                 <img src="/images/social-18.svg" width="20" alt="" className="info-icon"/>

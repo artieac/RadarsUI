@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { isValid } from 'Apps/Common/Utilities'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 import "./component.css"
 
 const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {

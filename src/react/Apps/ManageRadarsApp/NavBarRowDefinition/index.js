@@ -18,7 +18,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: false,
             internal: false,
             roles: '',
-            target: configurationSettings.getMainSiteUrlRoot()
+            target: configurationSettings.getMainSiteUrlRoot() + "?userId=" + currentUser.id
         },
         {
             label: 'Manage Radars',
