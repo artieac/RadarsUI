@@ -55,9 +55,9 @@ export class RadarRepository extends RestClient {
     }
 
     deleteRadar(userId, radarId, responseHandler) {
-        let url = '/api/User/' + userId + '/Radar/' + radarId;
+        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Delete';
 
-        this.deleteRequest(url, responseHandler);
+        this.putRequest(url, responseHandler);
     }
 
     addRadar(userId, radarName, radarTemplate, responseHandler) {
@@ -89,7 +89,12 @@ export class RadarRepository extends RestClient {
     }
 
     getMostRecentRadar(isAnonymous, userId, responseHandler){
-        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/Radar/mostRecent'
+        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/Radar/MostRecent'
+        this.getRequest(url, responseHandler);
+    }
+
+    getMostRecentRadarByTemplate(isAnonymous, userId, radarTemplateId, responseHandler){
+        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/RadarTemplate/' + radarTemplateId + '/Radars/MostRecent'
         this.getRequest(url, responseHandler);
     }
 

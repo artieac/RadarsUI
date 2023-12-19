@@ -7,7 +7,7 @@ import { RadarRowDefinition } from './RadarRowDefinition'
 import { RadarRepository } from 'Repositories/RadarRepository'
 import { addRadarsToState } from 'Redux/RadarReducer'
 
-export const ManageRadarsPage = ({ loggedInUser }) => {
+export const ManageRadarsPage = ({ authenticatedUser }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export const ManageRadarsPage = ({ loggedInUser }) => {
     const userRadars = useSelector((state) => state.radarReducer.radars);
 
     useEffect(() => {
-        getUserRadars(loggedInUser);
+        getUserRadars(authenticatedUser);
     }, []);
 
     const getUserRadars = (user) => {
@@ -39,7 +39,7 @@ export const ManageRadarsPage = ({ loggedInUser }) => {
             </div>
             <AppendableTableComponent2
                 data={userRadars }
-                rowDefinition={ RadarRowDefinition(loggedInUser)}
+                rowDefinition={ RadarRowDefinition(authenticatedUser)}
                 hoverable
                 striped
                 bordered={false}

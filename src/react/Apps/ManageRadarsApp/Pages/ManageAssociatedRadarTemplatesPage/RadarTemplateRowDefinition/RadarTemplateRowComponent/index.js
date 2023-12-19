@@ -5,7 +5,7 @@
  import { addSelectedRadarTemplateToState } from 'Redux/RadarTemplateReducer';
 
  export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlternating }) => {
-     const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
      const associatedTemplates = useSelector((state) => state.radarTemplateReducer.associatedRadarTemplates);
 
      const isAssociatedToUser = (rowData) =>{
@@ -21,9 +21,9 @@
         return false;
      }
 
-     const canAssociateRadarTemplates = (currentUser) => {
-        if(isValid(currentUser) && isValid(associatedTemplates)){
-            if(associatedTemplates.length < currentUser.canHaveNAssociatedRadarTemplates){
+     const canAssociateRadarTemplates = (authenticatedUser) => {
+        if(isValid(authenticatedUser) && isValid(associatedTemplates)){
+            if(associatedTemplates.length < authenticatedUser.canHaveNAssociatedRadarTemplates){
                 return true;
             }
         }
@@ -33,22 +33,22 @@
 
      const handleAssociateRadarTemplateChange = (event, rowData) => {
         if(event.target.checked==true){
-            if(canAssociateRadarTemplates(loggedInUser, associatedTemplates)==true){
+            if(canAssociateRadarTemplates(authenticatedUser, associatedTemplates)==true){
                 let radarTemplateRepository = new RadarTemplateRepository();
-                radarTemplateRepository.associateRadarTemplate(loggedInUser.id, rowData.id, true, handleAssociatedRadarTemplateResponse);
+                radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, true, handleAssociatedRadarTemplateResponse);
             }
             else{
-                alert("You are only allowed to use " + loggedInUser.canHaveNAssociatedRadarTemplates + " types from other users.  Please uncheck another before trying to add this one.");
+                alert("You are only allowed to use " + authenticatedUser.canHaveNAssociatedRadarTemplates + " types from other users.  Please uncheck another before trying to add this one.");
             }
         } else {
             let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.associateRadarTemplate(loggedInUser.id, rowData.id, false, handleAssociateRadarTemplateResponse);
+            radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, false, handleAssociateRadarTemplateResponse);
         }
     }
 
     const handleAssociateRadarTemplateResponse = (wasSuccessful) => {
         let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getAssociatedRadarTemplates(loggedInUser.id, handleGetAssociatedRadarTemplatesResponse);
+        radarTemplateRepository.getAssociatedRadarTemplates(authenticatedUser.id, handleGetAssociatedRadarTemplatesResponse);
     }
 
     const handleGetAssociatedRadarTemplatesResponse = (wasSuccessful, data) => {
@@ -61,7 +61,7 @@
         <div className={ rowAlternating }>
             <div className="col-md-4">{rowData.name}</div>
             <div className="col-md-4">
-                <span className={ loggedInUser.id == rowData.radarUserId ? 'hidden' : ''}>
+                <span className={ authenticatedUser.id == rowData.radarUserId ? 'hidden' : ''}>
                       <input type="checkbox" checked={isAssociatedToUser(rowData)} onChange = {(event) => handleAssociateClick(event, rowData) }/>
                 </span>
             </div>

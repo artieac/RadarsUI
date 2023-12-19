@@ -12,7 +12,7 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
     const [description, setDescription] = useState("");
     const [isPublished, setIsPublished] = useState(false);
 
-    const loggedInUser = useSelector((state)=>state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state)=>state.userReducer.currentUser);
 
     const dispatch = useDispatch();
 
@@ -50,10 +50,10 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
             let radarTemplateRepository = new RadarTemplateRepository();
 
             if(isValid(selectedTemplate.id) && selectedTemplate.id > 0){
-                radarTemplateRepository.updateRadarTemplate(loggedInUser.id, selectedTemplate, handleEditChangeResponse);
+                radarTemplateRepository.updateRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
             }
             else{
-                radarTemplateRepository.addRadarTemplate(loggedInUser.id, selectedTemplate, handleEditChangeResponse);
+                radarTemplateRepository.addRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
             }
         }
     }
@@ -62,7 +62,7 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
         if(wasSuccessful==true){
             dispatch(addSelectedRadarTemplateToState(data));
             let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.getMostRecentByUserId(loggedInUser.id, handleGetRadarTemplatesResponse);
+            radarTemplateRepository.getMostRecentByUserId(authenticatedUser.id, handleGetRadarTemplatesResponse);
         }
     }
 

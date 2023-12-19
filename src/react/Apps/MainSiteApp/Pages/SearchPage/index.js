@@ -24,13 +24,13 @@ export const SearchPage = () => {
     const [selectedRadarRing, setSelectedRadarRing] = useState( { name: "Select" });
     const [searchResults, setSearchResults] = useState([]);
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     const dispatch = useDispatch();
 
      useEffect(() => {
-        getSharedRadarTemplates(loggedInUser.id, getSharedRadarTemplatesResponse);
-        getUserRadarTemplates(loggedInUser.id, getUserRadarTemplatesResponse);
+        getSharedRadarTemplates(authenticatedUser.id, getSharedRadarTemplatesResponse);
+        getUserRadarTemplates(authenticatedUser.id, getUserRadarTemplatesResponse);
     }, []);
 
     const getSharedRadarTemplates = () => {
@@ -81,7 +81,7 @@ export const SearchPage = () => {
 
     const handleOnSearchClick = (event) => {
         let radarItemRepository = new RadarItemRepository();
-        radarItemRepository.searchForRadarSubject(subjectName, selectedTemplate, selectedRadarCategory, selectedRadarRing, isValid(loggedInUser), handleSearchResponse);
+        radarItemRepository.searchForRadarSubject(subjectName, selectedTemplate, selectedRadarCategory, selectedRadarRing, isValid(authenticatedUser), handleSearchResponse);
     }
 
     const handleSearchResponse = (wasSuccessful, data) => {
@@ -108,7 +108,7 @@ export const SearchPage = () => {
                                 <label for="searchName">Shared Templates</label>
                                 <DropdownComponent title = { selectedSharedTemplate.name } data={ sharedRadarTemplates } itemMap = { radarTemplateDropdownMap(handleSharedRadarTemplateSelection) } />
                             </div>
-                            <div className={ isValid(loggedInUser) ? "row" : "hidden"}>
+                            <div className={ isValid(authenticatedUser) ? "row" : "hidden"}>
                                 <label for="userRadarTemplatesDropdown">My Templates</label>
                                 <DropdownComponent title = { selectedUserTemplate.name } data={ userRadarTemplates } itemMap = { radarTemplateDropdownMap(handleUserRadarTemplateSelection) } />
                             </div>

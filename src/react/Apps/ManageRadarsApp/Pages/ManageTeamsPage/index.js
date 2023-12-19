@@ -8,13 +8,13 @@ import teamColumnMap from './teamColumnMap'
 export const ManageTeamsPage = () => {
     const [teams, setTeams] = useState([]);
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useDispatch();
 
     useEffect(() => {
         let teamRepository = new TeamRepository();
-        teamRepository.getAllByUser(loggedInUser.id, handleGetTeamsResponse);
+        teamRepository.getAllByUser(authenticatedUser.id, handleGetTeamsResponse);
     }, []);
 
     const handleGetTeamsResponse = (wasSuccessful, data) => {

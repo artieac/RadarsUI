@@ -12,6 +12,7 @@ import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
 import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { setSelectedRadarItem } from '../../../redux/RadarItemReducer'
 import { isValid } from 'Apps/Common/Utilities'
+import CompleteRadarManager from '../CompleteRadarManager'
 
 export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) => {
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
@@ -189,7 +190,15 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
      const updateRadar = (sourceRadar) => {
         if(isValid(sourceRadar) && isValid(sourceRadar.id)){
             let radarRepository = new RadarRepository();
-            radarRepository.getByUserIdAndRadarId(isPublic, userId, sourceRadar.id, handleGetRadarResponse);
+            if(sourceRadar.id > 0){
+                radarRepository.getByUserIdAndRadarId(isPublic, userId, sourceRadar.id, handleGetRadarResponse);
+             } else {
+                let completeRadarManager = new CompleteRadarManager();
+
+                if(completeRadarManager.isRadarTheCompleteView(sourceRadar.id, sourceRadar.name)){
+                    radarRepository.getFullView(isPublic, userId, sourceRadar.radarTemplate.id, handleGetRadarResponse);
+                }
+             }
          }
     }
 

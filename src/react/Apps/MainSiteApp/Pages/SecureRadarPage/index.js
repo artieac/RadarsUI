@@ -12,6 +12,7 @@ import ModifyRadarItemsControl from './ModifyRadarItemsControl'
 import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { isValid } from 'Apps/Common/Utilities'
 import { RadarViewParams } from '../Common/RadarViewParams'
+import CompleteRadarManager from '../Common/CompleteRadarManager'
 
 export const SecureRadarPage = ({ mostRecent }) => {
     const [showModifyItemsPanel, setShowModifyItemsPanel] = useState(false);
@@ -21,11 +22,16 @@ export const SecureRadarPage = ({ mostRecent }) => {
     let { radarTemplateId } = useParams();
     let { radarId } = useParams();
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
 
     const disableModifyRadarItemsButton = (radar) => {
-        if(isValid(radar) && isValid(radar.id) && !radar.isLocked) {
+        let completeRadarManager = new CompleteRadarManager();
+
+        if(isValid(radar) &&
+            isValid(radar.id) &&
+            !radar.isLocked &&
+            !completeRadarManager.isRadarTheCompleteView(radar.id, radar.name)) {
             return false;
         }
 
@@ -50,12 +56,12 @@ export const SecureRadarPage = ({ mostRecent }) => {
 
     return (
         <div className="card">
-            <div className="card-title panel-heading-techradar">Which Radar?</div>
+            <div className="card-title panel-heading-techradar">Which of your Radars?</div>
             <div className="card">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-9">
-                            <SelectRadarControl radarViewParams = { new RadarViewParams(false, userId, loggedInUser, radarTemplateId, radarId, mostRecent) } />
+                            <SelectRadarControl radarViewParams = { new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent) } />
                         </div>
                         <div className="col-md-3">
                             <button className="btn btn-techradar" type="submit" onClick= { handleShowModifyItemsPanel } disabled= { disableModifyRadarItemsButton(currentRadar) }>Modify Items</button>
@@ -67,7 +73,7 @@ export const SecureRadarPage = ({ mostRecent }) => {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-9">
-                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { loggedInUser.id } />
+                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { authenticatedUser.id } />
                         </div>
                         <div className="col-md-3">
                             { showModifyItemsPanel==true ? <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } closePanelHandler = { handleCloseModifyItemsPanel }/> : null }

@@ -30,17 +30,17 @@ const HomePage = ( {  }) => {
                     <LinkActionCardComponent
                         title="Manage Your Radar Templates"
                         description = "A Radar Templates defines how you will classify and rate your topics."
-                        linkTarget="/manageradars/radarTemplates"
+                        linkTarget="/radarTemplates"
                         buttonText="Radar Templates"/>
                     <LinkActionCardComponent
                         title="Associate Radar Templates"
                         description = "See other\'s Radar Templates and mark them so you can also use them."
-                        linkTarget="/manageradars/associatedRadarTemplates"
+                        linkTarget="/associatedRadarTemplates"
                         buttonText="AssociatedRadarTemplates"/>
                     <LinkActionCardComponent
                         title="Manage your Radars"
                         description = "Once you have Radar Templates defined go here to create an instance of a Template."
-                        linkTarget="/manageradars/radars"
+                        linkTarget="/radars"
                         buttonText="Your Radars"/>
                 </div>
             </div>
@@ -50,7 +50,7 @@ const HomePage = ( {  }) => {
                         <LinkActionCardComponent
                             title="Manage your Teams"
                             description = "Create teams to allow others to manage some of your radars."
-                            linkTarget="/manageradars/teams"
+                            linkTarget="/teams"
                             buttonText="Your Teams"/>
                     </div>
                 </div>

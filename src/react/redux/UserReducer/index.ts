@@ -4,7 +4,7 @@ import IUserState from './IUserState'
 
 // src/js/reducers/index.js
 const manageUserState: IUserState = {
-    currentUser: {},
+    currentUser: {isAuthenticated: false, unloaded: true},
     users: [],
     roles: [],
     manageUsersSelectedUser: {}

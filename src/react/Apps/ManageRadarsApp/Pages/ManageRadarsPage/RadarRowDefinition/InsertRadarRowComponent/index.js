@@ -17,10 +17,10 @@ export const InsertRadarRowComponent = ({ rowData }) => {
     const dispatch = useDispatch();
 
     const userRadars = useSelector((state) => state.radarReducer.radars);
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useEffect(() => {
-        getRadarTemplates(loggedInUser);
+        getRadarTemplates(authenticatedUser);
     }, []);
 
     const getRadarTemplates = (user) => {
@@ -41,13 +41,14 @@ export const InsertRadarRowComponent = ({ rowData }) => {
     }
 
     const handleSelectedTemplateChanged = (template) => {
+        setRadarName(template.name);
         setSelectedTemplate(template);
     }
 
     const handleAddRadar = ()  => {
         if(radarName!=""){
             let radarRepository = new RadarRepository();
-            radarRepository.addRadar(loggedInUser.id, radarName, selectedTemplate, handleAddRadarResponse );
+            radarRepository.addRadar(authenticatedUser.id, radarName, selectedTemplate, handleAddRadarResponse );
         }
         else{
             alert("You must enter a name for the radar.");

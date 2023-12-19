@@ -3,15 +3,17 @@ import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux"
-import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
+import { addRadarsToState, setCurrentRadarInstanceToState, setCurrentDiagramRadarInstanceToState } from 'Redux/RadarReducer'
 import { RadarRepository} from 'Repositories/RadarRepository'
 import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { radarDropdownMap } from './radarDropdownMap'
 import { isValid } from 'Apps/Common/Utilities'
+import CompleteRadarManager from '../../CompleteRadarManager'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, isPublic }) => {
     const [radars, setRadars] = useState([]);
-    const [selectedRadar, setSelectedRadar] = useState({name: "Select"});
+    const [selectedRadarDropdownItem, setSelectedRadarDropdownItem] = useState({name: "Select"});
     const [publicRadarLink, setPublicRadarLink] = useState("");
 
     const dispatch = useDispatch();
@@ -27,11 +29,15 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
 
     const handleGetRadarsResponse = (wasSuccessful, data) => {
         if(wasSuccessful==true){
+            let completeRadarManager = new CompleteRadarManager();
+            data.unshift(completeRadarManager.generateCompleteViewDropdownItem(userId, radarTemplate));
             setRadars(data);
             dispatch(addRadarsToState(data));
+
             handleRadarSelection({ name: "Select"});
 
-            if(isValid(radarIdParam) && radarIdParam > 0){
+            if(isValid(radarIdParam) &&
+               (radarIdParam==completeRadarManager.completeRadarId || radarIdParam > 0)){
                 for(var i = 0; i < data.length; i++){
                     if(data[i].id==radarIdParam){
                         handleRadarSelection(data[i]);
@@ -39,21 +45,23 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
                     }
                 }
             }
-        }
+       }
     }
 
     const handleRadarSelection = (targetRadar) => {
-        setSelectedRadar(targetRadar);
+        setSelectedRadarDropdownItem(targetRadar);
         dispatch(setCurrentRadarInstanceToState(targetRadar));
         generateSharingLinks(targetRadar);
     }
 
     const generateSharingLinks = (targetRadar) => {
+        let configurationSettings = new ConfigurationSettings();
+
         if(isValid(targetRadar) && isValid(targetRadar.id)){
-            setPublicRadarLink("/public/home/user/" + userId + "/radar/" + targetRadar.id);
+            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + userId + "&radarId=" + targetRadar.id);
         }
         else {
-            setPublicRadarLink("/public/home/user/" + userId + "/radars?mostrecent=true");
+            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + userId + "&mostRecent=true");
         }
     }
 
@@ -71,7 +79,7 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
                 <label>Select Radar:</label>
                 <div className="row">
                     <div className="col-md-4">
-                        <DropdownComponent title = { getRadarName(selectedRadar) } data={ radars } itemMap = { radarDropdownMap(handleRadarSelection) } />
+                        <DropdownComponent title = { getRadarName(selectedRadarDropdownItem) } data={ radars } itemMap = { radarDropdownMap(handleRadarSelection) } />
                     </div>
                     <div className="col-md-1">
                         <a href={ publicRadarLink } ><img src="/images/LinkIcon.png" alt=""/></a>
