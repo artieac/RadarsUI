@@ -1,0 +1,14 @@
+services:
+
+  technology-radar-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+      args:
+        REACT_APP_TECHNOLOGY_SITE_URL_DEV: http://localhost
+        REACT_APP_TECHNOLOGY_API_URL_DEV: http://localhost/api
+        REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL_DEV: http://localhost/manage
+        REACT_APP_TECHNOLOGY_ADMIN_URL_DEV: http://localhost/admin
+    ports:
+      - "80:80"
