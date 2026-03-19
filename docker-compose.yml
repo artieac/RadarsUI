@@ -1,14 +1,5 @@
 services:
 
-  technology-radar-api:
-    build:
-      context: ../TechnologyRadar
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
-    networks:
-      - radar-network
-
   technology-radar-ui:
     build:
       context: .
@@ -21,11 +12,3 @@ services:
         REACT_APP_TECHNOLOGY_ADMIN_URL_DEV: http://localhost/admin
     ports:
       - "80:80"
-    depends_on:
-      - technology-radar-api
-    networks:
-      - radar-network
-
-networks:
-  radar-network:
-    driver: bridge
