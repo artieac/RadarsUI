@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux"
 import { useParams } from 'react-router-dom'
-import { doesStateHaveValidCurrentRadar } from 'Redux/RadarReducer'
 import radarTemplateReducer from 'Redux/RadarTemplateReducer'
 import { addRadarTemplatesToState} from 'Redux/RadarTemplateReducer'
 import { RadarRepository } from 'Repositories/RadarRepository'
