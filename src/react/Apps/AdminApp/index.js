@@ -1,9 +1,9 @@
 'use strict'
 import jQuery from 'jquery';
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import { Provider, connect, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import userReducer from 'Redux/UserReducer';
@@ -39,11 +39,10 @@ export default function AdminApp() {
     );
 }
 
-ReactDOM.render(
+createRoot(document.getElementById("adminAppContent")).render(
     <Provider store={ adminAppStore }>
         <BrowserRouter>
             <AdminApp/>
         </BrowserRouter>
-    </Provider>,
-    document.getElementById("adminAppContent")
+    </Provider>
 );
