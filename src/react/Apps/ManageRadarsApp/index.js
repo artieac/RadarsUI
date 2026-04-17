@@ -1,7 +1,7 @@
 'use strict'
 import jQuery from 'jquery'
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { connect, useSelector } from "react-redux"
@@ -63,11 +63,10 @@ export default function ManageRadarsApp() {
     );
 }
 
-ReactDOM.render(
+createRoot(document.getElementById("manageRadarsAppContent")).render(
     <Provider store={ appsProviderStore }>
         <BrowserRouter>
             <ManageRadarsApp />
         </BrowserRouter>
-    </Provider>,
-    document.getElementById("manageRadarsAppContent")
+    </Provider>
 );

@@ -1,9 +1,9 @@
 'use strict'
 import jQuery from 'jquery';
-import React, { useRouteMatch, useState} from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState} from 'react';
+import { createRoot } from 'react-dom/client';
 import { Provider, useSelector } from 'react-redux';
-import { BrowserRouter, Route, DefaultRoute, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import HeaderComponent from 'Apps/Common/HeaderComponent'
 import FooterComponent from 'Apps/Common/FooterComponent'
 import HomePage from './Pages/HomePage'
@@ -82,11 +82,10 @@ export default function MainSiteApp() {
     );
 }
 
-ReactDOM.render(
+createRoot(document.getElementById("radarAppContent")).render(
     <Provider store={ appsProviderStore }>
         <BrowserRouter>
             <MainSiteApp/>
         </BrowserRouter>
-    </Provider>,
-    document.getElementById("radarAppContent")
+    </Provider>
 );
