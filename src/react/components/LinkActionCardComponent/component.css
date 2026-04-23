@@ -1,6 +1,24 @@
-.card-admin{
+.card-admin {
     text-align: center;
     color: #3898EC !important;
     background-color: #fff !important;
     border-color: #3898EC !important;
+    transition: box-shadow 250ms ease;
+}
+
+.card-admin:hover {
+    box-shadow: 0 4px 16px rgba(56, 152, 236, 0.18);
+}
+
+.card-admin .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.card-admin .card-footer {
+    background-color: transparent;
+    border-top: 1px solid rgba(56, 152, 236, 0.2);
+    padding: 12px 16px;
 }
