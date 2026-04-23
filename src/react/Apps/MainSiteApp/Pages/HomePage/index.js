@@ -111,13 +111,9 @@ export const HomePage = () => {
                         <h2 className="section-heading centered">Curious?</h2>
                         <div className="section-subheading center">Please check out my current Public Radars. or Sign in and Try creating your own</div>
                     </div>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <Link className="button" aria-current="page" to="/home/user/1/radarTemplate/3/radars/fullView" >My Public Radar</Link>
-                        </div>
-                        <div className="col-md-6">
-                            <a href="/login" className="button">Sign in</a>
-                        </div>
+                    <div className="text-center">
+                        <Link className="button" aria-current="page" to="/home/user/1/radarTemplate/3/radars/fullView">My Public Radar</Link>
+                        <a href="/login" className="button">Sign in</a>
                     </div>
                 </div>
             </div>
