@@ -3,11 +3,11 @@ import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
     getWebServiceUrlRoot() {
-        if(process.env.NODE_ENV=="development"){
-            return process.env.REACT_APP_TECHNOLOGY_API_URL_DEV;
+        if(import.meta.env.DEV){
+            return import.meta.env.REACT_APP_TECHNOLOGY_API_URL_DEV;
         }
 
-        return process.env.REACT_APP_TECHNOLOGY_API_URL_PROD;
+        return import.meta.env.REACT_APP_TECHNOLOGY_API_URL_PROD;
     }
 
      getRequest(url: string, responseHandler: Function) {
