@@ -240,15 +240,15 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                        <label>Details</label>
                        <textarea rows="10" id="subjectDetails" name="subjectDetails" defaultValue = { assessmentDetails } value={ assessmentDetails } onChange = { handleAssessmentDetailsChange } />
                    </div>
-                   <div className="row">
-                       <div className="col-md-3">
-                           <button type="button" className="btn btn-techradar" onClick = { handleClearForm }>Clear</button>
+                   <div className="row g-2 mt-1">
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-techradar w-100" onClick = { handleClearForm }>Clear</button>
                        </div>
-                       <div className="col-md-3">
-                           <button type="button" className="btn btn-techradar" onClick = { handleSaveRadarItem } disabled= { !canAddRadarItem() }>Save</button>
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-techradar w-100" onClick = { handleSaveRadarItem } disabled= { !canAddRadarItem() }>Save</button>
                        </div>
-                       <div className="col-md-3">
-                           <button type="button" className="btn btn-techradar" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-techradar w-100" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
                        </div>
                    </div>
                </div>

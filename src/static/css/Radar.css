@@ -161,18 +161,40 @@ textarea
     color: DimGray;
 }
 
-.btn-techradar{
+.btn-techradar {
   background-color: #3898EC;
   color: white;
-  border-radius: 0;
+  border-radius: 4px;
   display: inline-block;
-  padding: 9px 15px;
-  border: 1px;
-  line-height: inherit;
+  padding: 8px 18px;
+  border: none;
+  line-height: 1.5;
   text-decoration: none;
   cursor: pointer;
-  border-color: White;
-  margin-top:5px;
+  letter-spacing: 1.5px;
+  font-weight: 300;
+  font-size: 13px;
+  text-transform: uppercase;
+  transition: background-color 250ms ease, box-shadow 250ms ease;
+  vertical-align: middle;
+}
+
+.btn-techradar:hover {
+  background-color: #2a7fd4;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-techradar:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(56, 152, 236, 0.35);
+  color: white;
+}
+
+.btn-techradar:disabled,
+.btn-techradar[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .panel-heading-techradar{
