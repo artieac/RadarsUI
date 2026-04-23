@@ -1,5 +1,6 @@
 'use strict'
 import jQuery from 'jquery';
+import _ from 'lodash';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux"
