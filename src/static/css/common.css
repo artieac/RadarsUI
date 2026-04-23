@@ -94,6 +94,11 @@ p {
   background-color: #2e9dff;
 }
 
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(105, 185, 255, 0.4);
+}
+
 .button.w--current {
   background-color: #2e80b6;
 }

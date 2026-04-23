@@ -45,16 +45,14 @@ RUN npm run build-prod
 
 # ── dev serve ─────────────────────────────────────────────────────────────────
 FROM nginx:alpine AS dev
-COPY --from=builder-dev /app/src/static /usr/share/nginx/html
-COPY --from=builder-dev /app/target/classes/static/script/dist /usr/share/nginx/html/script/dist
+COPY --from=builder-dev /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 # ── prod serve ────────────────────────────────────────────────────────────────
 FROM nginx:alpine AS prod
-COPY --from=builder-prod /app/src/static /usr/share/nginx/html
-COPY --from=builder-prod /app/target/classes/static/script/dist /usr/share/nginx/html/script/dist
+COPY --from=builder-prod /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
