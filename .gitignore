@@ -18,6 +18,8 @@ hs_err_pid*
 [Nn]ode_modules/
 [Nn]ode_modules/*
 src/main
+[Dd]ist/
+[Dd]ist/*
 
 application-production.properties
 pom.xml
