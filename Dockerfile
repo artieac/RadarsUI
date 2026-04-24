@@ -29,8 +29,8 @@ FROM deps AS builder-prod
 
 ARG REACT_APP_TECHNOLOGY_SITE_URL_PROD=https://technologyradar.alwaysmoveforward.com
 ARG REACT_APP_TECHNOLOGY_API_URL_PROD=https://api.technologyradar.alwaysmoveforward.com
-ARG REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL_PROD=https://technologyradar.alwaysmoveforward.com\manage
-ARG REACT_APP_TECHNOLOGY_ADMIN_URL_PROD=https://technologyradar.alwaysmoveforward.com\admin
+ARG REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL_PROD=https://manage.technologyradar.alwaysmoveforward.com
+ARG REACT_APP_TECHNOLOGY_ADMIN_URL_PROD=https://admin.technologyradar.alwaysmoveforward.com
 
 RUN printf "REACT_APP_TECHNOLOGY_SITE_URL_PROD=%s\n\
 REACT_APP_TECHNOLOGY_API_URL_PROD=%s\n\
