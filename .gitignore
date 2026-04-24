@@ -17,7 +17,6 @@ hs_err_pid*
 [Tt]arget/*
 [Nn]ode_modules/
 [Nn]ode_modules/*
-package-lock.json
 src/main
 
 application-production.properties
