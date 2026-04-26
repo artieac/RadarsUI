@@ -17,8 +17,8 @@ export const HomePage = ( {  }) => {
              <div className="row">
                 <div className="col-md-4">
                     <div className="panel panel-techradar adminMenuPanel">
-                        <div className="panel-heading-techradar">Manage Your radartemplates</div>
-                        <div id="ManageRadarTemplatesPanel" className="panel-body">
+                        <div className="panel-heading-techradar">Manage Users</div>
+                        <div id="ManageUsersPanel" className="panel-body">
                             <p>Manage the users of this application</p>
                             <br/>
                             <Link to='/admin/manageusers'>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useSelector, useDispatch } from "react-redux"
 import { Link } from 'react-router-dom';
 import DropdownComponent from "SharedComponents/DropdownComponent";
-import dropdownItem from "SharedComponents/DropdownComponent/dropdownItem";
+import { dropdownItem } from "SharedComponents/DropdownComponent/dropdownItem";
 
 const userColumnMap = (roles) => {
     const [dropdownSelection, setDropdownSelection] = useState({});
@@ -67,3 +67,5 @@ const userColumnMap = (roles) => {
     }
   ];
 };
+
+export default userColumnMap;

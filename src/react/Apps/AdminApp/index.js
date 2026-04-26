@@ -7,13 +7,15 @@ import { thunk } from 'redux-thunk'
 import { Provider, connect, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import userReducer from 'Redux/UserReducer';
+import teamReducer from 'Redux/TeamReducer';
 import HeaderComponent from 'Apps/Common/HeaderComponent'
 import FooterComponent from 'Apps/Common/FooterComponent'
 import HomePage from './Pages/HomePage'
+import ManageUsersPage from './Pages/ManageUsersPage'
 import NavBarRowDefinition from './NavBarRowDefinition'
 import { isValid } from 'Apps/Common/Utilities'
 
-const adminAppStore = createStore(combineReducers({userReducer}), applyMiddleware(thunk));
+const adminAppStore = createStore(combineReducers({userReducer, teamReducer}), applyMiddleware(thunk));
 
 export default function AdminApp() {
     const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,7 @@ export default function AdminApp() {
             {!isLoading && isValid(currentUser) && currentUser.isAuthenticated==true && isValid(currentUser.role) && currentUser.role.name=="ROLE_ADMIN"
                 ? <Routes>
                     <Route path="/" element={ <HomePage authenticatedUser={ currentUser }/> } />
+                    <Route path="/admin/manageusers" element={ <ManageUsersPage/> } />
                   </Routes>
                  : <div/>
              }

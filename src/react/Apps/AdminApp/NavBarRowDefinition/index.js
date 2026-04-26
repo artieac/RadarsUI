@@ -15,7 +15,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: true,
             internal: true,
             roles: '',
-            target: configurationSettings.getMainSiteUrlRoot() + '/home/secureradar'
+            target: configurationSettings.getMainSiteUrlRoot() + "?userId=" + currentUser.id
         },
         {
             label: 'Search',
@@ -25,8 +25,9 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             target: '/search',
         },
         {
-            label: 'Manage Radars',
+            label: 'Manage Configurations',
             loggedInOnly: true,
+            internal: false,
             roles: '',
             target: configurationSettings.getManageRadarsUrlRoot()
         },

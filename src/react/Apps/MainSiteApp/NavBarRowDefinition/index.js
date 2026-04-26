@@ -28,8 +28,9 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             target: '/search',
         },
         {
-            label: 'Manage Radars',
+            label: 'Manage Configurations',
             loggedInOnly: true,
+            internal: false,
             roles: '',
             target: configurationSettings.getManageRadarsUrlRoot()
         },
