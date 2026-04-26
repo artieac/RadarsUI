@@ -21,7 +21,7 @@ const HomePage = ( {  }) => {
             <div className="row">
                 <div className="col-md-12">
                     <div className="contentPageTitle">
-                        <label>Manage your Technology Radar</label>
+                        <label>Manage your configurations</label>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@ const HomePage = ( {  }) => {
                             title="Manage your Teams"
                             description="Create teams to allow others to manage some of your radars."
                             linkTarget="/teams"
-                            buttonText="Your Teams"/>
+                            buttonText="Teams"/>
                     </div>
                 </div>
             )}

@@ -9,7 +9,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
 
    return (
    {
-       title: "Manage Radars",
+       title: "Manage Configurations",
        loginUrl: configurationSettings.getWebServiceUrlRoot() + "/login",
        userDetailsRoute: "/userDetails",
        metadata: [
@@ -21,11 +21,18 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             target: configurationSettings.getMainSiteUrlRoot() + "?userId=" + currentUser.id
         },
         {
-            label: 'Manage Radars',
+            label: 'Radars',
             loggedInOnly: true,
             internal: true,
             roles: '',
             target: "/"
+        },
+        {
+            label: 'Teams',
+            loggedInOnly: true,
+            internal: true,
+            roles: '',
+            target: "/teams"
         },
         {
             label: 'Admin',
