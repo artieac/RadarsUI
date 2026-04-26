@@ -12,8 +12,31 @@ const jsxInJsFiles = {
     },
 }
 
+// This plugin rewrites the URL based on the hostname so different apps load for different hosts.
+const hostRouting = {
+    name: 'host-routing',
+    configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+            const host = req.headers.host
+            if (!host) return next()
+
+            // Map subdomains to their respective HTML entry points
+            if (req.url === '/' || req.url === '/index.html') {
+                if (host.startsWith('manage.local.')) {
+                    req.url = '/ManageRadars.html'
+                } else if (host.startsWith('admin.local.')) {
+                    req.url = '/AdminSite.html'
+                } else if (host.startsWith('local.')) {
+                    req.url = '/index.html'
+                }
+            }
+            next()
+        })
+    },
+}
+
 export default defineConfig({
-    plugins: [jsxInJsFiles, react()],
+    plugins: [hostRouting, jsxInJsFiles, react()],
     optimizeDeps: {
         esbuildOptions: {
             loader: { '.js': 'jsx' },
@@ -42,6 +65,15 @@ export default defineConfig({
         }
     },
     server: {
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: true,
+        allowedHosts: [
+            'local.technologyradar.alwaysmoveforward.com',
+            'api.local.technologyradar.alwaysmoveforward.com',
+            'manage.local.technologyradar.alwaysmoveforward.com',
+            'admin.local.technologyradar.alwaysmoveforward.com'
+        ],
         hmr: {
             overlay: true,
         },
@@ -49,7 +81,7 @@ export default defineConfig({
             usePolling: true,
         },
         proxy: {
-            '/api': 'http://localhost:5093',
+            '/api': 'http://localhost:8081',
         },
     },
 })

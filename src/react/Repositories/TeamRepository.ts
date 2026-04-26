@@ -6,6 +6,11 @@ export class TeamRepository extends RestClient {
         this.getRequest(getUrl, responseHandler);
      }
 
+     getTeamsByMember(userId: number, responseHandler: Function) {
+        let getUrl = '/api/User/' + userId + '/Teams/Member';
+        this.getRequest(getUrl, responseHandler);
+     }
+
      getTeam(userId: number, teamId: number, responseHandler: Function) {
         let getUrl = '/api/User/' + userId + '/Team/' + teamId;
         this.getRequest(getUrl, responseHandler);
@@ -16,5 +21,10 @@ export class TeamRepository extends RestClient {
 
         let teamToAdd = { name: teamName };
         this.postRequest(url, teamToAdd, responseHandler);
+    }
+
+    addMember(teamId: number, memberId: number, responseHandler: Function) {
+        let url = '/api/Team/' + teamId + '/Member/' + memberId;
+        this.postRequest(url, {}, responseHandler);
     }
 }

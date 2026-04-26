@@ -1,11 +1,12 @@
 'use strict'
 import  React, { useState, useEffect } from 'react';
 import { connect, useSelector, useDispatch } from "react-redux"
-import AppendableTableComponent2 from 'SharedComponents/AppendableTableComponent2'
 import { isValid } from 'Apps/Common/Utilities'
-import { RadarRowDefinition } from './RadarRowDefinition'
+import { RadarRowComponent } from './RadarRowDefinition/RadarRowComponent'
 import { RadarRepository } from 'Repositories/RadarRepository'
 import { addRadarsToState } from 'Redux/RadarReducer'
+import AddRadarComponent from './AddRadarComponent'
+import LoadingComponent from 'SharedComponents/LoadingComponent'
 
 export const ManageRadarsPage = ({ authenticatedUser }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -35,15 +36,47 @@ export const ManageRadarsPage = ({ authenticatedUser }) => {
     return (
         <div className="container">
             <div className="contentPageTitle">
-                <label>Manage Technology Assessments</label>
+                <label>Manage Your Radars</label>
             </div>
-            <AppendableTableComponent2
-                data={userRadars }
-                rowDefinition={ RadarRowDefinition(authenticatedUser)}
-                hoverable
-                striped
-                bordered={false}
-                isLoading={isLoading}/>
+            
+            <AddRadarComponent />
+
+            <div className="row mt-4">
+                <div className="col-md-12">
+                    <div className="contentPageTitle mb-3">
+                        <h4>Existing Radars</h4>
+                    </div>
+                    {isLoading ? (
+                        <LoadingComponent />
+                    ) : (
+                        <div className="table-responsive">
+                            <table className="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Published?</th>
+                                        <th>Locked?</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {userRadars && userRadars.length > 0 ? (
+                                        userRadars.map((radar) => (
+                                            <RadarRowComponent key={radar.id} rowData={radar} />
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className="text-center">No radars found. Create one above!</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

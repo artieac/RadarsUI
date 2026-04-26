@@ -37,7 +37,7 @@ export const HeaderComponent = ({ doneLoadingNotifier, navBarRowDefinition }) =>
 
     return (
         <div>
-            <NavBarComponent title="Technology Radar" navBarRowDefinition={ navBarRowDefinition } currentUser = { currentUser } loginUrl= { buildLoginUrl("/login") }  />
+            <NavBarComponent navBarRowDefinition={ navBarRowDefinition } currentUser = { currentUser } loginUrl= { buildLoginUrl("/login") }  />
         </div>
     );
 };
