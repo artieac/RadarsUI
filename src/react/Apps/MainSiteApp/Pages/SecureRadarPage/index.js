@@ -71,12 +71,16 @@ export const SecureRadarPage = ({ mostRecent }) => {
             </div>
             <div className="card">
                 <div className="card-body">
-                    <div className="row">
-                        <div className="col-md-9">
-                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { authenticatedUser.id } />
+                    { showModifyItemsPanel==true ? (
+                        <div className="row mb-4">
+                            <div className="col-md-12">
+                                <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } closePanelHandler = { handleCloseModifyItemsPanel }/>
+                            </div>
                         </div>
-                        <div className="col-md-3">
-                            { showModifyItemsPanel==true ? <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } closePanelHandler = { handleCloseModifyItemsPanel }/> : null }
+                    ) : null }
+                    <div className="row">
+                        <div className="col-md-12">
+                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { authenticatedUser.id } />
                         </div>
                     </div>
                 </div>
