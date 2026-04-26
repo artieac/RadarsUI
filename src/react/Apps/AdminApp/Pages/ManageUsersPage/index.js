@@ -1,16 +1,16 @@
 'use strict'
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from "react-redux"
-import { addUsersToState, addRolesToState} from 'redux/UserReducer';
+import { useSelector, useDispatch } from "react-redux"
+import { addUsersToState, addRolesToState} from 'Redux/UserReducer';
 import { UserRepository } from 'Repositories/UserRepository'
-import UserTableBody from './UserTableBody';
 import { RoleRepository } from 'Repositories/RoleRepository'
 import TableComponent from 'SharedComponents/TableComponent'
+import userColumnMap from './usersColumnMap'
 
 const ManageUsersPage = () => {
     const dispatch = useDispatch();
 
-    const userState = userSelector(state.userReducer);
+    const userState = useSelector((state) => state.userReducer);
 
     useEffect(() => {
         let roleRepository = new RoleRepository();
@@ -34,16 +34,22 @@ const ManageUsersPage = () => {
 
     return (
         <div className="bodyContent">
-            <div className="contentPageTitle">
-                <label>Manage Radar Users</label>
+            <div className="row">
+                <div className="col-md-12">
+                    <div className="contentPageTitle">
+                        <label>Manage Radar Users</label>
+                    </div>
+                </div>
             </div>
             <p>Work with the users of this site.</p>
            <TableComponent
                data={ userState.users }
-               cols={ teamColumnMap(userState.roles)}
+               cols={ userColumnMap(userState.roles)}
                hoverable
                striped
                bordered={false}/>
         </div>
     );
 };
+
+export default ManageUsersPage;
