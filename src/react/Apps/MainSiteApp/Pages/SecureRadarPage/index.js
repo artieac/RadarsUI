@@ -59,14 +59,16 @@ export const SecureRadarPage = ({ mostRecent }) => {
         }
     }
 
+    const radarViewParams = new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent);
+
     return (
         <div className="card">
-            <div className="card-title panel-heading-techradar">Which of your Radars?</div>
+            <div className="card-title panel-heading-techradar">Which Radar?</div>
             <div className="card">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-9">
-                            <SelectRadarControl radarViewParams = { new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent) } />
+                            <SelectRadarControl radarViewParams = { radarViewParams } />
                         </div>
                         <div className="col-md-3">
                             { shouldShowAddItemButton(currentRadar) ? (
@@ -87,7 +89,7 @@ export const SecureRadarPage = ({ mostRecent }) => {
                     ) : null }
                     <div className="row">
                         <div className="col-md-12">
-                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { authenticatedUser.id } />
+                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { radarViewParams.getUserIdToView() } />
                         </div>
                     </div>
                 </div>
