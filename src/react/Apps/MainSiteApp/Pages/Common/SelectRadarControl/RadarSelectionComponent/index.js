@@ -30,6 +30,11 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
     const handleGetRadarsResponse = (wasSuccessful, data) => {
         if(wasSuccessful==true){
             let completeRadarManager = new CompleteRadarManager();
+            
+            data.sort((a, b) => {
+                return b.id - a.id;
+            });
+
             data.unshift(completeRadarManager.generateCompleteViewDropdownItem(userId, radarTemplate));
             setRadars(data);
             dispatch(addRadarsToState(data));
