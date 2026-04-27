@@ -94,7 +94,7 @@ export class RadarItemRepository extends RestClient {
 
     addRadarItemExistingSubject(userId, radarId, radarCategory, radarRing, confidenceLevel, details, radarSubject, responseHandler) {
          var radarItem = this.createRadarItemForSubject(radarCategory, radarRing, confidenceLevel, details, radarSubject);
-         this.addRadarItem(userId, radarId, radarItem, successCallback, errorCallback);
+         this.addRadarItem(userId, radarId, radarItem, responseHandler);
      };
 
      updateRadarItem(userId, radarId, radarItemId, radarCategory, radarRing, confidenceLevel, details, radarSubject, responseHandler) {
