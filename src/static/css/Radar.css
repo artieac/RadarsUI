@@ -132,13 +132,6 @@ body{
     height:200%;
 }
 
-textarea
-{
-    display:block;
-    width: 100em;
-    height:100%;
-}
-
 #technologyAssessmentDetailsPanel
 {
     margin-left:5%;
