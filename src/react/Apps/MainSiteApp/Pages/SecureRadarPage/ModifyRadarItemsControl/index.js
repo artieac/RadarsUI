@@ -51,6 +51,15 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
               });
 
             setConfidenceLevel(confidenceLevel);
+        } else {
+            setCurrentEditItemId(null);
+            setRadarCategory({name: "Select"});
+            setRadarRing({name: "Select"});
+            setSubjectId(null);
+            setSubjectSearchField("");
+            setSubjectUrl("");
+            setAssessmentDetails("");
+            setConfidenceLevel({text: "Select"});
         }
     },[selectedRadarItem]);
 

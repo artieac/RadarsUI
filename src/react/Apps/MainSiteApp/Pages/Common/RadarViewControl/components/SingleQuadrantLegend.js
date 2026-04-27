@@ -2,7 +2,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-const SingleQuadrantLegend = ({ quadrant, arcs, onClick, blipStartNumber }) => {
+const SingleQuadrantLegend = ({ quadrant, arcs, onClick, blipStartNumber, onTitleClick }) => {
     let localCounter = blipStartNumber;
 
     // Group items by ring for this quadrant
@@ -15,13 +15,17 @@ const SingleQuadrantLegend = ({ quadrant, arcs, onClick, blipStartNumber }) => {
 
     return (
         <div className="quadrant-legend mb-4">
-            <h4 style={{ 
-                color: quadrant.color, 
-                borderBottom: `2px solid ${quadrant.color}`, 
-                paddingBottom: '5px',
-                textTransform: 'uppercase',
-                fontSize: '1.1rem'
-            }}>
+            <h4 
+                style={{ 
+                    color: quadrant.color, 
+                    borderBottom: `2px solid ${quadrant.color}`, 
+                    paddingBottom: '5px',
+                    textTransform: 'uppercase',
+                    fontSize: '1.1rem',
+                    cursor: onTitleClick ? 'pointer' : 'default'
+                }}
+                onClick={() => onTitleClick && onTitleClick(quadrant.quadrant)}
+            >
                 {quadrant.quadrant}
             </h4>
             {arcs.map((arc, aIndex) => {

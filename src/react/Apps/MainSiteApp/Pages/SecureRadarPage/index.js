@@ -25,33 +25,38 @@ export const SecureRadarPage = ({ mostRecent }) => {
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
 
-    const disableModifyRadarItemsButton = (radar) => {
+    const shouldShowAddItemButton = (radar) => {
         let completeRadarManager = new CompleteRadarManager();
 
         if(isValid(radar) &&
             isValid(radar.id) &&
             !radar.isLocked &&
             !completeRadarManager.isRadarTheCompleteView(radar.id, radar.name)) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     const toggleModifyItemsPanel = () => {
         setShowModifyItemsPanel(!showModifyItemsPanel);
     }
 
-    const handleShowModifyItemsPanel = () => {
-        toggleModifyItemsPanel();
+    const handleShowAddItemPanel = () => {
+        setSelectedRadarItem(null);
+        setShowModifyItemsPanel(true);
     }
 
     const handleCloseModifyItemsPanel = () => {
         setShowModifyItemsPanel(false);
+        setSelectedRadarItem(null);
     }
 
     const handleClickRadarItem = (radarItem) => {
-        setSelectedRadarItem(radarItem);
+        if (shouldShowAddItemButton(currentRadar)) {
+            setSelectedRadarItem(radarItem);
+            setShowModifyItemsPanel(true);
+        }
     }
 
     return (
@@ -64,7 +69,9 @@ export const SecureRadarPage = ({ mostRecent }) => {
                             <SelectRadarControl radarViewParams = { new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent) } />
                         </div>
                         <div className="col-md-3">
-                            <button className="btn btn-techradar" type="submit" onClick= { handleShowModifyItemsPanel } disabled= { disableModifyRadarItemsButton(currentRadar) }>Modify Items</button>
+                            { shouldShowAddItemButton(currentRadar) ? (
+                                <button className="btn btn-techradar" type="button" onClick= { handleShowAddItemPanel }>Add Item</button>
+                            ) : null }
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 'use strict'
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from 'react-router-dom'
 import { RadarRepository } from 'Repositories/RadarRepository'
 import { addRadarsToState } from 'Redux/RadarReducer'
 import { isValid } from 'Apps/Common/Utilities'
@@ -15,12 +16,19 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isValid(currentRadar) && isValid(currentRadar.id)) {
             fetchRadarData(currentRadar);
         }
     }, [currentRadar, isPublic, userId]);
+
+    const handleQuadrantTitleClick = (quadrantName) => {
+        const baseUrl = isPublic ? "/public/home" : "/home";
+        const radarId = currentRadar.id;
+        navigate(`${baseUrl}/user/${userId}/radar/${radarId}/quadrant/${quadrantName}`);
+    };
 
     const fetchRadarData = (sourceRadar) => {
         setIsLoading(true);
@@ -96,6 +104,7 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
                             arcs={arcs} 
                             onClick={handleClickRadarItem} 
                             blipStartNumber={q.blipStartNumber} 
+                            onTitleClick={handleQuadrantTitleClick}
                         />
                     ))}
                 </div>
@@ -122,6 +131,7 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
                             arcs={arcs} 
                             onClick={handleClickRadarItem} 
                             blipStartNumber={q.blipStartNumber} 
+                            onTitleClick={handleQuadrantTitleClick}
                         />
                     ))}
                 </div>

@@ -102,4 +102,9 @@ export class RadarRepository extends RestClient {
        let url = this.generateUrlBase(isAnonymous) + '/User/' + userId + '/RadarTemplate/' + radarTemplateId + '/Radar/FullView';
        this.getRequest(url, responseHandler);
     }
+
+    getQuadrant(isAnonymous, userId, radarId, quadrantName, responseHandler) {
+        let url = this.generateUrlBase(isAnonymous) + '/User/' + userId + '/Radar/' + radarId + '/Quadrant/' + quadrantName;
+        this.getRequest(url, responseHandler);
+    }
 };
