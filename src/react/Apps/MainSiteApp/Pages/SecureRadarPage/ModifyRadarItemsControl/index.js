@@ -237,18 +237,22 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                                <a className="btn btn-techradar" href={ subjectUrl } target="_blank"><i className="bi bi-eye-fill"></i></a>
                            </div>
                        </div>
-                       <div className="col-md-2">
-                           <div className="d-flex gap-1">
-                               <button type="button" className="btn btn-sm btn-outline-secondary w-100" title="Clear Form" onClick = { handleClearForm }>Clear</button>
-                               <button type="button" className="btn btn-sm btn-techradar w-100" title="Save Item" onClick = { handleSaveRadarItem } disabled= { !canAddRadarItem() }>Save</button>
-                               <button type="button" className="btn btn-sm btn-danger w-100" title="Delete Item" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
-                           </div>
-                       </div>
                    </div>
                    <div className="row mt-3">
                        <div className="col-12">
                            <label className="form-label mb-1 small fw-bold">Assessment Details</label>
                            <textarea rows="2" className="form-control form-control-sm" id="subjectDetails" name="subjectDetails" value={ assessmentDetails } onChange = { handleAssessmentDetailsChange } placeholder="Enter assessment notes here..." style={{ resize: 'none' }}/>
+                       </div>
+                   </div>
+                   <div className="row mt-3">
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-sm btn-outline-secondary w-100" title="Clear Form" onClick = { handleClearForm }>Clear</button>
+                       </div>
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-sm btn-techradar w-100" title="Save Item" onClick = { handleSaveRadarItem } disabled= { !canAddRadarItem() }>Save</button>
+                       </div>
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-sm btn-danger w-100" title="Delete Item" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
                        </div>
                    </div>
                </div>
