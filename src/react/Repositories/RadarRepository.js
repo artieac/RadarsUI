@@ -57,7 +57,7 @@ export class RadarRepository extends RestClient {
     deleteRadar(userId, radarId, responseHandler) {
         let url = '/api/User/' + userId + '/Radar/' + radarId + '/Delete';
 
-        this.putRequest(url, responseHandler);
+        this.putRequest(url, {}, responseHandler);
     }
 
     addRadar(userId, radarName, radarTemplate, responseHandler) {
