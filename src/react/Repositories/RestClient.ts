@@ -30,7 +30,15 @@ export class RestClient {
     }
 
     postRequest(url: string, params: any, responseHandler: Function){
-        if(isValid(params)){
+        let effectiveParams = params;
+        let effectiveHandler = responseHandler;
+
+        if (typeof params === 'function') {
+            effectiveHandler = params;
+            effectiveParams = {};
+        }
+
+        if(isValid(effectiveParams)){
             jQuery.ajax({
                   headers: {
                      'Accept': 'application/json',
@@ -42,12 +50,12 @@ export class RestClient {
                   xhrFields: {
                     withCredentials: true
                   },
-                  data: JSON.stringify(params),
+                  data: JSON.stringify(effectiveParams),
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
@@ -64,17 +72,25 @@ export class RestClient {
                     withCredentials: true
                   },
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
     }
 
     putRequest(url: string, params: any, responseHandler: Function){
-        if(isValid(params)){
+        let effectiveParams = params;
+        let effectiveHandler = responseHandler;
+
+        if (typeof params === 'function') {
+            effectiveHandler = params;
+            effectiveParams = {};
+        }
+
+        if(isValid(effectiveParams)){
             jQuery.ajax({
                   headers: {
                      'Accept': 'application/json',
@@ -86,12 +102,12 @@ export class RestClient {
                   xhrFields: {
                     withCredentials: true
                   },
-                  data: JSON.stringify(params),
+                  data: JSON.stringify(effectiveParams),
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
@@ -108,10 +124,10 @@ export class RestClient {
                     withCredentials: true
                   },
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
