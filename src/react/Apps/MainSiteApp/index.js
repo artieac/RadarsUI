@@ -9,6 +9,7 @@ import FooterComponent from 'Apps/Common/FooterComponent'
 import HomePage from './Pages/HomePage'
 import PublicRadarPage from './Pages/PublicRadarPage'
 import SecureRadarPage from './Pages/SecureRadarPage'
+import SingleQuadrantPage from './Pages/SingleQuadrantPage'
 import SearchPage from './Pages/SearchPage'
 import DetailsPage from './Pages/DetailsPage'
 import AboutPage from './Pages/AboutPage'
@@ -54,6 +55,7 @@ export default function MainSiteApp() {
                           <Route path="/home/user/:userId/radars" element={ <SecureRadarPage mostRecent={ true } /> } />
                           <Route path="/home/user/:userId/radars?mostrecent=true" element={ <SecureRadarPage mostRecent={ true } /> } />
                           <Route path="/home/user/:userId/radar/:radarId" element={ <SecureRadarPage mostRecent={ true }/> } />
+                          <Route path="/home/user/:userId/radar/:radarId/quadrant/:quadrantName" element={ <SingleQuadrantPage isPublic={ false }/> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <SecureRadarPage /> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <SecureRadarPage fullView={true}/> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <SecureRadarPage mostRecent={true}/> } />
@@ -67,6 +69,7 @@ export default function MainSiteApp() {
                           <Route path="/home/user/:userId/radars" element={ <PublicRadarPage mostRecent={ true } /> } />
                           <Route path="/home/user/:userId/radars?mostrecent=true" element={ <PublicRadarPage mostRecent={ true } /> } />
                           <Route path="/home/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true }/> } />
+                          <Route path="/public/home/user/:userId/radar/:radarId/quadrant/:quadrantName" element={ <SingleQuadrantPage isPublic={ true }/> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={true}/> } />
