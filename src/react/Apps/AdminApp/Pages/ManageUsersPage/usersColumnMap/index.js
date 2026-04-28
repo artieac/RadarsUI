@@ -3,7 +3,7 @@ import React from 'react';
 import { isValid } from 'Apps/Common/Utilities';
 
 const getRadarUrl = (rowData) => {
-    return "/home/user/" + rowData.id + "/radars";
+    return "/admin/user/" + rowData.id + "/radars";
 }
 
 const userColumnMap = (roles) => {
