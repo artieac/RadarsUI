@@ -77,17 +77,16 @@ export const ManageRadarTemplatesPage = () => {
 
     return (
         <div className="bodyContent">
-            <div className="contentPageTitle">
-                <label>Manage Your Radar Templates</label>
+            <div className="contentPageTitle mb-3">
+                <h2 className="text-start">Manage Your Radar Templates</h2>
             </div>
-            <p>Add a new Template to rate different types of things</p>
             <div className="row">
                 <div className="col-md-4">
                     <div className="row">
                         <div className={ canAddRadarTemplates()==true ? "col-md-6" : "col-md-6 hidden"}>
                             <div className="row">
                                 <div className="col-lg-1`">
-                                    <input type="button" className="btn btn-techradar" value="Add Radar Template" onClick= { handleAddRadarTemplate } />
+                                    <input type="button" className="btn btn-techradar" value="Add Radar Template" onClick= { handleAddRadarTemplate } title="Add a new Template to rate different types of things" />
                                 </div>
                             </div>
                         </div>
