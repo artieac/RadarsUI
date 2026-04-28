@@ -3,7 +3,7 @@ import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { addRadarTemplatesToState} from 'Redux/RadarTemplateReducer'
 import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
 import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
@@ -22,6 +22,11 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     const [targetedRadar, setTargetedRadar] = useState(null);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setRadarTemplates([]);
+    }, [radarViewParams.userIdParam]);
 
     useEffect(() => {
         if(isValid(radarTemplates) && radarTemplates.length > 0){
@@ -52,7 +57,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 radarTemplateRepository.getByUserId(radarViewParams.getUserIdToView(), getRadarTemplatesResponse);
             }
         }
-    }, [radarTemplates]);
+    }, [radarTemplates, radarViewParams.radarIdParam, radarViewParams.radarTemplateIdParam, radarViewParams.getMostRecent, radarViewParams.getFullView]);
 
     const getRadarTemplatesResponse = (wasSuccessful, data) => {
         if(wasSuccessful){
@@ -78,6 +83,20 @@ export const SelectRadarControl = ({ radarViewParams }) => {
         setSelectedRadarTemplate(targetRadarTemplate);
         dispatch(setCurrentRadarInstanceToState(null));
         generateSharingLinks(targetRadarTemplate);
+    }
+
+    const onRadarTemplateSelectionChanged = (targetRadarTemplate) => {
+        handleRadarTemplateSelection(targetRadarTemplate);
+
+        let baseUrl = radarViewParams.isPublic ? "/public/home" : "/home";
+
+        if(window.location.pathname.startsWith("/admin")){
+            baseUrl = "/admin";
+        }
+
+        if (isValid(targetRadarTemplate) && targetRadarTemplate.id > 0) {
+            navigate(`${baseUrl}/user/${radarViewParams.getUserIdToView()}/radartemplate/${targetRadarTemplate.id}/radars/mostRecent`);
+        }
     }
 
     const generateSharingLinks = (radarTemplate) => {
@@ -119,7 +138,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 <label>Select Radar Template:</label>
                 <div className="row">
                     <div className="col-md-4">
-                        <DropdownComponent title = { getRadarTemplateName(selectedRadarTemplate) } data={ radarTemplates } itemMap = { radarTemplateDropdownMap(handleRadarTemplateSelection) } />
+                        <DropdownComponent title = { getRadarTemplateName(selectedRadarTemplate) } data={ radarTemplates } itemMap = { radarTemplateDropdownMap(onRadarTemplateSelectionChanged) } />
                     </div>
                     <div className="col-md-1">
                         <a href={ mostRecentRadarsLink }><img src="/images/LinkIcon.png" alt=""/></a>
