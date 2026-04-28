@@ -60,7 +60,7 @@ export class RadarTemplateRepository extends RestClient {
      }
 
     getOtherUsersSharedRadarTemplates(userId, responseHandler){
-        var url = '/api/RadarTemplates/Shared?excludeUser=-1';
+        var url = '/api/RadarTemplates/Shared?excludeUser=' + userId;
 
         this.getRequest(url, responseHandler);
     }

@@ -1,5 +1,5 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import { thunk } from 'redux-thunk'
 import radarReducer from 'Redux/RadarReducer'
 import radarTemplateReducer from 'Redux/RadarTemplateReducer'
 import userReducer from 'Redux/UserReducer'

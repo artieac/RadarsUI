@@ -25,7 +25,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
     const [confidenceLevel, setConfidenceLevel] = useState({text: "Select"});
     const [assessmentDetails, setAssessmentDetails] = useState("");
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const radarState = useSelector((state) => state.radarReducer);
     const selectedRadar = useSelector((state) => state.radarReducer.currentRadar);
 
@@ -51,6 +51,15 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
               });
 
             setConfidenceLevel(confidenceLevel);
+        } else {
+            setCurrentEditItemId(null);
+            setRadarCategory({name: "Select"});
+            setRadarRing({name: "Select"});
+            setSubjectId(null);
+            setSubjectSearchField("");
+            setSubjectUrl("");
+            setAssessmentDetails("");
+            setConfidenceLevel({text: "Select"});
         }
     },[selectedRadarItem]);
 
@@ -96,15 +105,15 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
         setConfidenceLevel(confidence);
     }
 
-    const handleAddRadarItem = () => {
+    const handleSaveRadarItem = () => {
         setIsSaving(true);
         let radarItemRepository = new RadarItemRepository();
 
         let radarSubject = { id: subjectId, name: subjectSearchField, url: subjectUrl };
 
         if (!isValid(currentEditItemId)){
-            if (isValid(radarSubjectId) && isValid(radarSubject.id) && radarSubject.id > 0){
-                radarItemRepository.addRadarItemExistingSubject(loggedInUser.id,
+            if (isValid(radarSubject) && isValid(radarSubject.id) && radarSubject.id > 0){
+                radarItemRepository.addRadarItemExistingSubject(authenticatedUser.id,
                    selectedRadar.id,
                    radarCategory,
                    radarRing,
@@ -114,7 +123,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                    saveRadarItemResponseHandler);
             }
             else{
-                radarItemRepository.addRadarItemNewSubject(loggedInUser.id,
+                radarItemRepository.addRadarItemNewSubject(authenticatedUser.id,
                    selectedRadar.id,
                    radarCategory,
                    radarRing,
@@ -125,7 +134,15 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                    saveRadarItemResponseHandler);
             }
         } else {
-
+            radarItemRepository.updateRadarItem(authenticatedUser.id,
+                selectedRadar.id,
+                selectedRadarItem.id,
+                radarCategory,
+                radarRing,
+                confidenceLevel,
+                assessmentDetails,
+                radarSubject,
+                saveRadarItemResponseHandler);
         }
     }
 
@@ -137,7 +154,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
 
     const handleRemoveRadarItem = () => {
         let radarItemRepository = new RadarItemRepository();
-        radarItemRepository.deleteRadarItem(loggedInUser.id, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
+        radarItemRepository.deleteRadarItem(authenticatedUser.id, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
     }
 
     const handleRemoveRadarItemResponse = (wasSuccessful, userId, radarId) => {
@@ -191,56 +208,51 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
     }
 
     return (
-       <div>
-           <div className="card panel-techradar">
-               <div className="card-title panel-heading-techradar">Radar Item</div>
-               <div id="assessmentDetailsPanel" className="card-body">
-                   <div className="row">
-                       <label>Radar Category:</label>
-                        <DropdownComponent title = { radarCategory.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarCategory) } data = { radarState.currentRadar.radarTemplate.radarCategories } />
-                   </div>
-                   <div className="row">
-                       <label>Name</label>
-                       <div className="input-group">
-                           <input type="text" id="subjectName" name="subjectName" defaultValue = { subjectSearchField } value={ subjectSearchField } onChange = { handleSubjectNameChange }/>
-                           <div className="input-group-btn">
-                               <button className="btn btn-techradar" type="submit" onClick= { handleSubjectSearchClick }><i className="bi bi-search"></i></button>
+       <div className="card mb-3">
+           <div className="card-body p-3">
+               <div className="container-fluid p-0">
+                   <div className="row g-3 align-items-end">
+                       <div className="col-md-3">
+                           <label className="form-label mb-1 small fw-bold">Name & Search</label>
+                           <div className="input-group input-group-sm">
+                               <input type="text" className="form-control" id="subjectName" name="subjectName" value={ subjectSearchField } onChange = { handleSubjectNameChange } placeholder="Search or Enter Name"/>
+                               <button className="btn btn-techradar" type="button" onClick= { handleSubjectSearchClick }><i className="bi bi-search"></i></button>
                            </div>
-                           <ListComponent id="searchResults" itemMap = { searchResultsRowDefinition(handleSearchResultsSelect) } data = { subjectSearchResults } />
-                       </div>
-                   </div>
-                   <div className="row">
-                       <label>Url</label>
-                       <div className="input-group">
-                           <input type="text" id="subjectUrl" name="subjectUrl" defaultValue={ subjectUrl } value={ subjectUrl } onChange={ handleSubjectUrlChange }/>
-                           <div className="input-group-btn">
-                               <button type="button" className="btn btn-techradar"><a href={ subjectUrl } target="_blank"><i className="bi bi-eye-fill"></i></a></button>
+                           <div style={{ position: 'absolute', zIndex: 1000, width: '20%' }}>
+                                <ListComponent id="searchResults" itemMap = { searchResultsRowDefinition(handleSearchResultsSelect) } data = { subjectSearchResults } />
                            </div>
                        </div>
-                   </div>
-                   <div className="row">
-                       <label>Radar Ring:</label>
-                       <DropdownComponent title = { radarRing.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarRing) } data = { radarState.currentRadar.radarTemplate.radarRings } />
-                   </div>
-                   <div className="row hidden">
-                       <div className="dropdown pull-left">
-                           <label>How well is it going so far?</label>
-                           <DropdownComponent title = { confidenceLevel.text } itemMap = { confidenceItemMap(handleSelectConfidence) } data = { confidenceOptions() } />
+                       <div className="col-md-2">
+                           <label className="form-label mb-1 small fw-bold">Category</label>
+                           <DropdownComponent title = { radarCategory.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarCategory) } data = { radarState.currentRadar.radarTemplate.radarCategories } />
                        </div>
-                   </div>
-                   <div className="row">
-                       <label>Details</label>
-                       <textarea rows="10" id="subjectDetails" name="subjectDetails" defaultValue = { assessmentDetails } value={ assessmentDetails } onChange = { handleAssessmentDetailsChange } />
-                   </div>
-                   <div className="row">
-                       <div className="col-md-3">
-                           <button type="button" className="btn btn-techradar" onClick = { handleClearForm }>Clear</button>
+                       <div className="col-md-2">
+                           <label className="form-label mb-1 small fw-bold">Ring</label>
+                           <DropdownComponent title = { radarRing.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarRing) } data = { radarState.currentRadar.radarTemplate.radarRings } />
                        </div>
                        <div className="col-md-3">
-                           <button type="button" className="btn btn-techradar" onClick = { handleAddRadarItem } disabled= { !canAddRadarItem() }>Save</button>
+                           <label className="form-label mb-1 small fw-bold">URL</label>
+                           <div className="input-group input-group-sm">
+                               <input type="text" className="form-control" id="subjectUrl" name="subjectUrl" value={ subjectUrl } onChange={ handleSubjectUrlChange } placeholder="http://..."/>
+                               <a className="btn btn-techradar" href={ subjectUrl } target="_blank"><i className="bi bi-eye-fill"></i></a>
+                           </div>
                        </div>
-                       <div className="col-md-3">
-                           <button type="button" className="btn btn-techradar" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
+                   </div>
+                   <div className="row mt-3">
+                       <div className="col-12">
+                           <label className="form-label mb-1 small fw-bold">Assessment Details</label>
+                           <textarea rows="2" className="form-control form-control-sm" id="subjectDetails" name="subjectDetails" value={ assessmentDetails } onChange = { handleAssessmentDetailsChange } placeholder="Enter assessment notes here..." style={{ resize: 'none' }}/>
+                       </div>
+                   </div>
+                   <div className="row mt-3">
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-sm btn-outline-secondary w-100" title="Clear Form" onClick = { handleClearForm }>Clear</button>
+                       </div>
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-sm btn-techradar w-100" title="Save Item" onClick = { handleSaveRadarItem } disabled= { !canAddRadarItem() }>Save</button>
+                       </div>
+                       <div className="col-md-4">
+                           <button type="button" className="btn btn-sm btn-danger w-100" title="Delete Item" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
                        </div>
                    </div>
                </div>

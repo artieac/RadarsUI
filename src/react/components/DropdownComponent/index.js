@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import { isValid } from 'Apps/Common/Utilities'
+
 import "./component.css"
 
 const DropdownComponent = ({ title, itemMap, data }) => {
     const renderSelectionButton = () =>{
         return(
-            <button className="btn btn-techradar dropdown-toggle" type="button" id="dropdownContainer" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <button className="btn btn-techradar dropdown-toggle" type="button" id="dropdownContainer" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title={title}>
                 { title } <span className="caret"></span>
             </button>
         );
     }
 
     const renderOptions = () => {
-        if(data!='undefined' && data!=null && data.length > 0){
+        if(isValid(data) && data.length > 0){
             return(
                 data.map((item, index) => (
                     <li key={index}>

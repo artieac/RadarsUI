@@ -1,4 +1,19 @@
+.navbar-default .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.88);
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border-radius: 4px;
+}
+
 .navbar .navbar-nav .nav-link:hover {
-  background-color: white;
-  color: #5493E0;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.navbar-default .navbar-brand {
+  color: #ffffff;
+  letter-spacing: 3px;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: rgba(255, 255, 255, 0.8);
 }

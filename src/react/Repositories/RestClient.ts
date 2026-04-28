@@ -2,7 +2,9 @@ import jQuery from 'jquery';
 import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
-     webServiceUrlRoot = "http://technologyradar.amflocal.com:8081";
+    getWebServiceUrlRoot() {
+        return import.meta.env.REACT_APP_TECHNOLOGY_API_URL;
+    }
 
      getRequest(url: string, responseHandler: Function) {
         jQuery.ajax({
@@ -12,20 +14,31 @@ export class RestClient {
                      'credentials': 'include',
              },
              type: "GET",
-             url: this.webServiceUrlRoot + url,
+             url: this.getWebServiceUrlRoot() + url,
+             xhrFields: {
+                 withCredentials: true
+             },
              async: true,
              dataType: 'json',
              success: function(data: any) {
                    responseHandler(true, data);
               },
              error: function(xhr: any, status: any, err: any) {
-                   responseHandler(false);
+                   responseHandler(false, err);
              }
        });
     }
 
     postRequest(url: string, params: any, responseHandler: Function){
-        if(isValid(params)){
+        let effectiveParams = params;
+        let effectiveHandler = responseHandler;
+
+        if (typeof params === 'function') {
+            effectiveHandler = params;
+            effectiveParams = {};
+        }
+
+        if(isValid(effectiveParams)){
             jQuery.ajax({
                   headers: {
                      'Accept': 'application/json',
@@ -33,13 +46,16 @@ export class RestClient {
                      'credentials': 'include',
                   },
                   type: "POST",
-                  url: this.webServiceUrlRoot + url,
-                  data: JSON.stringify(params),
+                  url: this.getWebServiceUrlRoot() + url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
+                  data: JSON.stringify(effectiveParams),
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
@@ -51,19 +67,30 @@ export class RestClient {
                      'credentials': 'include',
                   },
                   type: "POST",
-                  url: this.webServiceUrlRoot + url,
+                  url: this.getWebServiceUrlRoot() + url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
     }
 
     putRequest(url: string, params: any, responseHandler: Function){
-        if(isValid(params)){
+        let effectiveParams = params;
+        let effectiveHandler = responseHandler;
+
+        if (typeof params === 'function') {
+            effectiveHandler = params;
+            effectiveParams = {};
+        }
+
+        if(isValid(effectiveParams)){
             jQuery.ajax({
                   headers: {
                      'Accept': 'application/json',
@@ -71,13 +98,16 @@ export class RestClient {
                      'credentials': 'include',
                   },
                   type: "PUT",
-                  url: this.webServiceUrlRoot + url,
-                  data: JSON.stringify(params),
+                  url: this.getWebServiceUrlRoot() + url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
+                  data: JSON.stringify(effectiveParams),
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
@@ -90,11 +120,14 @@ export class RestClient {
                   },
                   type: "PUT",
                   url: url,
+                  xhrFields: {
+                    withCredentials: true
+                  },
                   success: function(data: any) {
-                        responseHandler(true, data);
+                        effectiveHandler(true, data);
                    },
                   error: function(xhr: any, status: any, err: any) {
-                        responseHandler(false);
+                        effectiveHandler(false);
                   }
             });
         }
@@ -108,7 +141,10 @@ export class RestClient {
                      'credentials': 'include',
               },
               type: "DELETE",
-              url: this.webServiceUrlRoot + url,
+              url: this.getWebServiceUrlRoot() + url,
+              xhrFields: {
+                withCredentials: true
+              },
               success: function(data: any) {
                     responseHandler(true, data);
                },

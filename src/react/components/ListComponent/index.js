@@ -23,7 +23,7 @@ const ListComponent = ({ id, itemMap, data }) => {
 
 ListComponent.propTypes = {
     data: PropTypes.array.isRequired,
-    itemMap: PropTypes.array.isRequired,
+    itemMap: PropTypes.object.isRequired,
     id: PropTypes.string
 }
 

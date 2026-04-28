@@ -3,7 +3,7 @@ import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { addRadarTemplatesToState} from 'Redux/RadarTemplateReducer'
 import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
 import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
@@ -12,6 +12,7 @@ import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { radarTemplateDropdownMap } from './radarTemplateDropdownMap'
 import { isValid } from 'Apps/Common/Utilities'
 import RadarSelectionComponent from './RadarSelectionComponent'
+import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
 export const SelectRadarControl = ({ radarViewParams }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,11 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     const [targetedRadar, setTargetedRadar] = useState(null);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setRadarTemplates([]);
+    }, [radarViewParams.userIdParam]);
 
     useEffect(() => {
         if(isValid(radarTemplates) && radarTemplates.length > 0){
@@ -30,7 +36,15 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 radarRepository.getByUserIdAndRadarId(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarIdParam, getRadarResponseHandler);
             } else {
                 if(radarViewParams.getMostRecent==true){
-                    radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getUserIdToView(), getRadarResponseHandler);
+                    if(isValid(radarViewParams.radarTemplateIdParam) && radarViewParams.radarTemplateIdParam > 0){
+                        radarRepository.getMostRecentRadarByTemplate(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
+                    } else {
+                        radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getUserIdToView(), getRadarResponseHandler);
+                    }
+                } else {
+                    if(radarViewParams.getFullView==true){
+                        radarRepository.getFullView(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
+                    }
                 }
             }
         }
@@ -43,7 +57,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 radarTemplateRepository.getByUserId(radarViewParams.getUserIdToView(), getRadarTemplatesResponse);
             }
         }
-    }, [radarTemplates]);
+    }, [radarTemplates, radarViewParams.radarIdParam, radarViewParams.radarTemplateIdParam, radarViewParams.getMostRecent, radarViewParams.getFullView]);
 
     const getRadarTemplatesResponse = (wasSuccessful, data) => {
         if(wasSuccessful){
@@ -55,6 +69,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     const getRadarResponseHandler = (wasSuccessful, data) =>{
         if(wasSuccessful){
             setTargetedRadar(data);
+
             for(var i = 0; i < radarTemplates.length; i++){
                 if(radarTemplates[i].id==data.radarTemplate.id){
                     handleRadarTemplateSelection(radarTemplates[i]);
@@ -70,12 +85,28 @@ export const SelectRadarControl = ({ radarViewParams }) => {
         generateSharingLinks(targetRadarTemplate);
     }
 
+    const onRadarTemplateSelectionChanged = (targetRadarTemplate) => {
+        handleRadarTemplateSelection(targetRadarTemplate);
+
+        let baseUrl = radarViewParams.isPublic ? "/public/home" : "/home";
+
+        if(window.location.pathname.startsWith("/admin")){
+            baseUrl = "/admin";
+        }
+
+        if (isValid(targetRadarTemplate) && targetRadarTemplate.id > 0) {
+            navigate(`${baseUrl}/user/${radarViewParams.getUserIdToView()}/radartemplate/${targetRadarTemplate.id}/radars/mostRecent`);
+        }
+    }
+
     const generateSharingLinks = (radarTemplate) => {
+        let configurationSettings = new ConfigurationSettings();
+
         if(isValid(radarTemplate) && isValid(radarTemplate.id)){
-            setMostRecentRadarsLink("/public/home/user/" + radarViewParams.getUserIdToView() + "/radartemplate/" + radarTemplate.id + "/radars?mostrecent=true");
+            setMostRecentRadarsLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + radarViewParams.getUserIdToView() + "&radarTemplateId=" + radarTemplate.id + "&mostRecent=true");
         }
         else {
-            setMostRecentRadarsLink("/public/home/radars/" + radarViewParams.getUserIdToView());
+            setMostRecentRadarsLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + radarViewParams.getUserIdToView());
         }
     }
 
@@ -88,8 +119,14 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     }
 
     const getRadarIdParam = (testRadar) => {
-        if(isValid(testRadar) && isValid(testRadar.id)){
-            return testRadar.id;
+        if(isValid(testRadar)){
+            if(isValid(testRadar.id)){
+                return testRadar.id;
+            }
+
+            if(isValid(testRadar.radarId)){
+                return testRadar.radarId;
+            }
         }
 
         return -1;
@@ -101,7 +138,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 <label>Select Radar Template:</label>
                 <div className="row">
                     <div className="col-md-4">
-                        <DropdownComponent title = { getRadarTemplateName(selectedRadarTemplate) } data={ radarTemplates } itemMap = { radarTemplateDropdownMap(handleRadarTemplateSelection) } />
+                        <DropdownComponent title = { getRadarTemplateName(selectedRadarTemplate) } data={ radarTemplates } itemMap = { radarTemplateDropdownMap(onRadarTemplateSelectionChanged) } />
                     </div>
                     <div className="col-md-1">
                         <a href={ mostRecentRadarsLink }><img src="/images/LinkIcon.png" alt=""/></a>

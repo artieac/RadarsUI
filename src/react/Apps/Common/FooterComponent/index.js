@@ -17,13 +17,13 @@ export const FooterComponent = ({ mostRecent } ) => {
                             <h5>useful links</h5>
                             <a href="http://alwaysmoveforward.com" className="footer-link">AlwaysMoveForward.com</a>
                             <a href="http://blog.alwaysmoveforward.com" className="footer-link">Blog</a>
-                            <a href="http://technologyradar.alwaysmoveforward.com" className="footer-link">Your Technology Radar</a>
+                            <a href="https://technologyradar.alwaysmoveforward.com" className="footer-link">Your Technology Radar</a>
                         </div>
                         <div className="col-md-4">
                             <h5>social</h5>
                             <div className="footer-link-wrapper w-clearfix">
                                 <img src="/images/social-09.svg" width="20" alt="" className="info-icon"/>
-                                <a href="https://www.linkedin.com/in/arthur-correa-00864a1" className="footer-link with-icon">Linked In</a>
+                                <a href="https://www.linkedin.com/in/arthur--correa" className="footer-link with-icon">Linked In</a>
                             </div>
                             <div className="footer-link-wrapper w-clearfix">
                                 <img src="/images/social-18.svg" width="20" alt="" className="info-icon"/>

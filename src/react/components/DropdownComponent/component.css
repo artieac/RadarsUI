@@ -1,0 +1,24 @@
+.dropdown-toggle {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 400px; /* Cap at a reasonable absolute width */
+    text-align: left;
+}
+
+/* 
+   Ensure it never touches its neighbor by capping at 98%.
+   This provides that 'hint of whitespace' regardless of the screen size.
+*/
+.dropdown {
+    max-width: 98%;
+}
+
+.dropdown-toggle {
+    max-width: 100%;
+}
+
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}

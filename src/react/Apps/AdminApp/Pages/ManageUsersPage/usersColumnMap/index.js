@@ -1,30 +1,12 @@
 'use strict'
-import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from "react-redux"
-import { Link } from 'react-router-dom';
-import DropdownComponent from "SharedComponents/DropdownComponent";
-import dropdownItem from "SharedComponents/DropdownComponent/dropdownItem";
+import React from 'react';
+import { isValid } from 'Apps/Common/Utilities';
+
+const getRadarUrl = (rowData) => {
+    return "/admin/user/" + rowData.id + "/radars";
+}
 
 const userColumnMap = (roles) => {
-    const [dropdownSelection, setDropdownSelection] = useState({});
-    const dispatch = useDispatch();
-
-    const handleDropdownSelectionChange = (selectedItem) => {
-        setDropdownSelection(selectedItem);
-    }
-
-    const getDropdownSelection = (selectedItem) => {
-        if(dropdownSelection!=undefined && dropdownSelection.name !== undefined){
-            return dropdownSelection.name;
-        }
-
-        return "Select";
-    }
-
-    const getRadarUrl = (rowData) => {
-        return "/home/user/" + rowData.id + "/radars";
-    }
-
     return [
     {
         title: 'Name',
@@ -46,7 +28,7 @@ const userColumnMap = (roles) => {
         render: rowData => {
             return (
                 <span>
-                    <DropdownComponent title= { getDropdownSelection() }  itemMap= { dropdownItem(handleDropdownSelectionChange, "description", "name") } data={roles}/>
+                    {isValid(rowData.role) ? rowData.role.name : "N/A"}
                 </span>
             );
         },
@@ -55,15 +37,17 @@ const userColumnMap = (roles) => {
          title: 'UserType',
          key: 'userType',
          render: rowData => {
-             return <span>{rowData.userType.name}</span>;
+             return <span>{isValid(rowData.userType) ? rowData.userType.name : "N/A"}</span>;
          }
     },
     {
          title: 'Radars',
          key: 'radars',
          render: rowData => {
-             return ( <a className="btn btn-techradar" href={ this.getRadarUrl()}>Radars</a>);
+             return ( <a className="btn btn-techradar" href={ getRadarUrl(rowData)}>Radars</a>);
         }
     }
   ];
 };
+
+export default userColumnMap;

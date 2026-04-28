@@ -4,58 +4,48 @@ import ViewRadarTemplateControl from './ViewRadarTemplateControl';
 import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository';
 import { UserRepository } from 'Repositories/UserRepository';
 import DivTableComponent2 from 'SharedComponents/DivTableComponent2';
-import { radarTemplateColumns } from './radarTemplateColumns';
 import { RadarTemplateRowDefinition } from './RadarTemplateRowDefinition'
 import { isValid } from 'Apps/Common/Utilities'
+import { addAssociatedRadarTemplatesToState } from 'Redux/RadarTemplateReducer'
 
 export const ManageAssociatedRadarTemplatesPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [selectedRadarTemplate, setSelectedRadarTemplate] = useState({});
-    const [associatedTemplates, setAssociatedTemplates] = useState([]);
-    const [sharedTemplates, setSharedTemplates] = useState([]);
+    const [mySharedTemplates, setMySharedTemplates] = useState([]);
+    const [templatesFromOthers, setTemplatesFromOthers] = useState([]);
 
     const dispatch = useDispatch();
 
-    const loggedInUser = useSelector((state) => state.userReducer.currentUser);
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useEffect(() => {
         let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getAssociatedRadarTemplates(loggedInUser.id, handleGetAssociatedRadarTemplatesResponse);
+        
+        // Fetch User's templates to identify which are shared
+        radarTemplateRepository.getByUserId(authenticatedUser.id, (wasSuccessful, data) => {
+            if (wasSuccessful) {
+                setMySharedTemplates(data.filter(t => t.isPublished));
+            }
+        });
+
+        // Fetch templates shared by others
+        radarTemplateRepository.getOtherUsersSharedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+            if (wasSuccessful) {
+                setTemplatesFromOthers(data);
+                if (data.length > 0 && !selectedRadarTemplate.id) {
+                    setSelectedRadarTemplate(data[0]);
+                }
+            }
+            setIsLoading(false);
+        });
+
+        // Also fetch currently associated templates to keep state in sync
+        radarTemplateRepository.getAssociatedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+            if (wasSuccessful) {
+                dispatch(addAssociatedRadarTemplatesToState(data));
+            }
+        });
     }, []);
-
-    const handleGetAssociatedRadarTemplatesResponse = (wasSuccessful, data) => {
-        if(wasSuccessful==true){
-            setAssociatedTemplates(data);
-        }
-
-        let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getOtherUsersSharedRadarTemplates(loggedInUser.id, handleGetOtherUsersSharedRadarTemplatesResponse);
-    }
-
-    const handleGetOtherUsersSharedRadarTemplatesResponse = (wasSuccessful, data) => {
-        if(wasSuccessful==true){
-            for(var i = 0; i < associatedTemplates.length; i++){
-                var associatedRadarTemplate = associatedTemplates[i];
-                var foundMatch = false;
-
-                for(var j = 0; j < sharedRadarTemplates.length; j++){
-                    if(associatedRadarTemplate.id == sharedRadarTemplates[j].id){
-                        foundMatch = true;
-                   }
-                }
-
-                if(foundMatch == false){
-                    data.push(associatedRadarTemplate);
-                }
-            }
-
-            setSharedTemplates(data);
-
-            if(data.length > 0){
-                setSelectedRadarTemplate(data[0]);
-            }
-        }
-    }
 
     const handleViewTemplateClick = (rowData) => {
         setSelectedRadarTemplate(rowData);
@@ -63,18 +53,47 @@ export const ManageAssociatedRadarTemplatesPage = () => {
 
     return (
         <div className="bodyContent">
-            <div className="contentPageTitle">
-                <label>Associate Radar Templates From Others</label>
+            <div className="contentPageTitle mb-3">
+                <h2 className="text-start">Associate Radar Templates From Others</h2>
             </div>
-            <p>Discover Radar Templates that others have created</p>
+            
             <div className="row">
                 <div className="col-md-6">
-                    <DivTableComponent2
-                        data={ sharedTemplates }
-                        rowDefinition={ RadarTemplateRowDefinition(handleViewTemplateClick) } />
+                    <div className="card mb-4 border-0">
+                        <div className="card-header bg-techradar text-white fw-bold">
+                            Shared by You
+                        </div>
+                        <div className="card-body p-0 border border-top-0">
+                            <DivTableComponent2
+                                data={ mySharedTemplates }
+                                rowDefinition={ RadarTemplateRowDefinition(handleViewTemplateClick, true) } />
+                            {mySharedTemplates.length === 0 && <div className="p-3 text-center text-muted">You haven't shared any templates yet.</div>}
+                        </div>
+                    </div>
+
+                    <div className="card border-0">
+                        <div className="card-header bg-techradar text-white fw-bold">
+                            Shared by others
+                        </div>
+                        <div className="card-body p-0 border border-top-0">
+                            <DivTableComponent2
+                                data={ templatesFromOthers }
+                                rowDefinition={ RadarTemplateRowDefinition(handleViewTemplateClick, false) } />
+                            {templatesFromOthers.length === 0 && <div className="p-3 text-center text-muted">No templates available from other users.</div>}
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-6">
-                    { isValid(selectedRadarTemplate) && isValid(selectedRadarTemplate.id) ? <ViewRadarTemplateControl selectedTemplate = { selectedRadarTemplate } /> : <div/> }
+                    { isValid(selectedRadarTemplate) && isValid(selectedRadarTemplate.id) ? (
+                        <div className="card sticky-top border-0 shadow-sm" style={{ top: '20px' }}>
+                            <div className="card-header bg-light fw-bold border">
+                                Template Details: {selectedRadarTemplate.name}
+                            </div>
+                            <div className="card-body border border-top-0">
+                                <ViewRadarTemplateControl selectedTemplate = { selectedRadarTemplate } />
+                            </div>
+                        </div>
+                    ) : null }
                 </div>
             </div>
         </div>
