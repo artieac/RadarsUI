@@ -18,14 +18,23 @@ export const radarCategoryColumns = () => {
       title: 'Name',
       key: 'name',
       render: rowData => {
-        return <span> { rowData.name }</span>;
+        return <span className="small fw-bold"> { rowData.name }</span>;
       },
     },
     {
         title: "Icon Color",
         key: "iconColor",
         render: rowData => {
-            return <span>{ colorMapLookup(rowData).name } </span>;
+            const colorInfo = colorMapLookup(rowData);
+            return (
+                <div className="d-flex align-items-center">
+                    <div 
+                        className="rounded-circle me-2" 
+                        style={{ width: '12px', height: '12px', backgroundColor: colorInfo.value, border: '1px solid #ddd' }}
+                    ></div>
+                    <span className="small text-muted">{ colorInfo.name }</span>
+                </div>
+            );
         },
     }
   ];

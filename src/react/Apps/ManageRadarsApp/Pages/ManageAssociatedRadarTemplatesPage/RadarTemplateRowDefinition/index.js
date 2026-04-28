@@ -1,26 +1,32 @@
+'use strict'
 import React from 'react';
-import DropdownComponent from 'SharedComponents/DropdownComponent'
 import RadarTemplateRowComponent from './RadarTemplateRowComponent'
 
-export const RadarTemplateRowDefinition = ( handleViewTemplateClick ) => {
+export const RadarTemplateRowDefinition = ( handleViewTemplateClick, isMyShared ) => {
+  const metadata = [
+    {
+      title: 'Template Name',
+      key: 'name',
+    }
+  ];
+
+  if (!isMyShared) {
+    metadata.push({
+      title: 'Use This',
+      key: 'useThis',
+    });
+  }
+
+  metadata.push({
+    title: 'Actions',
+    key: 'actions',
+  });
+
   return (
     {
-        metadata: [
-            {
-              title: 'Name',
-              key: 'name',
-            },
-            {
-              title: 'Use This?',
-              key: 'useThis',
-            },
-            {
-                title: 'Actions',
-                key: 'actions',
-            },
-        ],
+        metadata: metadata,
         render: ( rowData, rowAlternating ) => {
-            return <RadarTemplateRowComponent rowData = { rowData } handleViewClick = { handleViewTemplateClick } rowAlternating = { rowAlternating }/>
+            return <RadarTemplateRowComponent rowData = { rowData } handleViewClick = { handleViewTemplateClick } rowAlternating = { rowAlternating } isMyShared = { isMyShared }/>
         }
     });
 };
