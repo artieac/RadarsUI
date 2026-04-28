@@ -88,7 +88,7 @@ const AddRadarComponent = () => {
                         </div>
                     </div>
                     <div className="col-md-2">
-                        <button type="submit" className="btn btn-techradar w-100">Add Radar</button>
+                        <button type="submit" className="btn btn-techradar w-100" title="Add a new Template to rate different types of things">Add Radar</button>
                     </div>
                 </form>
             </div>
