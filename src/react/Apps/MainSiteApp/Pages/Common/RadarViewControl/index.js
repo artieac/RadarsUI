@@ -25,7 +25,12 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
     }, [currentRadar, isPublic, userId]);
 
     const handleQuadrantTitleClick = (quadrantName) => {
-        const baseUrl = isPublic ? "/public/home" : "/home";
+        let baseUrl = isPublic ? "/public/home" : "/home";
+
+        if(window.location.pathname.startsWith("/admin")){
+            baseUrl = "/admin";
+        }
+
         const radarId = currentRadar.id;
         navigate(`${baseUrl}/user/${userId}/radar/${radarId}/quadrant/${quadrantName}`);
     };

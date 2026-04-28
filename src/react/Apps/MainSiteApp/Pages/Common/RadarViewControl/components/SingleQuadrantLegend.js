@@ -1,8 +1,10 @@
 'use strict'
 import React from 'react';
 import _ from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 const SingleQuadrantLegend = ({ quadrant, arcs, onClick, blipStartNumber, onTitleClick }) => {
+    const navigate = useNavigate();
     let localCounter = blipStartNumber;
 
     // Group items by ring for this quadrant
@@ -12,6 +14,13 @@ const SingleQuadrantLegend = ({ quadrant, arcs, onClick, blipStartNumber, onTitl
         }
         return 0;
     });
+
+    const handleInfoClick = (e, subjectId) => {
+        e.stopPropagation();
+        navigate(`/public/radarsubject/${subjectId}`, { 
+            state: { returnPath: window.location.pathname } 
+        });
+    };
 
     return (
         <div className="quadrant-legend mb-4">
@@ -80,6 +89,12 @@ const SingleQuadrantLegend = ({ quadrant, arcs, onClick, blipStartNumber, onTitl
                                         <span style={{ flex: 1 }}>
                                             {item.name}
                                         </span>
+                                        <i 
+                                            className="bi bi-info-circle ms-2" 
+                                            style={{ color: '#999', cursor: 'pointer' }}
+                                            onClick={(e) => handleInfoClick(e, item.assessmentItem.technology.id)}
+                                            title="View Details"
+                                        />
                                     </li>
                                 );
                             })}

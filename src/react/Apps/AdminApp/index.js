@@ -12,6 +12,7 @@ import HeaderComponent from 'Apps/Common/HeaderComponent'
 import FooterComponent from 'Apps/Common/FooterComponent'
 import HomePage from './Pages/HomePage'
 import ManageUsersPage from './Pages/ManageUsersPage'
+import PublicRadarPage from 'Apps/MainSiteApp/Pages/PublicRadarPage'
 import NavBarRowDefinition from './NavBarRowDefinition'
 import { isValid } from 'Apps/Common/Utilities'
 
@@ -34,6 +35,12 @@ export default function AdminApp() {
                 ? <Routes>
                     <Route path="/" element={ <HomePage authenticatedUser={ currentUser }/> } />
                     <Route path="/admin/manageusers" element={ <ManageUsersPage/> } />
+                    <Route path="/admin/user/:userId/radars" element={ <PublicRadarPage mostRecent={ true } /> } />
+                    <Route path="/admin/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true } /> } />
+                    <Route path="/admin/user/:userId/radar/:radarId/quadrant/:quadrantName" element={ <PublicRadarPage mostRecent={ true } /> } />
+                    <Route path="/admin/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
+                    <Route path="/admin/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={ true } /> } />
+                    <Route path="/admin/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={ true } /> } />
                   </Routes>
                  : <div/>
              }
