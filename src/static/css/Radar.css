@@ -205,3 +205,8 @@ body{
   background-color: #fff !important;
   border-color: #3898EC !important;
 }
+
+.bg-techradar {
+    background-color: #3898EC !important;
+    color: white !important;
+}
