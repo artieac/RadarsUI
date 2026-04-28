@@ -26,7 +26,7 @@ export class RadarViewParams {
     }
 
     getUserIdToView() {
-        if(this.isPublic==true){
+        if(this.isPublic==true || (isValid(this.userIdParam) && this.userIdParam > 0)){
             return this.userIdParam;
         } else {
             if(isValid(this.authenticatedUser) && isValid(this.authenticatedUser.id)){
