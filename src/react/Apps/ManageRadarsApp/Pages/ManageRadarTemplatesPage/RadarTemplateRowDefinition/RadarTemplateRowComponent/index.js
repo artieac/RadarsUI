@@ -8,10 +8,22 @@ export const RadarTemplateRowComponent = ({ rowData, handleViewClick, handleDele
         <tr key={ rowData.id } >
             <td>{rowData.name}</td>
             <td>
-                <span>
-                    <img src="/images/arrow_right.png" onClick = {(event) => handleViewClick(rowData) }/>
-                    <img src="/images/action_delete.png" onClick = {(event) => handleDeleteClick(rowData) }/>
-                </span>
+                <div className="d-flex align-items-center gap-2">
+                    <button 
+                        className="btn btn-sm btn-outline-techradar border-0 p-1" 
+                        onClick={() => handleViewClick(rowData)}
+                        title="View Details"
+                    >
+                        <i className="bi bi-eye-fill fs-5"></i>
+                    </button>
+                    <button 
+                        className="btn btn-sm btn-outline-danger border-0 p-1" 
+                        onClick={() => handleDeleteClick(rowData)}
+                        title="Delete Template"
+                    >
+                        <img src="/images/action_delete.png" alt="Delete"/>
+                    </button>
+                </div>
             </td>
         </tr>
     );
