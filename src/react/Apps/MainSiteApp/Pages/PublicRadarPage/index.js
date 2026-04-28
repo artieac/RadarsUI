@@ -25,8 +25,6 @@ export const PublicRadarPage = ({ mostRecent, fullView } ) => {
         setShowSelectedRadarItem(radarItem);
     }
 
-    const isReadOnlyView = window.location.pathname.startsWith("/admin") || true;
-
     return (
         <div className="card">
             <div className="card-title panel-heading-techradar">Which Radar?</div>
@@ -34,7 +32,7 @@ export const PublicRadarPage = ({ mostRecent, fullView } ) => {
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <SelectRadarControl radarViewParams = { new RadarViewParams(!window.location.pathname.startsWith("/admin"), userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView) } />
+                            <SelectRadarControl radarViewParams = { new RadarViewParams(true, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView) } />
                         </div>
                     </div>
                 </div>
@@ -42,7 +40,7 @@ export const PublicRadarPage = ({ mostRecent, fullView } ) => {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-9">
-                                <RadarViewControl handleClickRadarItem = { handleClickRadarItem } userId = { userId } isPublic = { !window.location.pathname.startsWith("/admin") }/>
+                                <RadarViewControl handleClickRadarItem = { handleClickRadarItem } userId = { userId } isPublic = { true }/>
                             </div>
                         </div>
                     </div>
