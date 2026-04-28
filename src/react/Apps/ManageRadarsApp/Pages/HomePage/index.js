@@ -20,8 +20,8 @@ const HomePage = ( {  }) => {
         <div className="container">
             <div className="row">
                 <div className="col-md-12">
-                    <div className="contentPageTitle">
-                        <label>Manage your configurations</label>
+                    <div className="contentPageTitle mb-3">
+                        <h2 className="text-start">Manage your configurations</h2>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@ const HomePage = ( {  }) => {
                     <div className="card-group">
                         <LinkActionCardComponent
                             title="Manage Your Radar Templates"
-                            description="A Radar Templates defines how you will classify and rate your topics."
+                            description="A Radar Template defines how you will classify and rate your topics."
                             linkTarget="/radarTemplates"
                             buttonText="Radar Templates"/>
                         <LinkActionCardComponent
