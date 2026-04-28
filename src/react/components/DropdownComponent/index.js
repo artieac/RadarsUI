@@ -7,7 +7,7 @@ import "./component.css"
 const DropdownComponent = ({ title, itemMap, data }) => {
     const renderSelectionButton = () =>{
         return(
-            <button className="btn btn-techradar dropdown-toggle" type="button" id="dropdownContainer" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <button className="btn btn-techradar dropdown-toggle w-100" type="button" id="dropdownContainer" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title={title}>
                 { title } <span className="caret"></span>
             </button>
         );
