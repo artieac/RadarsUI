@@ -1,0 +1,16 @@
+.dropdown-toggle {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+    text-align: left;
+}
+
+.dropdown {
+    width: 100%;
+}
+
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}

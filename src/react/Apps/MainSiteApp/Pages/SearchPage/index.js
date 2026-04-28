@@ -1,7 +1,6 @@
-import jQuery from 'jquery';
+'use strict'
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import ReactDOM from 'react-dom';
 import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
 import { RadarItemRepository } from 'Repositories/RadarItemRepository'
 import DropdownComponent from 'SharedComponents/DropdownComponent'
@@ -15,60 +14,61 @@ import { isValid } from 'Apps/Common/Utilities'
 export const SearchPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [subjectName, setSubjectName] = useState("");
-    const [sharedRadarTemplates, setSharedRadarTemplates] = useState([]);
-    const [selectedSharedTemplate, setSelectedSharedTemplate] = useState({ name: "Select" } );
-    const [userRadarTemplates, setUserRadarTemplates] = useState([]);
-    const [selectedUserTemplate, setSelectedUserTemplate] = useState({ name: "Select" } );
-    const [selectedTemplate, setSelectedTemplate] = useState({ radarRings: [], radarCategories: []});
+    const [radarTemplates, setRadarTemplates] = useState([]);
+    const [selectedRadarTemplate, setSelectedRadarTemplate] = useState({ name: "Select", radarRings: [], radarCategories: [] } );
     const [selectedRadarCategory, setSelectedRadarCategory] = useState( { name: "Select" });
     const [selectedRadarRing, setSelectedRadarRing] = useState( { name: "Select" });
     const [searchResults, setSearchResults] = useState([]);
 
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
-    const dispatch = useDispatch();
-
-     useEffect(() => {
-        getSharedRadarTemplates(authenticatedUser.id, getSharedRadarTemplatesResponse);
-        getUserRadarTemplates(authenticatedUser.id, getUserRadarTemplatesResponse);
-    }, []);
-
-    const getSharedRadarTemplates = () => {
-         let radarTemplateRepository = new RadarTemplateRepository();
-         radarTemplateRepository.getPublishedRadarTemplates(getSharedRadarTemplatesResponse);
-    }
-
-    const getSharedRadarTemplatesResponse = (wasSuccessful, data) => {
-        if(wasSuccessful){
-            setSharedRadarTemplates(data);
-            setIsLoading(false);
+    useEffect(() => {
+        const radarTemplateRepository = new RadarTemplateRepository();
+        
+        if (isValid(authenticatedUser) && authenticatedUser.id > 0) {
+            radarTemplateRepository.getOwnedAndAssociatedByUserId(authenticatedUser.id, (wasSuccessful, data) => {
+                if (wasSuccessful) {
+                    // Start with user's templates
+                    let combinedTemplates = [...data];
+                    
+                    // Then add published ones that aren't already there
+                    radarTemplateRepository.getPublishedRadarTemplates((pubSuccessful, pubData) => {
+                        if (pubSuccessful) {
+                            pubData.forEach(pubTemp => {
+                                if (!combinedTemplates.find(t => t.id === pubTemp.id)) {
+                                    combinedTemplates.push(pubTemp);
+                                }
+                            });
+                        }
+                        setRadarTemplates(combinedTemplates);
+                        setIsLoading(false);
+                    });
+                } else {
+                    fetchPublishedOnly(radarTemplateRepository);
+                }
+            });
+        } else {
+            fetchPublishedOnly(radarTemplateRepository);
         }
-    }
+    }, [authenticatedUser]);
 
-    const getUserRadarTemplates = () => {
-         let radarTemplateRepository = new RadarTemplateRepository();
-         radarTemplateRepository.getPublishedRadarTemplates(getUserRadarTemplatesResponse);
-    }
-
-    const getUserRadarTemplatesResponse = (wasSuccessful, data) => {
-        if(wasSuccessful){
-            setUserRadarTemplates(data);
+    const fetchPublishedOnly = (repository) => {
+        repository.getPublishedRadarTemplates((wasSuccessful, data) => {
+            if (wasSuccessful) {
+                setRadarTemplates(data);
+            }
             setIsLoading(false);
-        }
+        });
     }
 
     const handleSubjectNameChange = (event) => {
         setSubjectName(event.target.value);
     }
 
-    const handleSharedRadarTemplateSelection = (template) => {
-        setSelectedSharedTemplate(template);
-        setSelectedTemplate(template);
-    }
-
-    const handleUserRadarTemplateSelection = (template) => {
-        setSelectedUserTemplate(template);
-        setSelectedTemplate(template);
+    const handleRadarTemplateSelection = (template) => {
+        setSelectedRadarTemplate(template);
+        setSelectedRadarCategory({ name: "Select" });
+        setSelectedRadarRing({ name: "Select" });
     }
 
     const handleRadarCategorySelection = (category) => {
@@ -79,62 +79,66 @@ export const SearchPage = () => {
         setSelectedRadarRing(ring);
     }
 
-    const handleOnSearchClick = (event) => {
+    const handleOnSearchClick = () => {
         let radarItemRepository = new RadarItemRepository();
-        radarItemRepository.searchForRadarSubject(subjectName, selectedTemplate, selectedRadarCategory, selectedRadarRing, isValid(authenticatedUser), handleSearchResponse);
+        radarItemRepository.searchForRadarSubject(subjectName, selectedRadarTemplate, selectedRadarCategory, selectedRadarRing, !isValid(authenticatedUser), handleSearchResponse);
     }
 
     const handleSearchResponse = (wasSuccessful, data) => {
-        if(wasSuccessful==true){
+        if(wasSuccessful === true){
             setSearchResults(data);
         }
     }
 
     const handleSearchResultsSelect = (event) => {
+        // TBD
     }
 
     return (
         <div className="card">
-            <div className="card panel-techradar" ng-form="searchInputForm">
-                <div className="card-title panel-heading-techradar">Radar Subject</div>
+            <div className="card panel-techradar">
+                <div className="card-title panel-heading-techradar">Search Technologies</div>
                 <div className="card-body">
-                    <div className="row">
+                    <div className="row g-3 align-items-end">
                         <div className="col-md-3">
-                            <label for="searchName">Name</label>
-                            <input type="text" className="form-control" value = { subjectName } onChange = {(event) => handleSubjectNameChange(event) } />
+                            <label className="form-label fw-bold small">Technology Name</label>
+                            <input type="text" className="form-control form-control-sm" placeholder="e.g. React" value={subjectName} onChange={handleSubjectNameChange} />
                         </div>
                         <div className="col-md-3">
-                            <div className="row">
-                                <label for="searchName">Shared Templates</label>
-                                <DropdownComponent title = { selectedSharedTemplate.name } data={ sharedRadarTemplates } itemMap = { radarTemplateDropdownMap(handleSharedRadarTemplateSelection) } />
-                            </div>
-                            <div className={ isValid(authenticatedUser) ? "row" : "hidden"}>
-                                <label for="userRadarTemplatesDropdown">My Templates</label>
-                                <DropdownComponent title = { selectedUserTemplate.name } data={ userRadarTemplates } itemMap = { radarTemplateDropdownMap(handleUserRadarTemplateSelection) } />
-                            </div>
+                            <label className="form-label fw-bold small">Radar Template</label>
+                            <DropdownComponent title={selectedRadarTemplate.name} data={radarTemplates} itemMap={radarTemplateDropdownMap(handleRadarTemplateSelection)} />
                         </div>
                         <div className="col-md-2">
-                            <div className="dropdown pull-left">
-                                <label for="radarCategoryDropdown">Category</label>
-                                <DropdownComponent title = { selectedRadarCategory.name } data={ selectedTemplate.radarCategories } itemMap = { radarCategoryDropdownMap(handleRadarCategorySelection) } />
-                            </div>
+                            <label className="form-label fw-bold small">Category</label>
+                            <DropdownComponent title={selectedRadarCategory.name} data={selectedRadarTemplate.radarCategories || []} itemMap={radarCategoryDropdownMap(handleRadarCategorySelection)} />
                         </div>
                         <div className="col-md-2">
-                            <div className="dropdown pull-left">
-                                <label for="radarRingDropdown">Radar Ring:</label>
-                                <DropdownComponent title = { selectedRadarRing.name } data={ selectedTemplate.radarRings } itemMap = { radarRingDropdownMap(handleRadarRingSelection) } />
-                            </div>
+                            <label className="form-label fw-bold small">Ring</label>
+                            <DropdownComponent title={selectedRadarRing.name} data={selectedRadarTemplate.radarRings || []} itemMap={radarRingDropdownMap(handleRadarRingSelection)} />
                         </div>
                         <div className="col-md-2">
-                            <button type="button" className="btn btn-techradar" onClick={ handleOnSearchClick }>Search</button>
+                            <button type="button" className="btn btn-techradar w-100" onClick={handleOnSearchClick}>
+                                <i className="bi bi-search me-2"></i>Search
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="card">
-                <h3>Found Items</h3>
-                <ListComponent id="searchResults" itemMap = { searchResultsRowDefinition(handleSearchResultsSelect) } data = { searchResults } />
-            </div>
+            
+            {searchResults.length > 0 && (
+                <div className="card mt-4">
+                    <div className="card-title panel-heading-techradar">Search Results</div>
+                    <div className="card-body p-0">
+                        <ListComponent id="searchResults" itemMap={searchResultsRowDefinition(handleSearchResultsSelect)} data={searchResults} />
+                    </div>
+                </div>
+            )}
+            
+            {!isLoading && searchResults.length === 0 && subjectName !== "" && (
+                <div className="text-center mt-4 text-muted">
+                    <p>No items found matching your criteria.</p>
+                </div>
+            )}
         </div>
     );
 }
