@@ -13,6 +13,7 @@ import SingleQuadrantPage from './Pages/SingleQuadrantPage'
 import SearchPage from './Pages/SearchPage'
 import DetailsPage from './Pages/DetailsPage'
 import AboutPage from './Pages/AboutPage'
+import AdminRadarPage from 'Apps/AdminApp/Pages/AdminRadarPage'
 import UserPage from 'Apps/Common/Pages/UserPage'
 import ErrorBoundaryComponent from 'SharedComponents/ErrorBoundaryComponent'
 import { appsProviderStore } from 'Apps/Common/ProviderStore'
@@ -63,6 +64,12 @@ export default function MainSiteApp() {
                           <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
                           <Route path="/about" element={ <AboutPage /> } />
                           <Route path="/userDetails" element= { <UserPage authenticatedUser={ currentUser } /> } />
+                          <Route path="/admin/user/:userId/radars" element={ <AdminRadarPage mostRecent={ true } /> } />
+                          <Route path="/admin/user/:userId/radar/:radarId" element={ <AdminRadarPage mostRecent={ true } /> } />
+                          <Route path="/admin/user/:userId/radar/:radarId/quadrant/:quadrantName" element={ <AdminRadarPage mostRecent={ true } /> } />
+                          <Route path="/admin/user/:userId/radartemplate/:radarTemplateId/radars" element={ <AdminRadarPage /> } />
+                          <Route path="/admin/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <AdminRadarPage mostRecent={ true } /> } />
+                          <Route path="/admin/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <AdminRadarPage fullView={ true } /> } />
                       </Routes>
                     : <Routes>
                             <Route path="/" element={ <HomePage /> } />
