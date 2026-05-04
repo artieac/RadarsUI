@@ -22,9 +22,9 @@ const hostRouting = {
 
             // Map subdomains to their respective HTML entry points
             if (req.url === '/' || req.url === '/index.html') {
-                if (host.startsWith('manage.local.')) {
+                if (host.startsWith('local.manage.')) {
                     req.url = '/ManageRadars.html'
-                } else if (host.startsWith('admin.local.')) {
+                } else if (host.startsWith('local.admin.')) {
                     req.url = '/AdminSite.html'
                 } else if (host.startsWith('local.')) {
                     req.url = '/index.html'

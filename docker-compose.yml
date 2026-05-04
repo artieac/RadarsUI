@@ -15,7 +15,7 @@ services:
     ports:
       - "8082:80"
     networks:
-                - nginx-network
+      - nginx-network
 
 networks:
   nginx-network:
