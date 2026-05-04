@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 import { isValid } from 'Apps/Common/Utilities'
 import { UserRepository } from 'Repositories/UserRepository'
+import './UserPage.css';
 
 export const UserPage = ({ authenticatedUser }) => {
     const onLogoutClick = () => {
@@ -16,34 +17,29 @@ export const UserPage = ({ authenticatedUser }) => {
 
     if(isValid(authenticatedUser)) {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <div className="heroTitle">
+            <div className="container user-page-container">
+                <div className="user-card">
+                    <div className="user-header">
+                        <div className="user-email">
                             { authenticatedUser.email }
                         </div>
+                        <a className="btn-logout" aria-current="page" onClick={ onLogoutClick } >Log Out</a>
                     </div>
-                    <div className="col">
-                         <a className="button" aria-current="page" onClick={ onLogoutClick } >Log Out</a>
+                    
+                    <div className="user-info-row">
+                        <div className="user-info-label">User Type:</div>
+                        <div className="user-info-value">{ authenticatedUser.userType.name }</div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <label>User Type: </label>
+                    
+                    <div className="user-info-row">
+                        <div className="user-info-label"># Allowed Templates:</div>
+                        <div className="user-info-value">{ authenticatedUser.canHaveNRadarTemplates }</div>
                     </div>
-                    <div className="col">{ authenticatedUser.userType.name }</div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <label># Allowed Templates: </label>
+                    
+                    <div className="user-info-row">
+                        <div className="user-info-label"># Allowed Associated Templates:</div>
+                        <div className="user-info-value">{ authenticatedUser.canHaveNAssociatedRadarTemplates }</div>
                     </div>
-                    <div className="col">{ authenticatedUser.canHaveNRadarTemplates }</div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <label># Allowed Associated Templates: </label>
-                    </div>
-                    <div className="col">{ authenticatedUser.canHaveNAssociatedRadarTemplates }</div>
                 </div>
             </div>
         );
