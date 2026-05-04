@@ -11,7 +11,7 @@ export const FooterComponent = ({ mostRecent } ) => {
                     <div className="row">
                         <div className="col-md-4">
                             <h5>About Your Radars</h5>
-                            <p>This site is a free utility to let you manage and share your Radars.  Both current and historical.</p>
+                            <p>This site is a utility to let you manage and share your Radars.  Both current and historical.</p>
                         </div>
                         <div className="col-md-4">
                             <h5>useful links</h5>
