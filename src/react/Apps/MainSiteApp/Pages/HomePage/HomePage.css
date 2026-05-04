@@ -1,0 +1,196 @@
+
+.home-page-container {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #334e68;
+}
+
+.hero-section.modern {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(105, 185, 255, 0.15) 100%), url('/images/RadarBackground.PNG');
+    background-size: cover;
+    background-position: center;
+    padding: 100px 20px;
+    border-bottom: none;
+    box-shadow: inset 0 -10px 20px -10px rgba(0,0,0,0.1);
+}
+
+.hero-heading.modern {
+    font-weight: 800;
+    font-size: 3.5rem;
+    color: #102a43;
+    letter-spacing: -1px;
+    text-transform: none;
+    margin-bottom: 20px;
+}
+
+.hero-subheading.modern {
+    color: #486581;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-transform: none;
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.hero-subheading.modern p {
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.hero-subheading.modern a {
+    color: #69b9ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.hero-subheading.modern a:hover {
+    color: #2e9dff;
+    text-decoration: underline;
+}
+
+.btn-modern {
+    display: inline-block;
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+    margin: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary-modern {
+    background-color: #69b9ff;
+    color: white;
+}
+
+.btn-primary-modern:hover {
+    background-color: #2e9dff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(46, 157, 255, 0.3);
+    color: white;
+}
+
+.btn-secondary-modern {
+    background-color: white;
+    color: #69b9ff;
+    border: 2px solid #69b9ff;
+}
+
+.btn-secondary-modern:hover {
+    background-color: #f0f7ff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    color: #2e9dff;
+}
+
+.section-modern {
+    padding: 80px 20px;
+    background-color: #f8fafc;
+}
+
+.section-heading.modern {
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #102a43;
+    text-transform: none;
+    letter-spacing: -0.5px;
+    margin-bottom: 24px;
+}
+
+.section-subheading.modern {
+    color: #627d98;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    letter-spacing: normal;
+    text-transform: none;
+    max-width: 900px;
+    margin: 0 auto 50px;
+}
+
+.feature-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    height: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #e4e7eb;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #69b9ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    padding: 15px;
+}
+
+.feature-icon img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #102a43;
+    margin-bottom: 16px;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #486581;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cta-section {
+    background-color: #102a43;
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.cta-section h2 {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    color: #bcccdc;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .hero-heading.modern {
+        font-size: 2.5rem;
+    }
+    .section-heading.modern {
+        font-size: 2rem;
+    }
+    .feature-card {
+        margin-bottom: 20px;
+    }
+}

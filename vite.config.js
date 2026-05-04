@@ -69,10 +69,10 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         allowedHosts: [
-            'local.technologyradar.alwaysmoveforward.com',
-            'api.local.technologyradar.alwaysmoveforward.com',
-            'manage.local.technologyradar.alwaysmoveforward.com',
-            'admin.local.technologyradar.alwaysmoveforward.com'
+            'local.radars.alwaysmoveforward.com',
+            'local.api.radars.alwaysmoveforward.com',
+            'local.manage.radars.alwaysmoveforward.com',
+            'local.admin.radars.alwaysmoveforward.com'
         ],
         hmr: {
             overlay: true,
