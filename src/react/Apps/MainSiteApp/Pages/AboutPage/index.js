@@ -19,7 +19,7 @@ export const AboutPage = () => {
                     So I decided to take what he had started and back it with a data store for historical searching (much like Thoughtworks has on their site).
                 </p>
                 <p>
-                    The code for this is open sourced and can be found at <a href="https://github.com/artieac/technologyradar">GitHub</a> if you're interested in checking it out.
+                    The code for this is open sourced and can be found at <a href="https://github.com/artieac/RadarsUI">GitHub</a> if you're interested in checking it out.
                 </p>
             </div>
         </div>

@@ -8,10 +8,10 @@ COPY . .
 # ── dev build ─────────────────────────────────────────────────────────────────
 FROM deps AS builder-dev
 
-ARG REACT_APP_TECHNOLOGY_SITE_URL=https://local.technologyradar.alwaysmoveforward.com:8082
-ARG REACT_APP_TECHNOLOGY_API_URL=http://api.local.technologyradar.alwaysmoveforward.com:8081
-ARG REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL=http://manage.local.technologyradar.alwaysmoveforward.com:8082
-ARG REACT_APP_TECHNOLOGY_ADMIN_URL=http://admin.local.technologyradar.alwaysmoveforward.com:8082
+ARG REACT_APP_TECHNOLOGY_SITE_URL=https://local.radars.alwaysmoveforward.com:8082
+ARG REACT_APP_TECHNOLOGY_API_URL=http://local.api.radars.alwaysmoveforward.com:8081
+ARG REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL=http://local.manage.radars.alwaysmoveforward.com:8082
+ARG REACT_APP_TECHNOLOGY_ADMIN_URL=http://local.admin.radars.alwaysmoveforward.com:8082
 
 RUN printf "REACT_APP_TECHNOLOGY_SITE_URL=%s\n\
 REACT_APP_TECHNOLOGY_API_URL=%s\n\
@@ -27,10 +27,10 @@ RUN npm run build
 # ── prod build ────────────────────────────────────────────────────────────────
 FROM deps AS builder-prod
 
-ARG REACT_APP_TECHNOLOGY_SITE_URL=https://technologyradar.alwaysmoveforward.com
-ARG REACT_APP_TECHNOLOGY_API_URL=https://api.technologyradar.alwaysmoveforward.com
-ARG REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL=https://manage.technologyradar.alwaysmoveforward.com
-ARG REACT_APP_TECHNOLOGY_ADMIN_URL=https://admin.technologyradar.alwaysmoveforward.com
+ARG REACT_APP_TECHNOLOGY_SITE_URL=https://radars.alwaysmoveforward.com
+ARG REACT_APP_TECHNOLOGY_API_URL=https://api.radars.alwaysmoveforward.com
+ARG REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL=https://manage.radars.alwaysmoveforward.com
+ARG REACT_APP_TECHNOLOGY_ADMIN_URL=https://admin.radars.alwaysmoveforward.com
 
 RUN printf "REACT_APP_TECHNOLOGY_SITE_URL=%s\n\
 REACT_APP_TECHNOLOGY_API_URL=%s\n\

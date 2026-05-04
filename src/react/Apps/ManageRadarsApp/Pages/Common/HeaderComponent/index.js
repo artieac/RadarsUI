@@ -21,7 +21,7 @@ class HeaderComponent extends React.Component{
 
         return (
             <div>
-                <NavBarComponent title="Technology Radar" navBarElements={ navBarElements() } currentPage= { currentPage } currentUser = { currentUser } />
+                <NavBarComponent title="Radars" navBarElements={ navBarElements() } currentPage= { currentPage } currentUser = { currentUser } />
             </div>
         );
     }

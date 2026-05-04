@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile
       target: prod
       args:
-        REACT_APP_TECHNOLOGY_SITE_URL_PROD: https://technologyradar.alwaysmoveforward.com
-        REACT_APP_TECHNOLOGY_API_URL_PROD: https://api.technologyradar.alwaysmoveforward.com
-        REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL_PROD: https://manage.technologyradar.alwaysmoveforward.com
-        REACT_APP_TECHNOLOGY_ADMIN_URL_PROD: https://admin.technologyradar.alwaysmoveforward.com
+        REACT_APP_TECHNOLOGY_SITE_URL_PROD: https://radars.alwaysmoveforward.com
+        REACT_APP_TECHNOLOGY_API_URL_PROD: https://api.radars.alwaysmoveforward.com
+        REACT_APP_TECHNOLOGY_MANAGE_RADARS_URL_PROD: https://manage.radars.alwaysmoveforward.com
+        REACT_APP_TECHNOLOGY_ADMIN_URL_PROD: https://admin.radars.alwaysmoveforward.com
     container_name: techradarui
     ports:
       - "8082:80"

@@ -10,14 +10,14 @@ export const FooterComponent = ({ mostRecent } ) => {
                 <div className="w-container">
                     <div className="row">
                         <div className="col-md-4">
-                            <h5>About Your Technology Radar</h5>
-                            <p>This site is a free utility to let you manage and share your Technology Radar.  Both current and historical.</p>
+                            <h5>About Your Radars</h5>
+                            <p>This site is a free utility to let you manage and share your Radars.  Both current and historical.</p>
                         </div>
                         <div className="col-md-4">
                             <h5>useful links</h5>
                             <a href="http://alwaysmoveforward.com" className="footer-link">AlwaysMoveForward.com</a>
                             <a href="http://blog.alwaysmoveforward.com" className="footer-link">Blog</a>
-                            <a href="https://technologyradar.alwaysmoveforward.com" className="footer-link">Your Technology Radar</a>
+                            <a href="https://radars.alwaysmoveforward.com" className="footer-link">Your Radars</a>
                         </div>
                         <div className="col-md-4">
                             <h5>social</h5>
