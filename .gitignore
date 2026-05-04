@@ -19,7 +19,8 @@ hs_err_pid*
 [Nn]ode_modules/*
 src/main
 [Dd]ist/
-[Dd]ist/*
+doc/script/dist/
+src/static/script/dist/
 
 application-production.properties
 pom.xml

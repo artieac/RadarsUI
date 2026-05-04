@@ -2,10 +2,10 @@
 import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import ReactDOM from 'react-dom';
 import { Link, useLocation, useNavigate, useSearchParams  } from 'react-router-dom';
 import { isValid } from 'Apps/Common/Utilities'
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
+import './HomePage.css';
 
 export const HomePage = () => {
     const [searchParams] = useSearchParams();
@@ -47,73 +47,79 @@ export const HomePage = () => {
     });
 
     return (
-        <div>
-            <div className="hero-section centered">
-                <div data-ix="new-interaction" className="container">
-                    <h1 data-ix="fade-in-bottom-page-loads" className="hero-heading">What's on your radar?</h1>
-                    <div data-ix="fade-in-bottom-page-loads" className="hero-subheading">
-                        <p>A free tool for tracking how much you like or dislike different things.</p>
-                        <p>This site got it's start from <a href="https://www.thoughtworks.com/radar/byor">Thoughtworks Technology Radar</a> and I used it to track my technology assessments and usage.  However the more I used it the more I got ideas for other things I could categorize with this same concept.</p>
-                    </div>
-                    <div data-ix="fade-in-bottom-page-loads"><a href="/login" className="button">sign up</a><a href="https://www.thoughtworks.com/radar/byor" className="button all-caps" target="_blank">Learn more</a></div>
-                </div>
-            </div>
-            <div className="section">
+        <div className="home-page-container">
+            <div className="hero-section modern centered">
                 <div className="container">
-                    <div className="section-title-group">
-                        <h2 className="section-heading centered">Why Is This Important?</h2>
-                        <div className="section-subheading center">If you don&#x27;t pay attention to changing technology you can quickly find yourself falling behind the industry. We all need to pay attention to changes and continuously evaluate those shifts to see if industry changes help or hurt us. <a href="https://www.thoughtworks.com">Thoughtworks</a> came up with a great concept, the Technology Radar to help keep track of this.  A technology radar lets you keep track of your assessments of the risks and rewards of various areas of technology, and by joining this site you can manage your own technology radar.</div>
+                    <h1 className="hero-heading modern">Your World, Mapped.</h1>
+                    <div className="hero-subheading modern">
+                        <p>A versatile tool for visualizing your evolving perspectives on everything that matters.</p>
+                        <p>Inspired by the <a href="https://www.thoughtworks.com/radar/byor" target="_blank" rel="noopener noreferrer">Thoughtworks Technology Radar</a>, this platform lets you track assessments, opinions, and trends across any domain you can imagine.</p>
                     </div>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="white-box">
-                                <img src="images/social-01-white.svg" alt="" className="grid-image"/>
-                                <h3>Have Multiple Versions</h3>
-                                <p>Your opinion of things can and should change over time. Keep track
-                                    of how your interests and opinions change over time. Your radar
-                                    history lets you and others see how your opinion has changed.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="white-box">
-                                <img src="images/social-25-white.svg" width="210" alt="" className="grid-image"/>
-                                <h3>Share your radars</h3>
-                                <p>Your radar can be kept private or published to be visible to
-                                    anyone on the internet.  Sharing it lets others see what you're
-                                    interested in, and how your opinions and how they have evolved.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="white-box">
-                                <img src="images/feather2-17-white.svg" alt="" className="grid-image"/>
-                                <h3>See what others think</h3>
-                                <p>As other people enter in their own evaluations of things you&#x27;ll be able to see what they have learned about the same things you are you are interested in.</p>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="white-box">
-                                <img src="images/social-25-white.svg" width="210" alt="" className="grid-image"/>
-                                <h3>Create and share radar types</h3>
-                                <p>This radar concept can be applied to other things also.  Use your imagination and create your own radars to share your opinions.</p>
-                            </div>
-                        </div>
+                    <div>
+                        <a href="/login" className="btn-modern btn-primary-modern">Get Started</a>
+                        <a href="https://www.thoughtworks.com/radar/byor" className="btn-modern btn-secondary-modern" target="_blank" rel="noopener noreferrer">Learn the Concept</a>
                     </div>
                 </div>
             </div>
-            <div className="section">
+
+            <div className="section-modern">
                 <div className="container">
                     <div className="section-title-group">
-                        <h2 className="section-heading centered">Curious?</h2>
-                        <div className="section-subheading center">Please check out my current Public Radars. or Sign in and Try creating your own</div>
+                        <h2 className="section-heading modern centered">Navigate Change with Confidence</h2>
+                        <div className="section-subheading modern center">
+                            In a fast-moving world, standing still means falling behind. This platform helps you assess risks, rewards, and trends across any domain. Manage your own radar to map out your strategic landscape and never lose sight of what's next.
+                        </div>
                     </div>
+                    <div className="row">
+                        <div className="col-md-6 mb-4">
+                            <div className="feature-card">
+                                <div className="feature-icon">
+                                    <img src="images/social-01-white.svg" alt="" />
+                                </div>
+                                <h3>Track Your Evolution</h3>
+                                <p>Your opinions aren't static. Visualize how your interests and assessments shift over time. Use your radar history to visualize your growth and share your journey with others.</p>
+                            </div>
+                        </div>
+                        <div className="col-md-6 mb-4">
+                            <div className="feature-card">
+                                <div className="feature-icon">
+                                    <img src="images/social-25-white.svg" alt="" />
+                                </div>
+                                <h3>Share Your Vision</h3>
+                                <p>Keep it private or go public. Share your radars to showcase your expertise, spark conversations, and let the world see how your thinking has evolved.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row mt-4">
+                        <div className="col-md-6 mb-4">
+                            <div className="feature-card">
+                                <div className="feature-icon">
+                                    <img src="images/feather2-17-white.svg" alt="" />
+                                </div>
+                                <h3>Collaborative Insights</h3>
+                                <p>Learn from the community. See how others are evaluating the same trends and technologies, and gain new perspectives from a diverse group of users.</p>
+                            </div>
+                        </div>
+                        <div className="col-md-6 mb-4">
+                            <div className="feature-card">
+                                <div className="feature-icon">
+                                    <img src="images/social-25-white.svg" alt="" />
+                                </div>
+                                <h3>Unlimited Possibilities</h3>
+                                <p>Beyond technology. Apply the radar concept to anything - books, travel, hobbies, or business strategy. If you can categorize it, you can radar it.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="cta-section">
+                <div className="container">
+                    <h2>Ready to Explore?</h2>
+                    <p>Dive into existing insights or start building your own radar today.</p>
                     <div className="text-center">
-                        <Link className="button" aria-current="page" to="/home/user/1/radarTemplate/3/radars/fullView">My Public Radar</Link>
-                        <a href="/login" className="button">Sign in</a>
+                        <Link className="btn-modern btn-primary-modern" aria-current="page" to="/home/user/1/radarTemplate/3/radars/fullView">Explore My Public Radar</Link>
+                        <a href="/login" className="btn-modern btn-secondary-modern">Sign In to Create Yours</a>
                     </div>
                 </div>
             </div>
