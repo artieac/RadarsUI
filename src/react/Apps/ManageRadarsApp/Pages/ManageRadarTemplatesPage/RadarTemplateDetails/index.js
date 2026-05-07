@@ -13,8 +13,11 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
     const [isPublished, setIsPublished] = useState(false);
 
     const authenticatedUser = useSelector((state)=>state.userReducer.currentUser);
+    const radars = useSelector((state) => state.radarReducer.radars);
 
     const dispatch = useDispatch();
+
+    const hasRadars = (isValid(radars) && isValid(selectedTemplate)) ? radars.some(radar => radar.radarTemplate.id === selectedTemplate.id) : false;
 
     useEffect(() => {
         if(isValid(selectedTemplate)){
@@ -101,8 +104,8 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
                     </div>
                     <div className="col-md-5"></div>
                 </div>
-                <RadarRingsComponent editMode={ editMode } canAdd={ true } canDelete={ selectedTemplate.id < 0 } radarRings = { selectedTemplate.radarRings } />
-                <RadarCategoriesComponent editMode={ editMode } canAdd={ true } canDelete={ selectedTemplate.id < 0 } radarCategories = { selectedTemplate.radarCategories }/>
+                <RadarRingsComponent editMode={ editMode } canAdd={ true } canDelete={ selectedTemplate.id < 0 || !hasRadars } radarRings = { selectedTemplate.radarRings } />
+                <RadarCategoriesComponent editMode={ editMode } canAdd={ true } canDelete={ selectedTemplate.id < 0 || !hasRadars } radarCategories = { selectedTemplate.radarCategories }/>
             </div>
         </div>
     );
