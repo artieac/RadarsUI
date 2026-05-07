@@ -7,7 +7,7 @@ import { colorMapData } from '../../../../../components/colorMapData'
 import { colorMap } from './colorMap';
 import DropdownComponent from 'SharedComponents/DropdownComponent'
 
-export const RadarCategoryComponent = ({ rowData, editMode }) => {
+export const RadarCategoryComponent = ({ rowData, editMode, canDelete, onDeleteClick }) => {
     const [name, setName] = useState("");
     const [iconColor, setIconColor] = useState("");
 
@@ -36,7 +36,7 @@ export const RadarCategoryComponent = ({ rowData, editMode }) => {
     const handleNameChange = (event) => {
         setName(event.target.value);
 
-        if(isValid(selectedTemplate) && isValid(selectedTemplate.radarRings)){
+        if(isValid(selectedTemplate) && isValid(selectedTemplate.radarCategories)){
             for(var i = 0; i < selectedTemplate.radarCategories.length; i++){
                 if(selectedTemplate.radarCategories[i].id==rowData.id){
                     selectedTemplate.radarCategories[i].name = event.target.value;
@@ -50,7 +50,7 @@ export const RadarCategoryComponent = ({ rowData, editMode }) => {
     const handleColorChange = (colorValue) => {
         setIconColor(colorValue);
 
-        if(isValid(selectedTemplate) && isValid(selectedTemplate.radarRings)){
+        if(isValid(selectedTemplate) && isValid(selectedTemplate.radarCategories)){
             for(var i = 0; i < selectedTemplate.radarCategories.length; i++){
                 if(selectedTemplate.radarCategories[i].id==rowData.id){
                     selectedTemplate.radarCategories[i].displayOption = colorValue;
@@ -64,10 +64,13 @@ export const RadarCategoryComponent = ({ rowData, editMode }) => {
     return (
         <tr>
             <td>
-                <input type="text" className={ editMode===true ? '' : 'readonly="readonly"'} defaultValue={ name } value = { name } required="required"  onChange = {(event) => handleNameChange(event, rowData) }/>
+                <input type="text" className={ editMode===true ? '' : 'readonly="readonly"'} defaultValue={ name } value = { name } required="required"  onChange = {(event) => handleNameChange(event) }/>
             </td>
             <td>
                 <DropdownComponent title= { colorMapLookup(iconColor).name } itemMap= { colorMap(handleColorChange, rowData) } data={colorMapData()}/>
+            </td>
+            <td>
+                <button className={(canDelete || rowData.id < 0) ? "btn btn-danger btn-sm" : "hidden"} onClick={(event) => onDeleteClick(event, rowData)}>Delete</button>
             </td>
         </tr>
     );
