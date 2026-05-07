@@ -20,8 +20,6 @@ export class RestClient {
         jQuery.ajax({
              headers: {
                      'Accept': 'application/json',
-                     'Content-Type': 'application/json',
-                     'credentials': 'include',
              },
              type: "GET",
              url: this.getWebServiceUrlRoot() + url,
@@ -53,7 +51,6 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
-                     'credentials': 'include',
                   },
                   type: "POST",
                   url: this.getWebServiceUrlRoot() + url,
@@ -74,7 +71,6 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
-                     'credentials': 'include',
                   },
                   type: "POST",
                   url: this.getWebServiceUrlRoot() + url,
@@ -105,7 +101,6 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
-                     'credentials': 'include',
                   },
                   type: "PUT",
                   url: this.getWebServiceUrlRoot() + url,
@@ -126,10 +121,9 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
-                     'credentials': 'include',
                   },
                   type: "PUT",
-                  url: url,
+                  url: this.getWebServiceUrlRoot() + url,
                   xhrFields: {
                     withCredentials: true
                   },
@@ -148,7 +142,6 @@ export class RestClient {
               headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
-                     'credentials': 'include',
               },
               type: "DELETE",
               url: this.getWebServiceUrlRoot() + url,

@@ -81,7 +81,7 @@ export default defineConfig({
             usePolling: true,
         },
         proxy: {
-            '/api': 'http://localhost:8081',
+            '/api': 'http://local.radars.alwaysmoveforward.com:8081',
         },
     },
 })
