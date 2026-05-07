@@ -15,8 +15,8 @@ export const FooterComponent = ({ mostRecent } ) => {
                         </div>
                         <div className="col-md-4">
                             <h5>useful links</h5>
-                            <a href="http://alwaysmoveforward.com" className="footer-link">AlwaysMoveForward.com</a>
-                            <a href="http://blog.alwaysmoveforward.com" className="footer-link">Blog</a>
+                            <a href="https://alwaysmoveforward.com" className="footer-link">AlwaysMoveForward.com</a>
+                            <a href="https://blog.alwaysmoveforward.com" className="footer-link">Blog</a>
                             <a href="https://radars.alwaysmoveforward.com" className="footer-link">Your Radars</a>
                         </div>
                         <div className="col-md-4">

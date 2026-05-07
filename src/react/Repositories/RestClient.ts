@@ -3,7 +3,17 @@ import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
     getWebServiceUrlRoot() {
-        return import.meta.env.REACT_APP_TECHNOLOGY_API_URL;
+        let url = import.meta.env.REACT_APP_TECHNOLOGY_API_URL;
+        return this.ensureHttpsIfRequired(url);
+    }
+
+    ensureHttpsIfRequired(url: string) {
+        if (typeof window !== 'undefined' && window.location.protocol === 'https:' && url && url.startsWith('http://')) {
+            if (!url.includes('local') && !url.includes('localhost') && !url.includes('127.0.0.1')) {
+                url = url.replace('http://', 'https://');
+            }
+        }
+        return url;
     }
 
      getRequest(url: string, responseHandler: Function) {
