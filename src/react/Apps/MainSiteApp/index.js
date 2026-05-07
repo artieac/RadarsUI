@@ -60,6 +60,12 @@ export default function MainSiteApp() {
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <SecureRadarPage /> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <SecureRadarPage fullView={true}/> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <SecureRadarPage mostRecent={true}/> } />
+                          <Route path="/public/home/user/:userId/radars" element={ <PublicRadarPage mostRecent={ true } /> } />
+                          <Route path="/public/home/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true }/> } />
+                          <Route path="/public/home/user/:userId/radar/:radarId/quadrant/:quadrantName" element={ <SingleQuadrantPage isPublic={ true }/> } />
+                          <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
+                          <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } />
+                          <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={true}/> } />
                           <Route path="/search" element={ <SearchPage /> } />
                           <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
                           <Route path="/about" element={ <AboutPage /> } />
@@ -80,6 +86,12 @@ export default function MainSiteApp() {
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } />
                           <Route path="/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={true}/> } />
+                          <Route path="/public/home/user/:userId/radars" element={ <PublicRadarPage mostRecent={ true } /> } />
+                          <Route path="/public/home/user/:userId/radar/:radarId" element={ <PublicRadarPage mostRecent={ true }/> } />
+                          <Route path="/public/home/user/:userId/radar/:radarId/quadrant/:quadrantName" element={ <SingleQuadrantPage isPublic={ true }/> } />
+                          <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars" element={ <PublicRadarPage /> } />
+                          <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/fullView" element={ <PublicRadarPage fullView={true}/> } />
+                          <Route path="/public/home/user/:userId/radartemplate/:radarTemplateId/radars/mostRecent" element={ <PublicRadarPage mostRecent={true}/> } />
                           <Route path="/search" element={ <SearchPage /> } />
                           <Route path="/public/radarsubject/:subjectId" element={ <DetailsPage /> } />
                           <Route path="/about" element={ <AboutPage /> } />
