@@ -101,8 +101,8 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
                     </div>
                     <div className="col-md-5"></div>
                 </div>
-                <RadarRingsComponent editMode={ editMode } canAddOrDelete={ selectedTemplate.id < 0} radarRings = { selectedTemplate.radarRings } />
-                <RadarCategoriesComponent editMode={ editMode } canAddOrDelete={ selectedTemplate.id < 0} radarCategories = { selectedTemplate.radarCategories }/>
+                <RadarRingsComponent editMode={ editMode } canAdd={ true } canDelete={ selectedTemplate.id < 0 } radarRings = { selectedTemplate.radarRings } />
+                <RadarCategoriesComponent editMode={ editMode } canAdd={ true } canDelete={ selectedTemplate.id < 0 } radarCategories = { selectedTemplate.radarCategories }/>
             </div>
         </div>
     );

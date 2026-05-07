@@ -4,7 +4,7 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import { isValid } from 'Apps/Common/Utilities';
 import { addSelectedRadarTemplateToState } from 'Redux/RadarTemplateReducer';
 
-export const RadarRingComponent = ({ rowData, editMode }) => {
+export const RadarRingComponent = ({ rowData, editMode, canDelete, onDeleteClick }) => {
     const [name, setName] = useState("");
     const [sortOrder, setSortOrder] = useState("");
 
@@ -50,10 +50,13 @@ export const RadarRingComponent = ({ rowData, editMode }) => {
     return (
         <tr>
             <td>
-                <input type="text" defaultValue = { name } value = { name } onChange={(event) => handleNameChange(event, rowData)} />
+                <input type="text" defaultValue = { name } value = { name } onChange={(event) => handleNameChange(event)} />
             </td>
             <td>
                 <input type="text" defaultValue={ sortOrder } value={ sortOrder} onChange={(event) => handleSortOrderChange(event)} maxLength="2" size="2"/>
+            </td>
+            <td>
+                <button className={(canDelete || rowData.id < 0) ? "btn btn-danger btn-sm" : "hidden"} onClick={(event) => onDeleteClick(event, rowData)}>Delete</button>
             </td>
         </tr>
     );
