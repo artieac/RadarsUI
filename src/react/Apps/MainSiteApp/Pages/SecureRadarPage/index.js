@@ -14,7 +14,7 @@ import { isValid } from 'Apps/Common/Utilities'
 import { RadarViewParams } from '../Common/RadarViewParams'
 import CompleteRadarManager from '../Common/CompleteRadarManager'
 
-export const SecureRadarPage = ({ mostRecent }) => {
+export const SecureRadarPage = ({ mostRecent, fullView }) => {
     const [showModifyItemsPanel, setShowModifyItemsPanel] = useState(false);
     const [selectedRadarItem, setSelectedRadarItem] = useState(null);
 
@@ -59,7 +59,7 @@ export const SecureRadarPage = ({ mostRecent }) => {
         }
     }
 
-    const radarViewParams = new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent);
+    const radarViewParams = new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView);
 
     return (
         <div className="card">
