@@ -3,8 +3,10 @@ import { connect, useSelector, useDispatch } from "react-redux"
 import { setCurrentUser} from 'Redux/UserReducer'
 import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
 import { UserRepository } from 'Repositories/UserRepository'
+import { RadarRepository } from 'Repositories/RadarRepository'
 import RadarTemplateRowDefinition from './RadarTemplateRowDefinition'
 import { addRadarTemplatesToState, addSelectedRadarTemplateToState, setShowEdit } from 'Redux/RadarTemplateReducer'
+import { addRadarsToState } from 'Redux/RadarReducer'
 import RadarTemplateDetails from './RadarTemplateDetails'
 import TableComponent2 from 'SharedComponents/TableComponent2'
 import MessageComponent from 'SharedComponents/MessageComponent'
@@ -23,7 +25,16 @@ export const ManageRadarTemplatesPage = () => {
     useEffect(() => {
         let radarTemplateRepository = new RadarTemplateRepository();
         radarTemplateRepository.getMostRecentByUserId(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
+
+        let radarRepository = new RadarRepository();
+        radarRepository.getByUserId(authenticatedUser.id, true, handleGetUserRadarResponse);
     },[]);
+
+    const handleGetUserRadarResponse = (wasSuccessful, data) => {
+        if(wasSuccessful==true){
+            dispatch(addRadarsToState(data));
+        }
+    }
 
     const handleGetRadarTemplatesByUserIdResponse = (wasSuccessful, radarTemplates) => {
         if(wasSuccessful==true){
