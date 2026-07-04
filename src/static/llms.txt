@@ -1,0 +1,10 @@
+# Technology Radar
+
+A versatile tool for visualizing your evolving perspectives on everything that matters. Track assessments, opinions, and trends.
+Inspired by the Thoughtworks Technology Radar.
+
+## Data Model
+- **Radars**: A collection of technology assessments.
+- **Quadrants**: The categories within a radar (e.g., Techniques, Platforms, Tools, Languages & Frameworks).
+- **Rings**: The status of an assessment (e.g., Adopt, Trial, Assess, Hold).
+- **Subjects**: The specific items being assessed (e.g., React, Java, Docker).

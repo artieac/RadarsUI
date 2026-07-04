@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom';
 export const AboutPage = () => {
     return (
         <div className="container">
-            <div className="heroTitle">
+            <h1 className="heroTitle">
                 About
-            </div>
+            </h1>
             <div className="copy">
                 <p>
                     This site started from an interest in the technology radar as originally described by <a href="http://nealford.com/memeagora/2013/05/28/build_your_own_technology_radar.html">Neal Ford's original post</a>.

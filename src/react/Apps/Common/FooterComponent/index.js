@@ -15,19 +15,19 @@ export const FooterComponent = ({ mostRecent } ) => {
                         </div>
                         <div className="col-md-4">
                             <h5>useful links</h5>
-                            <a href="https://alwaysmoveforward.com" className="footer-link">AlwaysMoveForward.com</a>
-                            <a href="https://blog.alwaysmoveforward.com" className="footer-link">Blog</a>
+                            <a href="https://alwaysmoveforward.com" className="footer-link" target="_blank" rel="noopener noreferrer" aria-label="Visit AlwaysMoveForward.com">AlwaysMoveForward.com</a>
+                            <a href="https://blog.alwaysmoveforward.com" className="footer-link" target="_blank" rel="noopener noreferrer" aria-label="Visit the AlwaysMoveForward Blog">Blog</a>
                             <a href="https://radars.alwaysmoveforward.com" className="footer-link">Your Radars</a>
                         </div>
                         <div className="col-md-4">
                             <h5>social</h5>
                             <div className="footer-link-wrapper w-clearfix">
-                                <img src="/images/social-09.svg" width="20" alt="" className="info-icon"/>
-                                <a href="https://www.linkedin.com/in/arthur--correa" className="footer-link with-icon">Linked In</a>
+                                <img src="/images/social-09.svg" width="20" alt="" className="info-icon" role="presentation" />
+                                <a href="https://www.linkedin.com/in/arthur--correa" className="footer-link with-icon" target="_blank" rel="noopener noreferrer" aria-label="Arthur Correa on LinkedIn">Linked In</a>
                             </div>
                             <div className="footer-link-wrapper w-clearfix">
-                                <img src="/images/social-18.svg" width="20" alt="" className="info-icon"/>
-                                <a href="https://twitter.com/artieac" className="footer-link with-icon">Twitter</a>
+                                <img src="/images/social-18.svg" width="20" alt="" className="info-icon" role="presentation" />
+                                <a href="https://twitter.com/artieac" className="footer-link with-icon" target="_blank" rel="noopener noreferrer" aria-label="Arthur Correa on Twitter">Twitter</a>
                             </div>
                         </div>
                     </div>

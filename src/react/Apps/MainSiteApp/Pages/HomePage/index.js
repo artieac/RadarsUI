@@ -2,6 +2,7 @@
 import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
+import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useSearchParams  } from 'react-router-dom';
 import { isValid } from 'Apps/Common/Utilities'
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
@@ -48,6 +49,12 @@ export const HomePage = () => {
 
     return (
         <div className="home-page-container">
+            <Helmet>
+                <title>Technology Radar - Your World, Mapped</title>
+                <meta name="description" content="A versatile tool for visualizing your evolving perspectives on everything that matters." />
+                <meta property="og:title" content="Technology Radar - Your World, Mapped" />
+                <meta property="og:description" content="A versatile tool for visualizing your evolving perspectives on everything that matters." />
+            </Helmet>
             <div className="hero-section modern centered">
                 <div className="container">
                     <h1 className="hero-heading modern">Your World, Mapped.</h1>

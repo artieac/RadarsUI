@@ -4,6 +4,7 @@ import React, { useState} from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async';
 import HeaderComponent from 'Apps/Common/HeaderComponent'
 import FooterComponent from 'Apps/Common/FooterComponent'
 import HomePage from './Pages/HomePage'
@@ -105,9 +106,11 @@ export default function MainSiteApp() {
 }
 
 createRoot(document.getElementById("radarAppContent")).render(
-    <Provider store={ appsProviderStore }>
-        <BrowserRouter>
-            <MainSiteApp/>
-        </BrowserRouter>
-    </Provider>
+    <HelmetProvider>
+        <Provider store={ appsProviderStore }>
+            <BrowserRouter>
+                <MainSiteApp/>
+            </BrowserRouter>
+        </Provider>
+    </HelmetProvider>
 );

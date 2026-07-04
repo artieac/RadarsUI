@@ -2,6 +2,7 @@ import jQuery from 'jquery';
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux"
+import { Helmet } from 'react-helmet-async';
 import ReactDOM from 'react-dom';
 import DivTableComponent2 from 'SharedComponents/DivTableComponent2'
 import { RadarSubjectRepository } from 'Repositories/RadarSubjectRepository'
@@ -39,16 +40,33 @@ export const DetailsPage = () => {
 
     return (
         <div className="card">
+            {subjectAssessments?.technology && (
+                <Helmet>
+                    <title>{subjectAssessments.technology.name} - Assessments | Technology Radar</title>
+                    <meta name="description" content={`Community and personal assessments for ${subjectAssessments.technology.name}.`} />
+                    <script type="application/ld+json">
+                        {JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "ItemList",
+                            "name": `Assessments for ${subjectAssessments.technology.name}`,
+                            "itemListElement": []
+                        })}
+                    </script>
+                </Helmet>
+            )}
             <div className="card-header d-flex justify-content-between align-items-center bg-white border-bottom-0 pt-3">
                 <button className="btn btn-sm btn-outline-secondary" onClick={handleBackClick}>
                     <i className="bi bi-arrow-left me-1"></i> Back to Radar
                 </button>
             </div>
             <div className="card-body">
+                <h1 className="text-2xl font-bold mb-4 text-gray-800">
+                    {subjectAssessments?.technology ? `${subjectAssessments.technology.name} Assessments` : 'Loading Assessments...'}
+                </h1>
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="card panel-techradar">
-                            <div className="card-title panel-heading-techradar">Your Assessments</div>
+                            <h2 className="card-title panel-heading-techradar text-lg font-semibold">Your Assessments</h2>
                             <div className="card-body">
                                 <DivTableComponent2 data = { subjectAssessments.userItems } rowDefinition = { subjectAssessmentRowDefinition() }/>
                             </div>
@@ -56,7 +74,7 @@ export const DetailsPage = () => {
                     </div>
                     <div className="col-lg-6">
                         <div className="card panel-techradar">
-                            <div className="card-title panel-heading-techradar">Other's Assessments</div>
+                            <h2 className="card-title panel-heading-techradar text-lg font-semibold">Other's Assessments</h2>
                             <div className="card-body">
                                 <DivTableComponent2 data = { subjectAssessments.otherUsersItems } rowDefinition = { subjectAssessmentRowDefinition() }/>
                             </div>
