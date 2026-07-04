@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /manage/
 
-Sitemap: https://radars.alwaysmoveforward.com/sitemap.xml
+Sitemap: https://api.radars.alwaysmoveforward.com/api/public/sitemap.xml

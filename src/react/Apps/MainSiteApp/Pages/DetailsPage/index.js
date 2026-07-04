@@ -60,10 +60,13 @@ export const DetailsPage = () => {
                 </button>
             </div>
             <div className="card-body">
+                <h1 className="text-2xl font-bold mb-4 text-gray-800">
+                    {subjectAssessments?.technology ? `${subjectAssessments.technology.name} Assessments` : 'Loading Assessments...'}
+                </h1>
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="card panel-techradar">
-                            <div className="card-title panel-heading-techradar">Your Assessments</div>
+                            <h2 className="card-title panel-heading-techradar text-lg font-semibold">Your Assessments</h2>
                             <div className="card-body">
                                 <DivTableComponent2 data = { subjectAssessments.userItems } rowDefinition = { subjectAssessmentRowDefinition() }/>
                             </div>
@@ -71,7 +74,7 @@ export const DetailsPage = () => {
                     </div>
                     <div className="col-lg-6">
                         <div className="card panel-techradar">
-                            <div className="card-title panel-heading-techradar">Other's Assessments</div>
+                            <h2 className="card-title panel-heading-techradar text-lg font-semibold">Other's Assessments</h2>
                             <div className="card-body">
                                 <DivTableComponent2 data = { subjectAssessments.otherUsersItems } rowDefinition = { subjectAssessmentRowDefinition() }/>
                             </div>
