@@ -28,17 +28,10 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             target: "/"
         },
         {
-            label: 'Teams',
-            loggedInOnly: true,
-            internal: true,
-            roles: '',
-            target: "/teams"
-        },
-        {
             label: 'Admin',
             loggedInOnly: true,
             internal: false,
-            roles: "ROLE_ADMIN",
+            roles: "ROLE_SITE_ADMIN",
             target: configurationSettings.getAdminRadarsUrlRoot()
         },
         {

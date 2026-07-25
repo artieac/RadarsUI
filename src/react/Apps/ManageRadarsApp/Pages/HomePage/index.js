@@ -8,14 +8,6 @@ import LinkActionCardComponent from 'SharedComponents/LinkActionCardComponent'
 const HomePage = ( {  }) => {
     const userState = useSelector((state) => state.userReducer);
 
-    const shouldShowTeamManagement = () => {
-        if(userState.currentUser!=null && userState.currentUser!='undefined'){
-            return userState.currentUser.allowTeamMembersToManageRadars;
-        }
-
-        return false;
-    }
-
     return (
         <div className="container">
             <div className="row">
@@ -46,17 +38,6 @@ const HomePage = ( {  }) => {
                     </div>
                 </div>
             </div>
-            { shouldShowTeamManagement() && (
-                <div className="row mt-3">
-                    <div className="col-md-4">
-                        <LinkActionCardComponent
-                            title="Manage your Teams"
-                            description="Create teams to allow others to manage some of your radars."
-                            linkTarget="/teams"
-                            buttonText="Teams"/>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

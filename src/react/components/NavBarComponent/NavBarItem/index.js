@@ -30,11 +30,17 @@ export const NavBarItem = ({ rowData, currentPage, currentUser }) => {
     if(rowData.loggedInOnly){
         if(isAuthenticated(currentUser)){
             if(rowData.roles.length > 0){
-                if(rowData.roles==currentUser.role.name){
-                    return renderNavBarItem(rowData.label, rowData.target, rowData.internal);
-                } else {
-                    return null;
+                // Site-admin nav items gate on the IsSiteAdmin flag only
+                if(rowData.roles === "ROLE_SITE_ADMIN"){
+                    return currentUser.isSiteAdmin === true
+                        ? renderNavBarItem(rowData.label, rowData.target, rowData.internal)
+                        : null;
                 }
+                // All other role-gated items use the subscription role
+                if(rowData.roles === currentUser.subscriptionRoleName){
+                    return renderNavBarItem(rowData.label, rowData.target, rowData.internal);
+                }
+                return null;
             } else {
                 return renderNavBarItem(rowData.label, rowData.target, rowData.internal);
             }

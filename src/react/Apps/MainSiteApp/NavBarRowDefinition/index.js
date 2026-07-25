@@ -38,7 +38,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             label: 'Admin',
             loggedInOnly: true,
             internal: false,
-            roles: "ROLE_ADMIN",
+            roles: "ROLE_SITE_ADMIN",
             target: configurationSettings.getAdminRadarsUrlRoot()
         },
         {

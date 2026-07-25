@@ -18,8 +18,8 @@ const MessageComponent = ({ messageType, message, show}) => {
         return ( <div/> );
     } else {
         return(
-            <div className={ this.show==true ? "col-md-6" : "hidden"}>
-                <div className={this.styleMessage(messageType)}>{ message }</div>
+            <div className={ show==true ? "col-md-6" : "hidden"}>
+                <div className={styleMessage(messageType)}>{ message }</div>
             </div>
         );
     }
