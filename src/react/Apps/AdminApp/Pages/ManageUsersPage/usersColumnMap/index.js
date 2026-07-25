@@ -23,22 +23,15 @@ const userColumnMap = (roles) => {
         },
     },
     {
-        title: 'Roles',
-        key: 'role',
+        title: 'Role',
+        key: 'subscriptionRoleName',
         render: rowData => {
             return (
                 <span>
-                    {isValid(rowData.role) ? rowData.role.name : "N/A"}
+                    {rowData.subscriptionRoleName || "N/A"}
                 </span>
             );
         },
-    },
-    {
-         title: 'UserType',
-         key: 'userType',
-         render: rowData => {
-             return <span>{isValid(rowData.userType) ? rowData.userType.name : "N/A"}</span>;
-         }
     },
     {
          title: 'Radars',

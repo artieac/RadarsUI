@@ -28,13 +28,6 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             target: "/"
         },
         {
-            label: 'Teams',
-            loggedInOnly: true,
-            internal: true,
-            roles: '',
-            target: "/teams"
-        },
-        {
             label: 'Admin',
             loggedInOnly: true,
             internal: false,

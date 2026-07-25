@@ -104,7 +104,7 @@ export const ManageRadarTemplatesPage = () => {
                         <div className="col-md-6">
                             <MessageComponent
                                 messageType="error"
-                                message = "You are only allowed { this.props.currentUser.canHaveNRadarTemplates } Radar Templates.  If you want a new one you need to delete one of your existing Radar Tempalates."
+                                message = { `You are only allowed ${authenticatedUser?.canHaveNRadarTemplates} Radar Templates. If you want a new one you need to delete one of your existing Radar Templates.` }
                                 show= {!canAddRadarTemplates()}/>
                         </div>
                     </div>

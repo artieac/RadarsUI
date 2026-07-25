@@ -7,7 +7,6 @@ import { thunk } from 'redux-thunk'
 import { Provider, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import userReducer from 'Redux/UserReducer';
-import teamReducer from 'Redux/TeamReducer';
 import radarReducer from 'Redux/RadarReducer';
 import radarTemplateReducer from 'Redux/RadarTemplateReducer';
 import HeaderComponent from 'Apps/Common/HeaderComponent'
@@ -20,7 +19,7 @@ import AdminLayout from './AdminLayout'
 import NavBarRowDefinition from './NavBarRowDefinition'
 import { isValid } from 'Apps/Common/Utilities'
 
-const adminAppStore = createStore(combineReducers({userReducer, teamReducer, radarReducer, radarTemplateReducer}), applyMiddleware(thunk));
+const adminAppStore = createStore(combineReducers({userReducer, radarReducer, radarTemplateReducer}), applyMiddleware(thunk));
 
 export default function AdminApp() {
     const [isLoading, setIsLoading] = useState(false);
@@ -35,8 +34,7 @@ export default function AdminApp() {
     const isAdmin = !isLoading
         && isValid(currentUser)
         && currentUser.isAuthenticated === true
-        && isValid(currentUser.role)
-        && currentUser.role.name === "ROLE_SITE_ADMIN";
+        && currentUser.isSiteAdmin === true;
 
     return (
         <div>

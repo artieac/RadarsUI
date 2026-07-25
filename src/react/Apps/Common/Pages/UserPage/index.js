@@ -9,6 +9,17 @@ import { isValid } from 'Apps/Common/Utilities'
 import { UserRepository } from 'Repositories/UserRepository'
 import './UserPage.css';
 
+const formatRoleName = (roleName) => {
+    if (!roleName) return '—';
+    switch (roleName) {
+        case 'ROLE_SITE_ADMIN':    return 'Site Admin';
+        case 'ROLE_ACCOUNT_ADMIN': return 'Account Admin';
+        case 'ROLE_EDITOR':        return 'Radar Editor';
+        case 'ROLE_READONLY':      return 'Read Only';
+        default:                   return roleName;
+    }
+}
+
 export const UserPage = ({ authenticatedUser }) => {
     const onLogoutClick = () => {
         let configurationSettings = new ConfigurationSettings();
@@ -25,20 +36,13 @@ export const UserPage = ({ authenticatedUser }) => {
                         </div>
                         <a className="btn-logout" aria-current="page" onClick={ onLogoutClick } >Log Out</a>
                     </div>
-                    
                     <div className="user-info-row">
-                        <div className="user-info-label">User Type:</div>
-                        <div className="user-info-value">{ authenticatedUser.userType.name }</div>
+                        <div className="user-info-label">Subscription Tier</div>
+                        <div className="user-info-value">{ authenticatedUser.subscriptionTierName || '—' }</div>
                     </div>
-                    
                     <div className="user-info-row">
-                        <div className="user-info-label"># Allowed Templates:</div>
-                        <div className="user-info-value">{ authenticatedUser.canHaveNRadarTemplates }</div>
-                    </div>
-                    
-                    <div className="user-info-row">
-                        <div className="user-info-label"># Allowed Associated Templates:</div>
-                        <div className="user-info-value">{ authenticatedUser.canHaveNAssociatedRadarTemplates }</div>
+                        <div className="user-info-label">Subscription Role</div>
+                        <div className="user-info-value">{ formatRoleName(authenticatedUser.subscriptionRoleName) }</div>
                     </div>
                 </div>
             </div>
@@ -48,4 +52,4 @@ export const UserPage = ({ authenticatedUser }) => {
     }
 }
 
-export default UserPage;
+export default UserPage;
