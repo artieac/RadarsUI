@@ -9,7 +9,6 @@ import { addRadarTemplatesToState, addSelectedRadarTemplateToState, setShowEdit 
 import { addRadarsToState } from 'Redux/RadarReducer'
 import RadarTemplateDetails from './RadarTemplateDetails'
 import TableComponent2 from 'SharedComponents/TableComponent2'
-import MessageComponent from 'SharedComponents/MessageComponent'
 import { isValid } from 'Apps/Common/Utilities'
 
 export const ManageRadarTemplatesPage = () => {
@@ -80,11 +79,14 @@ export const ManageRadarTemplatesPage = () => {
     }
 
     const handleAddRadarTemplate = () => {
+        if (!canAddRadarTemplates()) return;
         let radarTemplateRepository = new RadarTemplateRepository();
         let newRadarTemplate = radarTemplateRepository.createDefaultRadarTemplate({});
         setSelectedTemplate(newRadarTemplate);
         dispatch(addSelectedRadarTemplateToState(newRadarTemplate));
     }
+
+    const limitMessage = `You are only allowed ${authenticatedUser?.canHaveNRadarTemplates} Radar Templates. If you want a new one you need to delete one of your existing Radar Templates.`;
 
     return (
         <div className="bodyContent">
@@ -93,19 +95,28 @@ export const ManageRadarTemplatesPage = () => {
             </div>
             <div className="row">
                 <div className="col-md-4">
-                    <div className="row">
-                        <div className={ canAddRadarTemplates()==true ? "col-md-6" : "col-md-6 hidden"}>
-                            <div className="row">
-                                <div className="col-lg-1`">
-                                    <input type="button" className="btn btn-techradar" value="Add Radar Template" onClick= { handleAddRadarTemplate } title="Add a new Template to rate different types of things" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <MessageComponent
-                                messageType="error"
-                                message = { `You are only allowed ${authenticatedUser?.canHaveNRadarTemplates} Radar Templates. If you want a new one you need to delete one of your existing Radar Templates.` }
-                                show= {!canAddRadarTemplates()}/>
+                    <div className="row mb-2">
+                        <div className="col-auto d-flex align-items-center gap-2">
+                            <input
+                                type="button"
+                                id="btn-add-radar-template"
+                                className={ canAddRadarTemplates() ? "btn btn-techradar" : "btn btn-secondary" }
+                                value="Add Radar Template"
+                                onClick={ handleAddRadarTemplate }
+                                disabled={ !canAddRadarTemplates() }
+                                title={ canAddRadarTemplates() ? "Add a new Template to rate different types of things" : "" }
+                            />
+                            { !canAddRadarTemplates() && (
+                                <span
+                                    className="template-limit-warning"
+                                    role="img"
+                                    aria-label="At template limit"
+                                    title={ limitMessage }
+                                    style={{ color: '#dc3545', fontSize: '1.3rem', cursor: 'help' }}
+                                >
+                                    ⚠
+                                </span>
+                            )}
                         </div>
                     </div>
                     <div className="row">
@@ -123,4 +134,4 @@ export const ManageRadarTemplatesPage = () => {
 };
 
 
-export default ManageRadarTemplatesPage;
+export default ManageRadarTemplatesPage;

@@ -25,7 +25,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             target: '/search',
         },
         {
-            label: 'Manage Configurations',
+            label: 'Account Management',
             loggedInOnly: true,
             internal: false,
             roles: '',

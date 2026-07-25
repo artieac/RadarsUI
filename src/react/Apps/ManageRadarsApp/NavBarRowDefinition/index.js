@@ -9,7 +9,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
 
    return (
    {
-       title: "Manage Configurations",
+       title: "Account Management",
        loginUrl: configurationSettings.getWebServiceUrlRoot() + "/login",
        userDetailsRoute: "/userDetails",
        metadata: [
