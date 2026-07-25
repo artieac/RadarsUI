@@ -23,16 +23,16 @@ export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlterna
         return false;
     }
 
+    // Checkbox is disabled when at the limit AND this template is not already associated
+    const isCheckboxDisabled = () => !canAssociateRadarTemplates() && !isAssociatedToUser();
+
     const handleAssociateRadarTemplateChange = (event) => {
+        if (isCheckboxDisabled()) return;
         const shouldAssociate = event.target.checked;
         const radarTemplateRepository = new RadarTemplateRepository();
 
         if (shouldAssociate) {
-            if (canAssociateRadarTemplates()) {
-                radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, true, handleAssociateRadarTemplateResponse);
-            } else {
-                alert("You are only allowed to use " + authenticatedUser.canHaveNAssociatedRadarTemplates + " types from other users. Please uncheck another before trying to add this one.");
-            }
+            radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, true, handleAssociateRadarTemplateResponse);
         } else {
             radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, false, handleAssociateRadarTemplateResponse);
         }
@@ -49,19 +49,33 @@ export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlterna
         }
     }
 
+    const limitMessage = `You are only allowed ${authenticatedUser?.canHaveNAssociatedRadarTemplates} associated templates on your current subscription. Uncheck another before adding this one.`;
+
     return (
         <div className={rowAlternating}>
             <div className={isMyShared ? "col-md-9 d-flex align-items-center" : "col-md-5 d-flex align-items-center"}>
                 <span className="text-truncate" title={rowData.name}>{rowData.name}</span>
             </div>
             {!isMyShared && (
-                <div className="col-md-4 d-flex align-items-center justify-content-center">
+                <div className="col-md-4 d-flex align-items-center justify-content-center gap-2">
                     <input 
                         type="checkbox" 
                         className="form-check-input"
                         checked={isAssociatedToUser()} 
                         onChange={handleAssociateRadarTemplateChange}
+                        disabled={isCheckboxDisabled()}
+                        title={isCheckboxDisabled() ? limitMessage : ""}
                     />
+                    { isCheckboxDisabled() && (
+                        <span
+                            title={ limitMessage }
+                            style={{ color: '#dc3545', fontSize: '1.1rem', cursor: 'help' }}
+                            role="img"
+                            aria-label="At association limit"
+                        >
+                            ⚠
+                        </span>
+                    )}
                 </div>
             )}
             <div className="col-md-3 d-flex align-items-center justify-content-center">
@@ -77,4 +91,4 @@ export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlterna
     );
 }
 
-export default RadarTemplateRowComponent;
+export default RadarTemplateRowComponent;

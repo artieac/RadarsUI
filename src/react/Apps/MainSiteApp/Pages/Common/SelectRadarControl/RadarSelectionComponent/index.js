@@ -20,6 +20,12 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
+
+    const canSeeFullView = () => {
+        return authenticatedUser && authenticatedUser.canSeeFullView >= 1;
+    }
+
     useEffect(() => {
         generateSharingLinks(null);
 
@@ -55,7 +61,11 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
                 return b.id - a.id;
             });
 
-            data.unshift(completeRadarManager.generateCompleteViewDropdownItem(userId, radarTemplate));
+            // Only add Complete View if the user's subscription grants CanSeeFullView >= 1
+            if (canSeeFullView()) {
+                data.unshift(completeRadarManager.generateCompleteViewDropdownItem(userId, radarTemplate));
+            }
+
             setRadars(data);
             dispatch(addRadarsToState(data));
 
@@ -92,7 +102,7 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
 
         if (isValid(targetRadar) && targetRadar.id > 0) {
             navigate(`${baseUrl}/user/${userId}/radar/${targetRadar.id}`);
-        } else if (isValid(targetRadar) && targetRadar.id === completeRadarManager.completeRadarId) {
+        } else if (canSeeFullView() && isValid(targetRadar) && targetRadar.id === completeRadarManager.completeRadarId) {
             navigate(`${baseUrl}/user/${userId}/radartemplate/${radarTemplate.id}/radars/fullView`);
         }
     }
