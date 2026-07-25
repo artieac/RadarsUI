@@ -16,13 +16,13 @@ export const SubjectAssessmentComponent = ({ rowData }) => {
     return (
         <div>
             <div className="row">
-                { isValid(authenticatedUser) && authenticatedUser.id==rowData.assessmentUser.id ?
+                { isValid(authenticatedUser) && isValid(rowData.assessmentUser) && authenticatedUser.id==rowData.assessmentUser.id ?
                     <h4>
                         <a href={ "/home/user/" + authenticatedUser.id + "/radar/" + rowData.assessmentId }>{ rowData.assessmentName}</a> - { formatDate(rowData.assessmentDate) }
                     </h4>
                     :
                     <h4>
-                        <a href={ "/home/user/" + rowData.assessmentUser.id + "/radar/" + rowData.assessmentId }>{ rowData.assessmentName}</a> - { formatDate(rowData.assessmentDate) }
+                        <a href={ "/home/user/" + (rowData.assessmentUser ? rowData.assessmentUser.id : '') + "/radar/" + rowData.assessmentId }>{ rowData.assessmentName}</a> - { formatDate(rowData.assessmentDate) }
                     </h4>
                 }
             </div>

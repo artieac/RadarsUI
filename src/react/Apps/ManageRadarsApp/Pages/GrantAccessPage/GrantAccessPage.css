@@ -1,0 +1,186 @@
+.grant-access-page {
+    padding: 1.5rem;
+    max-width: 900px;
+}
+
+.grant-access-page h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 0.25rem;
+}
+
+.grant-access-page .page-subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+/* Search Panel */
+.grant-search-panel {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.grant-search-panel h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 1rem;
+}
+
+.grant-search-input-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.grant-search-input-row input {
+    flex: 1;
+}
+
+.grant-search-results {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem;
+}
+
+.grant-user-card {
+    background: #fff;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    text-align: left;
+}
+
+.grant-user-card:hover {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
+}
+
+.grant-user-card.selected {
+    border-color: #6c63ff;
+    background: #f0eeff;
+    box-shadow: 0 0 0 3px rgba(108,99,255,0.2);
+}
+
+.grant-user-card .card-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1a1a2e;
+    margin-bottom: 0.1rem;
+}
+
+.grant-user-card .card-email {
+    font-size: 0.78rem;
+    color: #6c757d;
+}
+
+/* Grant Form */
+.grant-form-panel {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.grant-form-panel h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #343a40;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.grant-selected-user {
+    background: #f0eeff;
+    border: 1px solid #c5bcff;
+    border-radius: 6px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #3d35a8;
+}
+
+.grant-form-panel select {
+    min-width: 170px;
+}
+
+/* Existing Grants Table */
+.grant-table-panel {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.grant-table-panel .panel-header {
+    background: #f8f9fa;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.grant-table-panel table {
+    width: 100%;
+    font-size: 0.88rem;
+    border-collapse: collapse;
+}
+
+.grant-table-panel th {
+    background: #f8f9fa;
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.grant-table-panel td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.grant-table-panel tr:last-child td {
+    border-bottom: none;
+}
+
+.grant-table-panel tr:hover td {
+    background: #fafafa;
+}
+
+.grant-role-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.grant-role-badge.role-1 { background: #e8f5e9; color: #2e7d32; }
+.grant-role-badge.role-2 { background: #e3f2fd; color: #1565c0; }
+.grant-role-badge.role-3 { background: #ede7f6; color: #4527a0; }
+
+.grant-empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { isValid } from 'Apps/Common/Utilities';
 import { addAssociatedRadarTemplatesToState } from 'Redux/RadarTemplateReducer';
-import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository';
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository';
 
 export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlternating, isMyShared }) => {
     const dispatch = useDispatch();
@@ -29,19 +29,19 @@ export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlterna
     const handleAssociateRadarTemplateChange = (event) => {
         if (isCheckboxDisabled()) return;
         const shouldAssociate = event.target.checked;
-        const radarTemplateRepository = new RadarTemplateRepository();
+        const repo = new AccountAdminRepository();
 
         if (shouldAssociate) {
-            radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, true, handleAssociateRadarTemplateResponse);
+            repo.associateRadarTemplate(authenticatedUser.id, rowData.id, true, handleAssociateRadarTemplateResponse);
         } else {
-            radarTemplateRepository.associateRadarTemplate(authenticatedUser.id, rowData.id, false, handleAssociateRadarTemplateResponse);
+            repo.associateRadarTemplate(authenticatedUser.id, rowData.id, false, handleAssociateRadarTemplateResponse);
         }
     }
 
     const handleAssociateRadarTemplateResponse = (wasSuccessful) => {
         if (wasSuccessful) {
-            const radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.getAssociatedRadarTemplates(authenticatedUser.id, (success, data) => {
+            const repo = new AccountAdminRepository();
+            repo.getAssociatedRadarTemplates(authenticatedUser.id, (success, data) => {
                 if (success) {
                     dispatch(addAssociatedRadarTemplatesToState(data));
                 }

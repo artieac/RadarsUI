@@ -1,9 +1,7 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { connect, useSelector, useDispatch } from "react-redux"
 import { setCurrentUser} from 'Redux/UserReducer'
-import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
-import { UserRepository } from 'Repositories/UserRepository'
-import { RadarRepository } from 'Repositories/RadarRepository'
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository'
 import RadarTemplateRowDefinition from './RadarTemplateRowDefinition'
 import { addRadarTemplatesToState, addSelectedRadarTemplateToState, setShowEdit } from 'Redux/RadarTemplateReducer'
 import { addRadarsToState } from 'Redux/RadarReducer'
@@ -22,11 +20,9 @@ export const ManageRadarTemplatesPage = () => {
     const radarTemplates = useSelector((state) => state.radarTemplateReducer.radarTemplates);
 
     useEffect(() => {
-        let radarTemplateRepository = new RadarTemplateRepository();
-        radarTemplateRepository.getMostRecentByUserId(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
-
-        let radarRepository = new RadarRepository();
-        radarRepository.getByUserId(authenticatedUser.id, true, handleGetUserRadarResponse);
+        let repo = new AccountAdminRepository();
+        repo.getRadarTemplates(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
+        repo.getRadars(authenticatedUser.id, handleGetUserRadarResponse);
     },[]);
 
     const handleGetUserRadarResponse = (wasSuccessful, data) => {
@@ -66,22 +62,22 @@ export const ManageRadarTemplatesPage = () => {
 
     const handleDeleteClick = (radarTemplate) => {
         if(confirm("This will permanently remove all radars of this type.  Are you sure you want to proceed?")){
-            let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.deleteRadarTemplate(authenticatedUser.id, radarTemplate.id, handleDeleteResponse);
+            let repo = new AccountAdminRepository();
+            repo.deleteRadarTemplate(authenticatedUser.id, radarTemplate.id, handleDeleteResponse);
         }
     }
 
     const handleDeleteResponse = (wasSuccessful) => {
         if(wasSuccessful==true){
-            let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.getByUserId(authenticatedUser.id, false, handleGetRadarTemplatesByUserIdResponse);
+            let repo = new AccountAdminRepository();
+            repo.getRadarTemplates(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
         }
     }
 
     const handleAddRadarTemplate = () => {
         if (!canAddRadarTemplates()) return;
-        let radarTemplateRepository = new RadarTemplateRepository();
-        let newRadarTemplate = radarTemplateRepository.createDefaultRadarTemplate({});
+        const repo = new AccountAdminRepository();
+        let newRadarTemplate = repo.createDefaultRadarTemplate({});
         setSelectedTemplate(newRadarTemplate);
         dispatch(addSelectedRadarTemplateToState(newRadarTemplate));
     }

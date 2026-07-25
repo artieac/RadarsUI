@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { addRadarsToState } from 'Redux/RadarReducer'
-import { RadarRepository } from 'Repositories/RadarRepository'
-import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository'
 import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { dropdownItem } from 'SharedComponents/DropdownComponent/dropdownItem'
 import { isValid } from 'Apps/Common/Utilities'
@@ -19,8 +18,8 @@ const AddRadarComponent = () => {
 
     useEffect(() => {
         if (isValid(authenticatedUser) && isValid(authenticatedUser.id)) {
-            let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.getOwnedAndAssociatedByUserId(authenticatedUser.id, (wasSuccessful, data) => {
+            let repo = new AccountAdminRepository();
+            repo.getOwnedAndAssociatedTemplates(authenticatedUser.id, (wasSuccessful, data) => {
                 if (wasSuccessful) {
                     setRadarTemplates(data);
                 }
@@ -59,8 +58,8 @@ const AddRadarComponent = () => {
             return;
         }
 
-        let radarRepository = new RadarRepository();
-        radarRepository.addRadar(authenticatedUser.id, radarName, selectedTemplate, (wasSuccessful, data) => {
+        let repo = new AccountAdminRepository();
+        repo.addRadar(authenticatedUser.id, radarName, selectedTemplate, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 dispatch(addRadarsToState(data));
                 setRadarName("");

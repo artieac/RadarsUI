@@ -3,7 +3,7 @@ import { connect, useSelector, useDispatch } from "react-redux"
 import { Link } from 'react-router-dom'
 import { addRadarsToState } from 'Redux/RadarReducer'
 import { setCurrentUser } from 'Redux/UserReducer'
-import { RadarRepository } from 'Repositories/RadarRepository'
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository'
 import { isValid } from 'Apps/Common/Utilities'
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
@@ -38,15 +38,15 @@ export const RadarRowComponent = ({ rowData }) => {
 
         if(shouldProcess==true){
            setIsPublished(event.target.checked);
-           let radarRepository = new RadarRepository();
-           radarRepository.publishRadar(authenticatedUser.id, rowData.id, event.target.checked,  handleRadarChangeResponse);
+           let repo = new AccountAdminRepository();
+           repo.publishRadar(authenticatedUser.id, rowData.id, event.target.checked, handleRadarChangeResponse);
         }
     }
 
     const handleRadarChangeResponse = (wasSuccessful) => {
         if(wasSuccessful==true){
-            let radarRepository = new RadarRepository();
-            radarRepository.getByUserId(authenticatedUser.id, true, handleGetUserRadarResponse);
+            let repo = new AccountAdminRepository();
+            repo.getRadars(authenticatedUser.id, handleGetUserRadarResponse);
         }
     }
 
@@ -58,13 +58,13 @@ export const RadarRowComponent = ({ rowData }) => {
 
     const handleIsLockedClick = (event) => {
         setIsLocked(event.target.checked);
-        let radarRepository = new RadarRepository();
-        radarRepository.lockRadar(authenticatedUser.id, rowData.id, event.target.checked, handleRadarChangeResponse);
+        let repo = new AccountAdminRepository();
+        repo.lockRadar(authenticatedUser.id, rowData.id, event.target.checked, handleRadarChangeResponse);
     }
 
     const handleDeleteClick = (event) => {
-        let radarRepository = new RadarRepository();
-        radarRepository.deleteRadar(authenticatedUser.id, rowData.id, handleRadarChangeResponse);
+        let repo = new AccountAdminRepository();
+        repo.deleteRadar(authenticatedUser.id, rowData.id, handleRadarChangeResponse);
     }
 
     const getRadarViewLink = (authenticatedUser, rowData) => {

@@ -13,7 +13,7 @@ import ListComponent from 'SharedComponents/ListComponent'
 import { RadarItemRepository } from 'Repositories/RadarItemRepository.js'
 import { setSelectedRadarItem,disableRadarItemChangedAlert, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 
-export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
+export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, radarIsLocked } ) => {
     const [isSaving, setIsSaving] = useState(false);
     const [subjectSearchField, setSubjectSearchField] = useState("");
     const [subjectSearchResults, setSubjectSearchResults] = useState([]);
@@ -207,6 +207,10 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
         setAssessmentDetails(event.target.value);
     }
 
+    if (!radarState.currentRadar || !radarState.currentRadar.radarTemplate) {
+        return null;
+    }
+
     return (
        <div className="card mb-3">
            <div className="card-body p-3">
@@ -215,8 +219,8 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                        <div className="col-md-3">
                            <label className="form-label mb-1 small fw-bold">Name & Search</label>
                            <div className="input-group input-group-sm">
-                               <input type="text" className="form-control" id="subjectName" name="subjectName" value={ subjectSearchField } onChange = { handleSubjectNameChange } placeholder="Search or Enter Name"/>
-                               <button className="btn btn-techradar" type="button" onClick= { handleSubjectSearchClick }><i className="bi bi-search"></i></button>
+                               <input type="text" className="form-control" id="subjectName" name="subjectName" value={ subjectSearchField } onChange = { handleSubjectNameChange } placeholder="Search or Enter Name" disabled={ radarIsLocked }/>
+                               <button className="btn btn-techradar" type="button" onClick= { handleSubjectSearchClick } disabled={ radarIsLocked }><i className="bi bi-search"></i></button>
                            </div>
                            <div style={{ position: 'absolute', zIndex: 1000, width: '20%' }}>
                                 <ListComponent id="searchResults" itemMap = { searchResultsRowDefinition(handleSearchResultsSelect) } data = { subjectSearchResults } />
@@ -224,16 +228,16 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                        </div>
                        <div className="col-md-2">
                            <label className="form-label mb-1 small fw-bold">Category</label>
-                           <DropdownComponent title = { radarCategory.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarCategory) } data = { radarState.currentRadar.radarTemplate.radarCategories } />
+                           <DropdownComponent title = { radarCategory.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarCategory) } data = { radarState.currentRadar.radarTemplate.radarCategories } disabled={ radarIsLocked } />
                        </div>
                        <div className="col-md-2">
                            <label className="form-label mb-1 small fw-bold">Ring</label>
-                           <DropdownComponent title = { radarRing.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarRing) } data = { radarState.currentRadar.radarTemplate.radarRings } />
+                           <DropdownComponent title = { radarRing.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarRing) } data = { radarState.currentRadar.radarTemplate.radarRings } disabled={ radarIsLocked } />
                        </div>
                        <div className="col-md-3">
                            <label className="form-label mb-1 small fw-bold">URL</label>
                            <div className="input-group input-group-sm">
-                               <input type="text" className="form-control" id="subjectUrl" name="subjectUrl" value={ subjectUrl } onChange={ handleSubjectUrlChange } placeholder="http://..."/>
+                               <input type="text" className="form-control" id="subjectUrl" name="subjectUrl" value={ subjectUrl } onChange={ handleSubjectUrlChange } placeholder="http://..." disabled={ radarIsLocked }/>
                                <a className="btn btn-techradar" href={ subjectUrl } target="_blank"><i className="bi bi-eye-fill"></i></a>
                            </div>
                        </div>
@@ -241,20 +245,23 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem } ) => {
                    <div className="row mt-3">
                        <div className="col-12">
                            <label className="form-label mb-1 small fw-bold">Assessment Details</label>
-                           <textarea rows="2" className="form-control form-control-sm" id="subjectDetails" name="subjectDetails" value={ assessmentDetails } onChange = { handleAssessmentDetailsChange } placeholder="Enter assessment notes here..." style={{ resize: 'none' }}/>
+                           <textarea rows="2" className="form-control form-control-sm" id="subjectDetails" name="subjectDetails" value={ assessmentDetails } onChange = { handleAssessmentDetailsChange } placeholder="Enter assessment notes here..." style={{ resize: 'none' }} disabled={ radarIsLocked }/>
                        </div>
                    </div>
-                   <div className="row mt-3">
-                       <div className="col-md-4">
-                           <button type="button" className="btn btn-sm btn-outline-secondary w-100" title="Clear Form" onClick = { handleClearForm }>Clear</button>
-                       </div>
-                       <div className="col-md-4">
-                           <button type="button" className="btn btn-sm btn-techradar w-100" title="Save Item" onClick = { handleSaveRadarItem } disabled= { !canAddRadarItem() }>Save</button>
-                       </div>
-                       <div className="col-md-4">
-                           <button type="button" className="btn btn-sm btn-danger w-100" title="Delete Item" onClick = { handleRemoveRadarItem } disabled={ !isExistingRadarItemSelected() }>Delete</button>
-                       </div>
-                   </div>
+                    <div className="row mt-3">
+                        <div className="col-md-3">
+                            <button type="button" className="btn btn-sm btn-outline-secondary w-100" title="Clear Form" onClick = { handleClearForm } disabled={ radarIsLocked }>Clear</button>
+                        </div>
+                        <div className="col-md-3">
+                            <button type="button" className="btn btn-sm btn-techradar w-100" title="Save Item" onClick = { handleSaveRadarItem } disabled={ radarIsLocked || !canAddRadarItem() }>Save</button>
+                        </div>
+                        <div className="col-md-3">
+                            <button type="button" className="btn btn-sm btn-danger w-100" title="Delete Item" onClick = { handleRemoveRadarItem } disabled={ radarIsLocked || !isExistingRadarItemSelected() }>Delete</button>
+                        </div>
+                        <div className="col-md-3">
+                            <button type="button" className="btn btn-sm btn-outline-dark w-100" title="Cancel" onClick={ () => { handleClearForm(); closePanelHandler(); } }>Cancel</button>
+                        </div>
+                    </div>
                </div>
            </div>
        </div>
