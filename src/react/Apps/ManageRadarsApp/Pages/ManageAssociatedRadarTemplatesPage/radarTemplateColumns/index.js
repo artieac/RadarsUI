@@ -30,7 +30,7 @@ export const radarTemplateColumns = (currentUser, associatedRadarTemplates, hand
       key: 'useThis',
       render: rowData => {
         return (
-            <span className={ currentUser.id == rowData.radarUserId ? 'hidden' : ''}>
+            <span className={ currentUser.subscriptionId == rowData.subscriptionId ? 'hidden' : ''}>
                 <input type="checkbox" checked={isAssociatedToUser(rowData)} onChange = {(event) => handleAssociateClick(event, rowData) }/>
             </span>
         );
