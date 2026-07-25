@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { connect, useSelector, useDispatch } from "react-redux";
 import { addRadarTemplatesToState, addSelectedRadarTemplateToState } from 'Redux/RadarTemplateReducer';
-import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository';
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository';
 import RadarRingsComponent from './RadarRingsComponent'
 import RadarCategoriesComponent from './RadarCategoriesComponent'
 import { isValid } from 'Apps/Common/Utilities'
@@ -50,13 +50,13 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
   //          this.forceUpdate();
         }
         else{
-            let radarTemplateRepository = new RadarTemplateRepository();
+            let repo = new AccountAdminRepository();
 
             if(isValid(selectedTemplate.id) && selectedTemplate.id > 0){
-                radarTemplateRepository.updateRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
+                repo.updateRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
             }
             else{
-                radarTemplateRepository.addRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
+                repo.addRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
             }
         }
     }
@@ -64,8 +64,8 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
     const handleEditChangeResponse = (wasSuccessful, data) => {
         if(wasSuccessful==true){
             dispatch(addSelectedRadarTemplateToState(data));
-            let radarTemplateRepository = new RadarTemplateRepository();
-            radarTemplateRepository.getMostRecentByUserId(authenticatedUser.id, handleGetRadarTemplatesResponse);
+            let repo = new AccountAdminRepository();
+            repo.getRadarTemplates(authenticatedUser.id, handleGetRadarTemplatesResponse);
         }
     }
 

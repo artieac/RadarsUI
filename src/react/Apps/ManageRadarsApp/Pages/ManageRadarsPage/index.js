@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { isValid } from 'Apps/Common/Utilities'
 import { RadarRowComponent } from './RadarRowDefinition/RadarRowComponent'
-import { RadarRepository } from 'Repositories/RadarRepository'
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository'
 import { addRadarsToState } from 'Redux/RadarReducer'
 import AddRadarComponent from './AddRadarComponent'
 import LoadingComponent from 'SharedComponents/LoadingComponent'
@@ -24,8 +24,8 @@ export const ManageRadarsPage = ({ authenticatedUser }) => {
 
     const getUserRadars = (user) => {
         if(isValid(user) && isValid(user.id)){
-            let radarRepository = new RadarRepository();
-            radarRepository.getByUserId(user.id, true, handleGetUserRadarResponse);
+            let repo = new AccountAdminRepository();
+            repo.getRadars(user.id, handleGetUserRadarResponse);
         }
     }
 

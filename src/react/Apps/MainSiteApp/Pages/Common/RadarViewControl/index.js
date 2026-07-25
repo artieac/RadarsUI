@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { RadarRepository } from 'Repositories/RadarRepository'
-import { addRadarsToState } from 'Redux/RadarReducer'
+import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { isValid } from 'Apps/Common/Utilities'
 import CompleteRadarManager from '../CompleteRadarManager'
 import RadarSvg from './components/RadarSvg';
@@ -52,6 +52,9 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
         setIsLoading(false);
         if (wasSuccessful === true) {
             setRadarData(data);
+            // Keep Redux currentRadar in sync with the displayed radar so that
+            // ModifyRadarItemsControl always has access to radarTemplate.
+            dispatch(setCurrentRadarInstanceToState(data));
         }
     };
 

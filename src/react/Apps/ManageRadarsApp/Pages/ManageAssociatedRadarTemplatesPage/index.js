@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useSelector, useDispatch } from "react-redux"
 import ViewRadarTemplateControl from './ViewRadarTemplateControl';
-import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository';
-import { UserRepository } from 'Repositories/UserRepository';
+import { AccountAdminRepository } from 'Repositories/AccountAdminRepository';
 import DivTableComponent2 from 'SharedComponents/DivTableComponent2';
 import { RadarTemplateRowDefinition } from './RadarTemplateRowDefinition'
 import { isValid } from 'Apps/Common/Utilities'
@@ -19,17 +18,17 @@ export const ManageAssociatedRadarTemplatesPage = () => {
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useEffect(() => {
-        let radarTemplateRepository = new RadarTemplateRepository();
+        let repo = new AccountAdminRepository();
         
         // Fetch User's templates to identify which are shared
-        radarTemplateRepository.getByUserId(authenticatedUser.id, (wasSuccessful, data) => {
+        repo.getRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 setMySharedTemplates(data.filter(t => t.isPublished));
             }
         });
 
         // Fetch templates shared by others
-        radarTemplateRepository.getOtherUsersSharedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+        repo.getSharedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 setTemplatesFromOthers(data);
                 if (data.length > 0 && !selectedRadarTemplate.id) {
@@ -40,7 +39,7 @@ export const ManageAssociatedRadarTemplatesPage = () => {
         });
 
         // Also fetch currently associated templates to keep state in sync
-        radarTemplateRepository.getAssociatedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+        repo.getAssociatedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 dispatch(addAssociatedRadarTemplatesToState(data));
             }

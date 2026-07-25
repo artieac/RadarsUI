@@ -15,4 +15,8 @@ export class UserRepository extends RestClient {
         let getUrl = '/api/Users';
         this.getRequest(getUrl, responseHandler);
     }
+
+    getUserSubscriptions(responseHandler: Function) {
+        this.getRequest('/api/User/Subscriptions', responseHandler);
+    }
 }

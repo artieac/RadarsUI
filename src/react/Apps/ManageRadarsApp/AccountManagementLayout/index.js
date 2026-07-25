@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 import ManageRadarTemplatesPage from '../Pages/ManageRadarTemplatesPage';
 import ManageAssociatedRadarTemplatesPage from '../Pages/ManageAssociatedRadarTemplatesPage';
 import ManageRadarsPage from '../Pages/ManageRadarsPage';
+import GrantAccessPage from '../Pages/GrantAccessPage';
 import './AccountManagementLayout.css';
 
 const NAV_ITEMS = [
     { id: 'templates',    label: 'Manage Templates',     icon: '📐' },
     { id: 'associated',   label: 'Associated Templates', icon: '🔗' },
     { id: 'radars',       label: 'Manage Radars',        icon: '📡' },
+    { id: 'grantaccess',  label: 'Grant Access',         icon: '🔑' },
 ];
 
 const AccountManagementLayout = () => {
@@ -21,6 +23,7 @@ const AccountManagementLayout = () => {
             case 'templates':  return <ManageRadarTemplatesPage />;
             case 'associated': return <ManageAssociatedRadarTemplatesPage />;
             case 'radars':     return <ManageRadarsPage authenticatedUser={currentUser} />;
+            case 'grantaccess': return <GrantAccessPage />;
             default:           return null;
         }
     };

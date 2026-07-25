@@ -17,6 +17,7 @@ import CompleteRadarManager from '../Common/CompleteRadarManager'
 export const SecureRadarPage = ({ mostRecent, fullView }) => {
     const [showModifyItemsPanel, setShowModifyItemsPanel] = useState(false);
     const [selectedRadarItem, setSelectedRadarItem] = useState(null);
+    const [radarIsLocked, setRadarIsLocked] = useState(false);
 
     let { userId } = useParams();
     let { radarTemplateId } = useParams();
@@ -25,26 +26,24 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
 
-    const shouldShowAddItemButton = (radar) => {
-        let completeRadarManager = new CompleteRadarManager();
-
-        if(isValid(radar) &&
-            isValid(radar.id) &&
-            !radar.isLocked &&
-            !completeRadarManager.isRadarTheCompleteView(radar.id, radar.name)) {
-            return true;
+    // Only update lock state when a real radar is dispatched (has a valid id).
+    // This prevents the transient null/sentinel dispatches from clearing the locked state.
+    useEffect(() => {
+        if (currentRadar && currentRadar.id && currentRadar.id > 0) {
+            setRadarIsLocked(currentRadar.isLocked === true);
         }
-
-        return false;
-    }
-
-    const toggleModifyItemsPanel = () => {
-        setShowModifyItemsPanel(!showModifyItemsPanel);
-    }
+    }, [currentRadar]);
 
     const handleShowAddItemPanel = () => {
         setSelectedRadarItem(null);
         setShowModifyItemsPanel(true);
+    }
+
+    const canAddItems = () => {
+        if (!authenticatedUser || authenticatedUser.unloaded) return false;
+        if (authenticatedUser.isSiteAdmin === true) return true;
+        const role = authenticatedUser.subscriptionRoleName;
+        return role === 'ROLE_EDITOR' || role === 'ROLE_ACCOUNT_ADMIN';
     }
 
     const handleCloseModifyItemsPanel = () => {
@@ -53,10 +52,8 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
     }
 
     const handleClickRadarItem = (radarItem) => {
-        if (shouldShowAddItemButton(currentRadar)) {
-            setSelectedRadarItem(radarItem);
-            setShowModifyItemsPanel(true);
-        }
+        setSelectedRadarItem(radarItem);
+        setShowModifyItemsPanel(true);
     }
 
     const radarViewParams = new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView);
@@ -70,11 +67,40 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
                         <div className="col-md-9">
                             <SelectRadarControl radarViewParams = { radarViewParams } />
                         </div>
-                        <div className="col-md-3">
-                            { shouldShowAddItemButton(currentRadar) ? (
-                                <button className="btn btn-techradar" type="button" onClick= { handleShowAddItemPanel }>Add Item</button>
-                            ) : null }
-                        </div>
+                        { canAddItems() &&
+                            <div className="col-md-3">
+                                { radarIsLocked ? (
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                                        <button
+                                            id="btn-add-radar-item"
+                                            className="btn btn-secondary"
+                                            type="button"
+                                            disabled
+                                            style={{ opacity: 0.65, cursor: 'not-allowed' }}
+                                        >
+                                            Add Item
+                                        </button>
+                                        <span
+                                            title="This Radar is locked and cannot be edited."
+                                            role="img"
+                                            aria-label="Radar is locked"
+                                            style={{ color: '#dc3545', fontSize: '1.2rem', cursor: 'help' }}
+                                        >
+                                            ⚠
+                                        </span>
+                                    </span>
+                                ) : (
+                                    <button
+                                        id="btn-add-radar-item"
+                                        className="btn btn-techradar"
+                                        type="button"
+                                        onClick={ handleShowAddItemPanel }
+                                    >
+                                        Add Item
+                                    </button>
+                                )}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -83,7 +109,7 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
                     { showModifyItemsPanel==true ? (
                         <div className="row mb-4">
                             <div className="col-md-12">
-                                <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } closePanelHandler = { handleCloseModifyItemsPanel }/>
+                                <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } closePanelHandler = { handleCloseModifyItemsPanel } radarIsLocked = { radarIsLocked }/>
                             </div>
                         </div>
                     ) : null }

@@ -39,15 +39,27 @@ export default function ManageRadarsApp() {
         return false;
     }
 
+    const isAccountAdmin = (testUser) => {
+        if (!isUserLoggedIn(testUser)) return false;
+        return testUser.subscriptionRoleName === 'ROLE_ACCOUNT_ADMIN' || testUser.isSiteAdmin === true;
+    }
+
     return (
         <div>
             <HeaderComponent doneLoadingNotifier = { handleDoneLoading } navBarRowDefinition = { NavBarRowDefinition(currentUser, currentPage) } />
             {isUserLoggedIn(currentUser)
-                ? <Routes>
-                    <Route path="/*" element={ <AccountManagementLayout /> } />
-                    <Route path="/radars/user/:userId/radar/:destinationRadarId/addfromprevious" element={ <AddFromPreviousRadarPage /> } />
-                    <Route path="/userDetails" element={ <UserPage authenticatedUser={ currentUser } /> } />
-                  </Routes>
+                ? isAccountAdmin(currentUser)
+                    ? <Routes>
+                        <Route path="/*" element={ <AccountManagementLayout /> } />
+                        <Route path="/radars/user/:userId/radar/:destinationRadarId/addfromprevious" element={ <AddFromPreviousRadarPage /> } />
+                        <Route path="/userDetails" element={ <UserPage authenticatedUser={ currentUser } /> } />
+                      </Routes>
+                    : <div className="container mt-5">
+                        <div className="alert alert-warning" role="alert">
+                            <h4 className="alert-heading">Access Restricted</h4>
+                            <p>Account Management is only available to Account Admins. Please contact your account administrator if you believe you should have access.</p>
+                        </div>
+                      </div>
                 : <div/>
             }
             <FooterComponent/>
