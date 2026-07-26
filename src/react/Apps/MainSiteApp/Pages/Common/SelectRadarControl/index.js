@@ -77,10 +77,12 @@ export const SelectRadarControl = ({ radarViewParams }) => {
         if(wasSuccessful){
             setTargetedRadar(data);
 
-            for(var i = 0; i < radarTemplates.length; i++){
-                if(radarTemplates[i].id==data.radarTemplate.id){
-                    handleRadarTemplateSelection(radarTemplates[i]);
-                    break;
+            if(data.radarTemplate && isValid(data.radarTemplate.id)){
+                for(var i = 0; i < radarTemplates.length; i++){
+                    if(radarTemplates[i].id==data.radarTemplate.id){
+                        handleRadarTemplateSelection(radarTemplates[i]);
+                        break;
+                    }
                 }
             }
         }
