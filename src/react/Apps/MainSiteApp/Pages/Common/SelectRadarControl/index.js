@@ -54,7 +54,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
             if(radarViewParams.isPublic){
                 radarTemplateRepository.getPublicByUserId(radarViewParams.getSubscriptionIdToView(), getRadarTemplatesResponse);
             } else {
-                radarTemplateRepository.getByUserId(radarViewParams.getSubscriptionIdToView(), getRadarTemplatesResponse);
+                radarTemplateRepository.getOwnedAndAssociatedBySubscriptionId(radarViewParams.getSubscriptionIdToView(), getRadarTemplatesResponse);
             }
         }
     }, [radarTemplates, radarViewParams.radarIdParam, radarViewParams.radarTemplateIdParam, radarViewParams.getMostRecent, radarViewParams.getFullView]);

@@ -49,7 +49,7 @@ export class RadarTemplateRepository extends RestClient {
         this.getRequest(getUrl, responseHandler);
     }
 
-    getOwnedAndAssociatedByUserId(subscriptionId, responseHandler){
+    getOwnedAndAssociatedBySubscriptionId(subscriptionId, responseHandler){
         var url = '/api/Subscription/' + subscriptionId + '/RadarTemplates?includeOwned=true&includeAssociated=true';
         this.getRequest(url, responseHandler);
      }

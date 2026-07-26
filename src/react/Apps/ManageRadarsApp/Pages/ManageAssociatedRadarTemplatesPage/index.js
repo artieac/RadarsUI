@@ -28,7 +28,7 @@ export const ManageAssociatedRadarTemplatesPage = () => {
         });
 
         // Fetch templates shared by others
-        repo.getSharedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+        repo.getSharedRadarTemplates(subscriptionId, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 setTemplatesFromOthers(data);
                 if (data.length > 0 && !selectedRadarTemplate.id) {
