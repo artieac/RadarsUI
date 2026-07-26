@@ -17,7 +17,7 @@ const RoleBadge = ({ roleId, roleName }) => (
 
 export const GrantAccessPage = () => {
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
-    const subscriptionId = authenticatedUser && authenticatedUser.subscriptionId;
+    const subscriptionId = authenticatedUser && authenticatedUser.currentlyViewedSubscriptionId;
     const repo = new AccountAdminRepository();
 
     // Search state

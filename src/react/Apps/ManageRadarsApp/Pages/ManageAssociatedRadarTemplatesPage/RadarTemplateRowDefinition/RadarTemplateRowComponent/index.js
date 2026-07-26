@@ -32,16 +32,16 @@ export const RadarTemplateRowComponent = ({ rowData, handleViewClick, rowAlterna
         const repo = new AccountAdminRepository();
 
         if (shouldAssociate) {
-            repo.associateRadarTemplate(authenticatedUser.id, rowData.id, true, handleAssociateRadarTemplateResponse);
+            repo.associateRadarTemplate(authenticatedUser.currentlyViewedSubscriptionId, rowData.id, true, handleAssociateRadarTemplateResponse);
         } else {
-            repo.associateRadarTemplate(authenticatedUser.id, rowData.id, false, handleAssociateRadarTemplateResponse);
+            repo.associateRadarTemplate(authenticatedUser.currentlyViewedSubscriptionId, rowData.id, false, handleAssociateRadarTemplateResponse);
         }
     }
 
     const handleAssociateRadarTemplateResponse = (wasSuccessful) => {
         if (wasSuccessful) {
             const repo = new AccountAdminRepository();
-            repo.getAssociatedRadarTemplates(authenticatedUser.id, (success, data) => {
+            repo.getAssociatedRadarTemplates(authenticatedUser.currentlyViewedSubscriptionId, (success, data) => {
                 if (success) {
                     dispatch(addAssociatedRadarTemplatesToState(data));
                 }

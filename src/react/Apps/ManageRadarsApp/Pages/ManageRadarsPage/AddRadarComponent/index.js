@@ -17,9 +17,9 @@ const AddRadarComponent = () => {
     const userRadars = useSelector((state) => state.radarReducer.radars);
 
     useEffect(() => {
-        if (isValid(authenticatedUser) && isValid(authenticatedUser.id)) {
+        if (isValid(authenticatedUser) && isValid(authenticatedUser.currentlyViewedSubscriptionId)) {
             let repo = new AccountAdminRepository();
-            repo.getOwnedAndAssociatedTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+            repo.getOwnedAndAssociatedTemplates(authenticatedUser.currentlyViewedSubscriptionId, (wasSuccessful, data) => {
                 if (wasSuccessful) {
                     setRadarTemplates(data);
                 }
@@ -48,6 +48,7 @@ const AddRadarComponent = () => {
 
     const handleAddRadar = (e)  => {
         e.preventDefault();
+
         if (!canAddRadar()) return;
         if (radarName.trim() === "") {
             alert("You must enter a name for the radar.");
@@ -59,7 +60,7 @@ const AddRadarComponent = () => {
         }
 
         let repo = new AccountAdminRepository();
-        repo.addRadar(authenticatedUser.id, radarName, selectedTemplate, (wasSuccessful, data) => {
+        repo.addRadar(authenticatedUser.currentlyViewedSubscriptionId, radarName, selectedTemplate, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 dispatch(addRadarsToState(data));
                 setRadarName("");

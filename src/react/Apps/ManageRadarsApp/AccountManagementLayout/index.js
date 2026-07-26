@@ -53,7 +53,7 @@ const AccountManagementLayout = () => {
                     ))}
                 </ul>
             </nav>
-            <main className="acct-content">
+            <main className="acct-content" key={currentUser?.currentlyViewedSubscriptionId}>
                 {renderContent()}
             </main>
         </div>

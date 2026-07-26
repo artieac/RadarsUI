@@ -54,7 +54,14 @@ export default function(state = manageUserState, action: IReduxAction) {
   switch (action.type) {
     case actionTypes.SETCURRENTUSER:
         return Object.assign({}, state, {
-            currentUser: action.payload
+            currentUser: Object.assign({}, action.payload, {
+                // ownedSubscriptionId: the subscription this user owns — set once, never
+                // overwritten by subscription-context switching.
+                ownedSubscriptionId: action.payload.subscriptionId,
+                // currentlyViewedSubscriptionId: the subscription currently being viewed /
+                // managed. Starts as the owned subscription; updated by SET_VIEWED_SUBSCRIPTION.
+                currentlyViewedSubscriptionId: action.payload.subscriptionId,
+            })
         })
     case actionTypes.ADDUSERS:
         return Object.assign({}, state, {
@@ -72,11 +79,15 @@ export default function(state = manageUserState, action: IReduxAction) {
         })
         break;
     case actionTypes.SET_VIEWED_SUBSCRIPTION:
-        // Merge subscription-context fields into currentUser without replacing identity fields
+        // Merge subscription-context fields into currentUser without replacing identity fields.
+        // currentlyViewedSubscriptionId tracks which subscription is being viewed/managed.
+        // ownedSubscriptionId is intentionally NOT updated here — it always reflects the
+        // subscription the user owns, regardless of which one they are currently viewing.
         return Object.assign({}, state, {
             currentUser: Object.assign({}, state.currentUser, {
                 subscriptionRoleName: action.payload.roleName,
                 subscriptionId: action.payload.subscriptionId,
+                currentlyViewedSubscriptionId: action.payload.subscriptionId,
                 subscriptionTierName: action.payload.subscriptionTierName,
                 canHaveNRadarTemplates: action.payload.canHaveNRadarTemplates,
                 canHaveNAssociatedRadarTemplates: action.payload.canHaveNAssociatedRadarTemplates,

@@ -13,6 +13,8 @@ import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { isValid } from 'Apps/Common/Utilities'
 import { RadarViewParams } from '../Common/RadarViewParams'
 import CompleteRadarManager from '../Common/CompleteRadarManager'
+import { UserRepository } from 'Repositories/UserRepository'
+import { setViewedSubscription } from 'Redux/UserReducer'
 
 export const SecureRadarPage = ({ mostRecent, fullView }) => {
     const [showModifyItemsPanel, setShowModifyItemsPanel] = useState(false);
@@ -25,6 +27,30 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
 
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
+    const dispatch = useDispatch();
+
+    // Sync Redux subscription context whenever the URL subscription changes.
+    // This handles direct navigation (bookmarks, nav links) where setViewedSubscription
+    // was never dispatched, ensuring canSeeFullView and tier limits are always correct.
+    useEffect(() => {
+        const urlSubId = parseInt(subscriptionId, 10);
+        if (!urlSubId || authenticatedUser?.currentlyViewedSubscriptionId === urlSubId) return;
+        const userRepo = new UserRepository();
+        userRepo.getUserSubscriptions((success, data) => {
+            if (success && Array.isArray(data)) {
+                const sub = data.find(s => s.subscriptionId === urlSubId);
+                if (sub) dispatch(setViewedSubscription(sub));
+            }
+        });
+    }, [subscriptionId]);
+
+    // Clear stale radar data from Redux whenever the subscription changes.
+    // Without this, RadarViewControl remounts (due to key={subscriptionId}) and immediately
+    // reads the previous subscription's radar from Redux, causing RadarSvg to crash when
+    // the old radar's structure doesn't match the new subscription's template.
+    useEffect(() => {
+        dispatch(setCurrentRadarInstanceToState(null));
+    }, [subscriptionId]);
 
     // Only update lock state when a real radar is dispatched (has a valid id).
     // This prevents the transient null/sentinel dispatches from clearing the locked state.
@@ -65,7 +91,7 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-md-9">
-                            <SelectRadarControl radarViewParams = { radarViewParams } />
+                            <SelectRadarControl key={subscriptionId} radarViewParams = { radarViewParams } />
                         </div>
                         { canAddItems() &&
                             <div className="col-md-3">
@@ -115,7 +141,7 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
                     ) : null }
                     <div className="row">
                         <div className="col-md-12">
-                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } subscriptionId = { radarViewParams.getSubscriptionIdToView() } />
+                            <RadarViewControl key={subscriptionId} handleClickRadarItem = { handleClickRadarItem } isPublic={ false } subscriptionId = { radarViewParams.getSubscriptionIdToView() } />
                         </div>
                     </div>
                 </div>
