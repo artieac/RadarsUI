@@ -20,10 +20,11 @@ export const ManageRadarTemplatesPage = () => {
     const radarTemplates = useSelector((state) => state.radarTemplateReducer.radarTemplates);
 
     useEffect(() => {
+        if (!authenticatedUser || !authenticatedUser.subscriptionId) return;
         let repo = new AccountAdminRepository();
         repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesByUserIdResponse);
         repo.getRadars(authenticatedUser.subscriptionId, handleGetUserRadarResponse);
-    },[]);
+    },[authenticatedUser.subscriptionId]);
 
     const handleGetUserRadarResponse = (wasSuccessful, data) => {
         if(wasSuccessful==true){
