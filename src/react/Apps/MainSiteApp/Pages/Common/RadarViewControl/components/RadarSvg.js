@@ -5,7 +5,11 @@ import RadarQuadrant from './RadarQuadrant';
 
 const RadarSvg = ({ h, w, quadrants, arcs, onClick }) => {
     let blipCounter = 0;
-    
+
+    if (!arcs || arcs.length === 0) {
+        return null;
+    }
+
     // Default full view
     let viewBox = `0 0 ${w} ${h}`;
     let isSingleQuadrant = quadrants.length === 1;
