@@ -19,6 +19,8 @@ export const ManageAssociatedRadarTemplatesPage = () => {
     const currentlyViewedSubscriptionId = authenticatedUser?.currentlyViewedSubscriptionId;
 
     useEffect(() => {
+        if (!authenticatedUser || !authenticatedUser.subscriptionId) return;
+        const subscriptionId = authenticatedUser.subscriptionId;
         let repo = new AccountAdminRepository();
         
         // Fetch User's templates to identify which are shared
@@ -45,7 +47,7 @@ export const ManageAssociatedRadarTemplatesPage = () => {
                 dispatch(addAssociatedRadarTemplatesToState(data));
             }
         });
-    }, []);
+    }, [authenticatedUser.subscriptionId]);
 
     const handleViewTemplateClick = (rowData) => {
         setSelectedRadarTemplate(rowData);

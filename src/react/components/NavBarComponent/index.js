@@ -40,9 +40,11 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
         return "anonymous";
     }
 
-    // Detect current subscription from URL (e.g. /home/subscription/:subscriptionId/...)
+    // Detect current subscription from URL.
+    // Matches both main-site paths (/home/subscription/{id}/...)
+    // and manage-site paths      (/account/{id}/...)
     const getCurrentViewedSubscriptionId = () => {
-        const match = location.pathname.match(/\/subscription\/(\d+)\//);
+        const match = location.pathname.match(/\/(?:subscription|account)\/(\d+)(?:\/|$)/);
         return match ? parseInt(match[1], 10) : null;
     }
 
@@ -75,8 +77,18 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
         dispatch(setViewedSubscription(sub));
         // Close dropdown
         setProfileOpen(false);
-        // Navigate to the new subscription's radar view
-        navigate(`/home/subscription/${sub.subscriptionId}/radars`);
+
+        // Navigate differently depending on which app we're in.
+        // ManageRadarsApp is served on the manage.* subdomain and uses /account/{id}/ paths.
+        // MainSiteApp uses /home/subscription/{id}/... paths.
+        const host = window.location.hostname;
+        const isManageSite = host.startsWith('manage.') || host.startsWith('local.manage.');
+
+        if (isManageSite) {
+            navigate(`/account/${sub.subscriptionId}/`);
+        } else {
+            navigate(`/home/subscription/${sub.subscriptionId}/radars`);
+        }
     }
 
     // Close on outside click

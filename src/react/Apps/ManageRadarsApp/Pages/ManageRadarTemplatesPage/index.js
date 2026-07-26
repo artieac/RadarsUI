@@ -21,6 +21,7 @@ export const ManageRadarTemplatesPage = () => {
     const radarTemplates = useSelector((state) => state.radarTemplateReducer.radarTemplates);
 
     useEffect(() => {
+        if (!authenticatedUser || !authenticatedUser.subscriptionId) return;
         let repo = new AccountAdminRepository();
         repo.getRadarTemplates(currentlyViewedSubscriptionId, handleGetRadarTemplatesByUserIdResponse);
         repo.getRadars(currentlyViewedSubscriptionId, handleGetUserRadarResponse);
@@ -131,4 +132,4 @@ export const ManageRadarTemplatesPage = () => {
 };
 
 
-export default ManageRadarTemplatesPage;
+export default ManageRadarTemplatesPage;

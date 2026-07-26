@@ -64,7 +64,7 @@ export const GrantAccessPage = () => {
 
     useEffect(() => {
         loadGrants();
-    }, []);
+    }, [subscriptionId]);
 
     // Initialise pending roles when grants load
     useEffect(() => {

@@ -20,7 +20,7 @@ export const ManageRadarsPage = ({ authenticatedUser }) => {
 
     useEffect(() => {
         getUserRadars(authenticatedUser);
-    }, []);
+    }, [authenticatedUser.subscriptionId]);
 
     const getUserRadars = (user) => {
         if(isValid(user) && isValid(user.currentlyViewedSubscriptionId)){
