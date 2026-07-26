@@ -41,58 +41,58 @@ export class AccountAdminRepository extends RestClient {
 
     // ── Radar Templates ─────────────────────────────────────────────────────
 
-    getRadarTemplates(userId: number | string, responseHandler: Function) {
-        this.getRequest(`${BASE}/User/${userId}/RadarTemplates`, responseHandler);
+    getRadarTemplates(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplates`, responseHandler);
     }
 
-    getOwnedAndAssociatedTemplates(userId: number | string, responseHandler: Function) {
-        this.getRequest(`${BASE}/User/${userId}/RadarTemplates?includeOwned=true&includeAssociated=true`, responseHandler);
+    getOwnedAndAssociatedTemplates(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplates?includeOwned=true&includeAssociated=true`, responseHandler);
     }
 
-    getAssociatedRadarTemplates(userId: number | string, responseHandler: Function) {
-        this.getRequest(`${BASE}/User/${userId}/RadarTemplates/Associated`, responseHandler);
+    getAssociatedRadarTemplates(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplates/Associated`, responseHandler);
     }
 
     getSharedRadarTemplates(excludeUserId: number | string, responseHandler: Function) {
         this.getRequest(`${BASE}/RadarTemplates/Shared?excludeUser=${excludeUserId}`, responseHandler);
     }
 
-    addRadarTemplate(userId: number | string, radarTemplate: any, responseHandler: Function) {
-        this.postRequest(`${BASE}/User/${userId}/RadarTemplate`, radarTemplate, responseHandler);
+    addRadarTemplate(subscriptionId: number | string, radarTemplate: any, responseHandler: Function) {
+        this.postRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplate`, radarTemplate, responseHandler);
     }
 
-    updateRadarTemplate(userId: number | string, radarTemplate: any, responseHandler: Function) {
-        this.putRequest(`${BASE}/User/${userId}/RadarTemplate/${radarTemplate.id}`, radarTemplate, responseHandler);
+    updateRadarTemplate(subscriptionId: number | string, radarTemplate: any, responseHandler: Function) {
+        this.putRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplate/${radarTemplate.id}`, radarTemplate, responseHandler);
     }
 
-    deleteRadarTemplate(userId: number | string, radarTemplateId: number | string, responseHandler: Function) {
-        this.deleteRequest(`${BASE}/User/${userId}/RadarTemplate/${radarTemplateId}`, responseHandler);
+    deleteRadarTemplate(subscriptionId: number | string, radarTemplateId: number | string, responseHandler: Function) {
+        this.deleteRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplate/${radarTemplateId}`, responseHandler);
     }
 
-    associateRadarTemplate(userId: number | string, radarTemplateId: number | string, shouldAssociate: boolean, responseHandler: Function) {
-        this.putRequest(`${BASE}/User/${userId}/RadarTemplate/${radarTemplateId}/Associate`, { shouldAssociate }, responseHandler);
+    associateRadarTemplate(subscriptionId: number | string, radarTemplateId: number | string, shouldAssociate: boolean, responseHandler: Function) {
+        this.putRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplate/${radarTemplateId}/Associate`, { shouldAssociate }, responseHandler);
     }
 
     // ── Radars ──────────────────────────────────────────────────────────────
 
-    getRadars(userId: number | string, responseHandler: Function) {
-        this.getRequest(`${BASE}/User/${userId}/Radars`, responseHandler);
+    getRadars(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/Subscription/${subscriptionId}/Radars`, responseHandler);
     }
 
-    addRadar(userId: number | string, radarName: string, radarTemplate: any, responseHandler: Function) {
-        this.postRequest(`${BASE}/User/${userId}/Radar`, { name: radarName, radarTemplateId: radarTemplate.id }, responseHandler);
+    addRadar(subscriptionId: number | string, radarName: string, radarTemplate: any, responseHandler: Function) {
+        this.postRequest(`${BASE}/Subscription/${subscriptionId}/Radar`, { name: radarName, radarTemplateId: radarTemplate.id }, responseHandler);
     }
 
-    publishRadar(userId: number | string, radarId: number | string, isPublished: boolean, responseHandler: Function) {
-        this.putRequest(`${BASE}/User/${userId}/Radar/${radarId}/Publish`, { isPublished }, responseHandler);
+    publishRadar(subscriptionId: number | string, radarId: number | string, isPublished: boolean, responseHandler: Function) {
+        this.putRequest(`${BASE}/Subscription/${subscriptionId}/Radar/${radarId}/Publish`, { isPublished }, responseHandler);
     }
 
-    lockRadar(userId: number | string, radarId: number | string, isLocked: boolean, responseHandler: Function) {
-        this.putRequest(`${BASE}/User/${userId}/Radar/${radarId}/Lock`, { isLocked }, responseHandler);
+    lockRadar(subscriptionId: number | string, radarId: number | string, isLocked: boolean, responseHandler: Function) {
+        this.putRequest(`${BASE}/Subscription/${subscriptionId}/Radar/${radarId}/Lock`, { isLocked }, responseHandler);
     }
 
-    deleteRadar(userId: number | string, radarId: number | string, responseHandler: Function) {
-        this.putRequest(`${BASE}/User/${userId}/Radar/${radarId}/Delete`, {}, responseHandler);
+    deleteRadar(subscriptionId: number | string, radarId: number | string, responseHandler: Function) {
+        this.putRequest(`${BASE}/Subscription/${subscriptionId}/Radar/${radarId}/Delete`, {}, responseHandler);
     }
 
     // ── Grant Access ────────────────────────────────────────────────────────

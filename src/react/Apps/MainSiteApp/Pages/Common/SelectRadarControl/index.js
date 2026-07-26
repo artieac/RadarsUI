@@ -20,12 +20,19 @@ export const SelectRadarControl = ({ radarViewParams }) => {
     const [selectedRadarTemplate, setSelectedRadarTemplate] = useState({name: "Select"});
     const [mostRecentRadarsLink, setMostRecentRadarsLink] = useState("");
     const [targetedRadar, setTargetedRadar] = useState(null);
+    // Incremented on every mount so the fetch effect always runs fresh,
+    // even when subscriptionId hasn't changed (e.g. returning from account management).
+    const [mountId, setMountId] = useState(0);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // Always reset and refetch when the component mounts or the subscription changes.
     useEffect(() => {
         setRadarTemplates([]);
+        setSelectedRadarTemplate({name: "Select"});
+        setTargetedRadar(null);
+        setMountId(id => id + 1);
     }, [radarViewParams.subscriptionIdParam]);
 
     useEffect(() => {
@@ -57,7 +64,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                 radarTemplateRepository.getByUserId(radarViewParams.getSubscriptionIdToView(), getRadarTemplatesResponse);
             }
         }
-    }, [radarTemplates, radarViewParams.radarIdParam, radarViewParams.radarTemplateIdParam, radarViewParams.getMostRecent, radarViewParams.getFullView]);
+    }, [radarTemplates, radarViewParams.radarIdParam, radarViewParams.radarTemplateIdParam, radarViewParams.getMostRecent, radarViewParams.getFullView, mountId]);
 
     const getRadarTemplatesResponse = (wasSuccessful, data) => {
         if(wasSuccessful){
