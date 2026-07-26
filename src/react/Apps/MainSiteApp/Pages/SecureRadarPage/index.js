@@ -19,7 +19,7 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
     const [selectedRadarItem, setSelectedRadarItem] = useState(null);
     const [radarIsLocked, setRadarIsLocked] = useState(false);
 
-    let { userId } = useParams();
+    let { subscriptionId } = useParams();
     let { radarTemplateId } = useParams();
     let { radarId } = useParams();
 
@@ -29,7 +29,7 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
     // Only update lock state when a real radar is dispatched (has a valid id).
     // This prevents the transient null/sentinel dispatches from clearing the locked state.
     useEffect(() => {
-        if (currentRadar && currentRadar.id && currentRadar.id > 0) {
+        if (currentRadar && (currentRadar.radarId || currentRadar.id)) {
             setRadarIsLocked(currentRadar.isLocked === true);
         }
     }, [currentRadar]);
@@ -56,7 +56,7 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
         setShowModifyItemsPanel(true);
     }
 
-    const radarViewParams = new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView);
+    const radarViewParams = new RadarViewParams(false, subscriptionId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView);
 
     return (
         <div className="card">
@@ -109,13 +109,13 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
                     { showModifyItemsPanel==true ? (
                         <div className="row mb-4">
                             <div className="col-md-12">
-                                <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } closePanelHandler = { handleCloseModifyItemsPanel } radarIsLocked = { radarIsLocked }/>
+                                <ModifyRadarItemsControl selectedRadarItem = { selectedRadarItem } subscriptionId = { subscriptionId } radarId = { currentRadar && currentRadar.id } closePanelHandler = { handleCloseModifyItemsPanel } radarIsLocked = { radarIsLocked }/>
                             </div>
                         </div>
                     ) : null }
                     <div className="row">
                         <div className="col-md-12">
-                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } userId = { radarViewParams.getUserIdToView() } />
+                            <RadarViewControl handleClickRadarItem = { handleClickRadarItem } isPublic={ false } subscriptionId = { radarViewParams.getSubscriptionIdToView() } />
                         </div>
                     </div>
                 </div>

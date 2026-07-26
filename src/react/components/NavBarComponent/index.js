@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types'
-import { connect, useSelector } from "react-redux";
-import { Link, useLocation } from 'react-router-dom';
+import { connect, useSelector, useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { isValid } from 'Apps/Common/Utilities'
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 import { UserRepository } from 'Repositories/UserRepository'
+import { setViewedSubscription } from 'Redux/UserReducer'
 import "./component.css"
 
 const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
@@ -13,6 +14,8 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
     const [subsLoaded, setSubsLoaded] = useState(false);
     const dropdownRef = useRef(null);
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const isUserLoggedIn = () => {
         if(isValid(currentUser) && isValid(currentUser.id) && currentUser.id > 0){
@@ -36,9 +39,9 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
         return "anonymous";
     }
 
-    // Detect current subscription owner from URL (e.g. /home/user/:userId/...)
-    const getCurrentViewedUserId = () => {
-        const match = location.pathname.match(/\/user\/(\d+)\//);
+    // Detect current subscription from URL (e.g. /home/subscription/:subscriptionId/...)
+    const getCurrentViewedSubscriptionId = () => {
+        const match = location.pathname.match(/\/subscription\/(\d+)\//);
         return match ? parseInt(match[1], 10) : null;
     }
 
@@ -60,6 +63,15 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
         // loginUrl is API_ROOT/login — swap to /logout
         const logoutUrl = loginUrl.replace(/\/login$/, '/logout');
         window.open(logoutUrl, '_self');
+    }
+
+    const onSubscriptionClick = (sub) => {
+        // Update Redux with the new subscription's role and tier limits
+        dispatch(setViewedSubscription(sub));
+        // Close dropdown
+        setProfileOpen(false);
+        // Navigate to the new subscription's radar view
+        navigate(`/home/subscription/${sub.subscriptionId}/radars`);
     }
 
     // Close on outside click
@@ -91,7 +103,7 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
 
     const renderProfileDropdown = () => {
         if (!isUserLoggedIn()) return null;
-        const currentViewedUserId = getCurrentViewedUserId();
+        const currentViewedSubscriptionId = getCurrentViewedSubscriptionId();
 
         return (
             <div className="profile-dropdown-wrapper" ref={dropdownRef}>
@@ -147,12 +159,15 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
                                 <div className="profile-subs-empty">No subscriptions found.</div>
                             )}
                             {subsLoaded && subscriptions.map((sub, idx) => {
-                                const isCurrent = currentViewedUserId && sub.owningUserId === currentViewedUserId;
+                                const isCurrent = currentViewedSubscriptionId &&
+                                    sub.subscriptionId === currentViewedSubscriptionId;
                                 const displayName = sub.owningUserName || sub.owningUserEmail || `Subscription ${sub.subscriptionId}`;
                                 return (
-                                    <div
+                                    <button
                                         key={idx}
                                         className={`profile-sub-item${isCurrent ? ' profile-sub-current' : ''}`}
+                                        onClick={() => onSubscriptionClick(sub)}
+                                        style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                                     >
                                         <div className="profile-sub-info">
                                             <span className="profile-sub-name">
@@ -164,7 +179,7 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
                                         <span className={`profile-badge ${getRoleBadgeClass(sub.roleName)}`}>
                                             {getRoleLabel(sub.roleName)}
                                         </span>
-                                    </div>
+                                    </button>
                                 );
                             })}
                         </div>

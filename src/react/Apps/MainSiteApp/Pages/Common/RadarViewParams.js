@@ -2,16 +2,16 @@ import { isValid } from 'Apps/Common/Utilities'
 
 export class RadarViewParams {
     isPublic = true;
-    userIdParam = -1;
+    subscriptionIdParam = -1;
     authenticatedUser = null;
     radarTemplateIdParam = -1;
     radarIdParam = -1;
     getMostRecent = false;
     getFullView = false;
 
-    constructor(isPublic, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView){
+    constructor(isPublic, subscriptionId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView){
         this.isPublic = isPublic;
-        this.userIdParam = userId;
+        this.subscriptionIdParam = subscriptionId;
         this.authenticatedUser = authenticatedUser;
         this.radarTemplateIdParam = radarTemplateId;
         this.radarIdParam = radarId;
@@ -25,15 +25,23 @@ export class RadarViewParams {
         }
     }
 
-    getUserIdToView() {
-        if(this.isPublic==true || (isValid(this.userIdParam) && this.userIdParam > 0)){
-            return this.userIdParam;
+    getSubscriptionIdToView() {
+        if(this.isPublic==true || (isValid(this.subscriptionIdParam) && this.subscriptionIdParam > 0)){
+            return this.subscriptionIdParam;
         } else {
-            if(isValid(this.authenticatedUser) && isValid(this.authenticatedUser.id)){
-                return this.authenticatedUser.id;
+            // Fall back to the authenticated user's own subscriptionId
+            if(isValid(this.authenticatedUser) && isValid(this.authenticatedUser.subscriptionId)){
+                return this.authenticatedUser.subscriptionId;
             }
         }
-
         return -1;
+    }
+
+    /**
+     * @deprecated Use getSubscriptionIdToView() instead.
+     * Kept for backward compatibility with any components that may still call this.
+     */
+    getUserIdToView() {
+        return this.getSubscriptionIdToView();
     }
 }

@@ -11,19 +11,19 @@ import LoadingComponent from 'SharedComponents/LoadingComponent';
 const SingleQuadrantPage = ({ isPublic }) => {
     const [radarData, setRadarData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const { userId, radarId, quadrantName } = useParams();
+    const { subscriptionId, radarId, quadrantName } = useParams();
     
     const navigate = useNavigate();
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useEffect(() => {
         fetchQuadrantData();
-    }, [userId, radarId, quadrantName]);
+    }, [subscriptionId, radarId, quadrantName]);
 
     const fetchQuadrantData = () => {
         setIsLoading(true);
         let radarRepository = new RadarRepository();
-        radarRepository.getQuadrant(isPublic, userId, radarId, quadrantName, (wasSuccessful, data) => {
+        radarRepository.getQuadrant(isPublic, subscriptionId, radarId, quadrantName, (wasSuccessful, data) => {
             setIsLoading(false);
             if (wasSuccessful === true) {
                 setRadarData(data);
@@ -46,7 +46,7 @@ const SingleQuadrantPage = ({ isPublic }) => {
 
     const handleBackClick = () => {
         const baseUrl = isPublic ? "/public/home" : "/home";
-        navigate(`${baseUrl}/user/${userId}/radar/${radarId}`);
+        navigate(`${baseUrl}/subscription/${subscriptionId}/radar/${radarId}`);
     };
 
     const handleClickRadarItem = (radarItem) => {

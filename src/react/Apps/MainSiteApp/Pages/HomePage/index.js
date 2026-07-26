@@ -16,31 +16,32 @@ export const HomePage = () => {
     let configurationSettings = new ConfigurationSettings();
 
     useEffect(() => {
-        const userId = searchParams.get('userId');
+        // Support both the new ?subscriptionId= param and the old ?userId= param for backwards compat
+        const subscriptionId = searchParams.get('subscriptionId') || searchParams.get('userId');
         const radarTemplateId = searchParams.get('radarTemplateId');
         const radarId = searchParams.get('radarId');
         const fullView = searchParams.get('fullView');
         const mostRecent = searchParams.get('mostRecent');
 
-        if(isValid(userId) && userId > 0){
+        if(isValid(subscriptionId) && subscriptionId > 0){
             if(isValid(radarId) && radarId > 0){
-                navigate('/home/user/' + userId + '/radar/' + radarId);
+                navigate('/home/subscription/' + subscriptionId + '/radar/' + radarId);
             } else {
                 if(isValid(radarTemplateId) && radarTemplateId > 0){
                     if(isValid(fullView) && fullView=="true"){
-                        navigate('/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/fullView');
+                        navigate('/home/subscription/' + subscriptionId + '/radartemplate/' + radarTemplateId + '/radars/fullView');
                     } else {
                         if(isValid(mostRecent) && mostRecent=="true"){
-                            navigate('/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars/mostRecent');
+                            navigate('/home/subscription/' + subscriptionId + '/radartemplate/' + radarTemplateId + '/radars/mostRecent');
                         } else {
-                            navigate('/home/user/' + userId + '/radartemplate/' + radarTemplateId + '/radars');
+                            navigate('/home/subscription/' + subscriptionId + '/radartemplate/' + radarTemplateId + '/radars');
                         }
                     }
                 } else {
                     if(isValid(mostRecent) && mostRecent=="true"){
-                        navigate('/home/user/' + userId + '/radar?mostRecent=true');
+                        navigate('/home/subscription/' + subscriptionId + '/radars?mostRecent=true');
                     } else {
-                        navigate('/home/user/' + userId + '/radars');
+                        navigate('/home/subscription/' + subscriptionId + '/radars');
                     }
                 }
             }
@@ -125,7 +126,7 @@ export const HomePage = () => {
                     <h2>Ready to Explore?</h2>
                     <p>Dive into existing insights or start building your own radar today.</p>
                     <div className="text-center">
-                        <Link className="btn-modern btn-primary-modern" aria-current="page" to="/home/user/1/radarTemplate/3/radars/fullView">Explore My Public Radar</Link>
+                        <Link className="btn-modern btn-primary-modern" aria-current="page" to="/search">Explore Public Radars</Link>
                         <a href="/login" className="btn-modern btn-secondary-modern">Sign In to Create Yours</a>
                     </div>
                 </div>

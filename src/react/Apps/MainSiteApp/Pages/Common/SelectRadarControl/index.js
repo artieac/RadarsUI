@@ -26,24 +26,24 @@ export const SelectRadarControl = ({ radarViewParams }) => {
 
     useEffect(() => {
         setRadarTemplates([]);
-    }, [radarViewParams.userIdParam]);
+    }, [radarViewParams.subscriptionIdParam]);
 
     useEffect(() => {
         if(isValid(radarTemplates) && radarTemplates.length > 0){
             let radarRepository = new RadarRepository();
 
             if(isValid(radarViewParams.radarIdParam) && radarViewParams.radarIdParam > 0){
-                radarRepository.getByUserIdAndRadarId(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarIdParam, getRadarResponseHandler);
+                radarRepository.getByUserIdAndRadarId(radarViewParams.isPublic, radarViewParams.getSubscriptionIdToView(), radarViewParams.radarIdParam, getRadarResponseHandler);
             } else {
                 if(radarViewParams.getMostRecent==true){
                     if(isValid(radarViewParams.radarTemplateIdParam) && radarViewParams.radarTemplateIdParam > 0){
-                        radarRepository.getMostRecentRadarByTemplate(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
+                        radarRepository.getMostRecentRadarByTemplate(radarViewParams.isPublic, radarViewParams.getSubscriptionIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
                     } else {
-                        radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getUserIdToView(), getRadarResponseHandler);
+                        radarRepository.getMostRecentRadar(radarViewParams.isPublic, radarViewParams.getSubscriptionIdToView(), getRadarResponseHandler);
                     }
                 } else {
                     if(radarViewParams.getFullView==true){
-                        radarRepository.getFullView(radarViewParams.isPublic, radarViewParams.getUserIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
+                        radarRepository.getFullView(radarViewParams.isPublic, radarViewParams.getSubscriptionIdToView(), radarViewParams.radarTemplateIdParam, getRadarResponseHandler);
                     }
                 }
             }
@@ -52,9 +52,9 @@ export const SelectRadarControl = ({ radarViewParams }) => {
             let radarTemplateRepository = new RadarTemplateRepository();
 
             if(radarViewParams.isPublic){
-                radarTemplateRepository.getPublicByUserId(radarViewParams.getUserIdToView(), getRadarTemplatesResponse);
+                radarTemplateRepository.getPublicByUserId(radarViewParams.getSubscriptionIdToView(), getRadarTemplatesResponse);
             } else {
-                radarTemplateRepository.getByUserId(radarViewParams.getUserIdToView(), getRadarTemplatesResponse);
+                radarTemplateRepository.getByUserId(radarViewParams.getSubscriptionIdToView(), getRadarTemplatesResponse);
             }
         }
     }, [radarTemplates, radarViewParams.radarIdParam, radarViewParams.radarTemplateIdParam, radarViewParams.getMostRecent, radarViewParams.getFullView]);
@@ -95,7 +95,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
         }
 
         if (isValid(targetRadarTemplate) && targetRadarTemplate.id > 0) {
-            navigate(`${baseUrl}/user/${radarViewParams.getUserIdToView()}/radartemplate/${targetRadarTemplate.id}/radars/mostRecent`);
+            navigate(`${baseUrl}/subscription/${radarViewParams.getSubscriptionIdToView()}/radartemplate/${targetRadarTemplate.id}/radars/mostRecent`);
         }
     }
 
@@ -148,7 +148,7 @@ export const SelectRadarControl = ({ radarViewParams }) => {
                     </div>
                 </div>
             </div>
-            <RadarSelectionComponent radarTemplate = { selectedRadarTemplate } userId = { radarViewParams.getUserIdToView() } radarIdParam = { getRadarIdParam(targetedRadar) } isPublic = { radarViewParams.isPublic} />
+            <RadarSelectionComponent radarTemplate = { selectedRadarTemplate } subscriptionId = { radarViewParams.getSubscriptionIdToView() } radarIdParam = { getRadarIdParam(targetedRadar) } isPublic = { radarViewParams.isPublic} />
         </div>
     );
 }

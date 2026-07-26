@@ -12,7 +12,7 @@ import { isValid } from 'Apps/Common/Utilities'
 import CompleteRadarManager from '../../CompleteRadarManager'
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 
-export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, isPublic }) => {
+export const RadarSelectionComponent = ({ radarTemplate, subscriptionId, radarIdParam, isPublic }) => {
     const [radars, setRadars] = useState([]);
     const [selectedRadarDropdownItem, setSelectedRadarDropdownItem] = useState({name: "Select"});
     const [publicRadarLink, setPublicRadarLink] = useState("");
@@ -31,7 +31,7 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
 
         if(isValid(radarTemplate) && isValid(radarTemplate.id)){
             let radarRepository = new RadarRepository();
-            radarRepository.getRadarsByUserIdAndRadarTemplateId(isPublic, userId, radarTemplate.id, handleGetRadarsResponse);
+            radarRepository.getRadarsBySubscriptionIdAndRadarTemplateId(isPublic, subscriptionId, radarTemplate.id, handleGetRadarsResponse);
         }
     }, [radarTemplate]);
 
@@ -63,7 +63,7 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
 
             // Only add Complete View if the user's subscription grants CanSeeFullView >= 1
             if (canSeeFullView()) {
-                data.unshift(completeRadarManager.generateCompleteViewDropdownItem(userId, radarTemplate));
+                data.unshift(completeRadarManager.generateCompleteViewDropdownItem(subscriptionId, radarTemplate));
             }
 
             setRadars(data);
@@ -101,9 +101,9 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
         let completeRadarManager = new CompleteRadarManager();
 
         if (isValid(targetRadar) && targetRadar.id > 0) {
-            navigate(`${baseUrl}/user/${userId}/radar/${targetRadar.id}`);
+            navigate(`${baseUrl}/subscription/${subscriptionId}/radar/${targetRadar.id}`);
         } else if (canSeeFullView() && isValid(targetRadar) && targetRadar.id === completeRadarManager.completeRadarId) {
-            navigate(`${baseUrl}/user/${userId}/radartemplate/${radarTemplate.id}/radars/fullView`);
+            navigate(`${baseUrl}/subscription/${subscriptionId}/radartemplate/${radarTemplate.id}/radars/fullView`);
         }
     }
 
@@ -111,10 +111,10 @@ export const RadarSelectionComponent = ({ radarTemplate, userId, radarIdParam, i
         let configurationSettings = new ConfigurationSettings();
 
         if(isValid(targetRadar) && isValid(targetRadar.id)){
-            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + userId + "&radarId=" + targetRadar.id);
+            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?subscriptionId=" + subscriptionId + "&radarId=" + targetRadar.id);
         }
         else {
-            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?userId=" + userId + "&mostRecent=true");
+            setPublicRadarLink(configurationSettings.getMainSiteUrlRoot() + "?subscriptionId=" + subscriptionId + "&mostRecent=true");
         }
     }
 

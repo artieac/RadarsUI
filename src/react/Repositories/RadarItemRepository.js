@@ -73,8 +73,8 @@ export class RadarItemRepository extends RestClient {
          this.getRequest(url, responseHandler);
      };
 
-    addRadarItem (userId, radarId, radarItem, responseHandler) {
-        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Item';
+    addRadarItem (subscriptionId, radarId, radarItem, responseHandler) {
+        let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Item';
 
         var params = {};
         params.radarCategory = radarItem.radarCategory.id;
@@ -87,18 +87,18 @@ export class RadarItemRepository extends RestClient {
         this.postRequest(url, params, responseHandler);
     };
 
-    addRadarItemNewSubject(userId, radarId, radarCategory, radarRing, confidenceLevel, details, subjectName, subjectUrl, responseHandler) {
+    addRadarItemNewSubject(subscriptionId, radarId, radarCategory, radarRing, confidenceLevel, details, subjectName, subjectUrl, responseHandler) {
          var radarItem = this.createRadarItemForNewSubject(radarCategory, radarRing, confidenceLevel, details, subjectName, subjectUrl);
-         this.addRadarItem(userId, radarId, radarItem, responseHandler);
+         this.addRadarItem(subscriptionId, radarId, radarItem, responseHandler);
      };
 
-    addRadarItemExistingSubject(userId, radarId, radarCategory, radarRing, confidenceLevel, details, radarSubject, responseHandler) {
+    addRadarItemExistingSubject(subscriptionId, radarId, radarCategory, radarRing, confidenceLevel, details, radarSubject, responseHandler) {
          var radarItem = this.createRadarItemForSubject(radarCategory, radarRing, confidenceLevel, details, radarSubject);
-         this.addRadarItem(userId, radarId, radarItem, responseHandler);
+         this.addRadarItem(subscriptionId, radarId, radarItem, responseHandler);
      };
 
-     updateRadarItem(userId, radarId, radarItemId, radarCategory, radarRing, confidenceLevel, details, radarSubject, responseHandler) {
-        let url =  '/api/User/' + userId + '/Radar/' + radarId + '/Item/' + radarItemId;
+     updateRadarItem(subscriptionId, radarId, radarItemId, radarCategory, radarRing, confidenceLevel, details, radarSubject, responseHandler) {
+        let url =  '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Item/' + radarItemId;
 
         var params = {};
         params.radarCategory = radarCategory.id;
@@ -111,14 +111,14 @@ export class RadarItemRepository extends RestClient {
         this.postRequest(url, params, responseHandler);
      };
 
-     deleteRadarItem (userId, radarId, radarItemId, responseHandler){
-        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Item/' + radarItemId;
+     deleteRadarItem (subscriptionId, radarId, radarItemId, responseHandler){
+        let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Item/' + radarItemId;
 
         this.deleteRequest(url, responseHandler);
      };
 
-     deleteRadarItems(userId, radarId, radarItems, responseHandler){
-         let url = '/api/User/' + userId + '/Radar/' + radarId + '/Items/Delete';
+     deleteRadarItems(subscriptionId, radarId, radarItems, responseHandler){
+         let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Items/Delete';
 
          var itemsToDelete = {};
          itemsToDelete.radarItems = radarItems;

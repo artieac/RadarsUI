@@ -12,8 +12,8 @@ export class RadarRepository extends RestClient {
         return url;
     }
 
-    getByUserId(userId, getAllVersions, responseHandler) {
-        var url = '/api/User/' + userId + '/Radars';
+    getBySubscriptionId(subscriptionId, getAllVersions, responseHandler) {
+        var url = '/api/Subscription/' + subscriptionId + '/Radars';
 
         if(getAllVersions==true){
             url += "?getAllVersions=true";
@@ -22,22 +22,18 @@ export class RadarRepository extends RestClient {
         this.getRequest(url, responseHandler);
     }
 
-    getByUserIdAndRadarId(userId, radarId, responseHandler) {
-        this.getByUserIdAndRadarId(false, userId, radarId, responseHandler);
-    }
-
-    getByUserIdAndRadarId(isAnonymous, userId, radarId, responseHandler) {
-        let url = this.generateUrlBase(isAnonymous) + '/User/' + userId + '/Radar/' + radarId;
+    getByUserIdAndRadarId(isAnonymous, subscriptionId, radarId, responseHandler) {
+        let url = this.generateUrlBase(isAnonymous) + '/Subscription/' + subscriptionId + '/Radar/' + radarId;
         this.getRequest(url, responseHandler);
     }
 
-    getRadarsByUserIdAndRadarTemplateId(isAnonymous, userId, radarTemplateId, responseHandler){
-       let url = this.generateUrlBase(isAnonymous) + '/User/' + userId + '/Radars?radarTemplateId=' + radarTemplateId;
+    getRadarsBySubscriptionIdAndRadarTemplateId(isAnonymous, subscriptionId, radarTemplateId, responseHandler){
+       let url = this.generateUrlBase(isAnonymous) + '/Subscription/' + subscriptionId + '/Radars?radarTemplateId=' + radarTemplateId;
         this.getRequest(url, responseHandler);
     }
 
-    publishRadar(userId, radarId, isPublished, responseHandler) {
-         let url = '/api/User/' + userId + '/Radar/' + radarId + '/Publish';
+    publishRadar(subscriptionId, radarId, isPublished, responseHandler) {
+         let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Publish';
 
          var radarToUpdate = {};
          radarToUpdate.isPublished = isPublished;
@@ -45,8 +41,8 @@ export class RadarRepository extends RestClient {
          this.putRequest(url, radarToUpdate, responseHandler);
     }
 
-    lockRadar(userId, radarId, isLocked, responseHandler) {
-        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Lock';
+    lockRadar(subscriptionId, radarId, isLocked, responseHandler) {
+        let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Lock';
 
         var radarToUpdate = {};
         radarToUpdate.isLocked = isLocked;
@@ -54,14 +50,14 @@ export class RadarRepository extends RestClient {
         this.putRequest(url, radarToUpdate, responseHandler);
     }
 
-    deleteRadar(userId, radarId, responseHandler) {
-        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Delete';
+    deleteRadar(subscriptionId, radarId, responseHandler) {
+        let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Delete';
 
         this.putRequest(url, {}, responseHandler);
     }
 
-    addRadar(userId, radarName, radarTemplate, responseHandler) {
-        let url = '/api/User/' + userId + '/Radar';
+    addRadar(subscriptionId, radarName, radarTemplate, responseHandler) {
+        let url = '/api/Subscription/' + subscriptionId + '/Radar';
 
         var radarToAdd = {};
         radarToAdd.name = radarName;
@@ -70,8 +66,8 @@ export class RadarRepository extends RestClient {
         this.postRequest(url, radarToAdd, responseHandler);
     }
 
-    addItemsToRadar(userId, radarId, radarItems, responseHandler){
-        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Items';
+    addItemsToRadar(subscriptionId, radarId, radarItems, responseHandler){
+        let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Items';
 
         var itemsToAdd = {};
         itemsToAdd.radarItems = radarItems;
@@ -79,8 +75,8 @@ export class RadarRepository extends RestClient {
         this.postRequest(url, itemsToAdd, responseHandler);
     }
 
-    removeItemsFromRadar(userId, radarId, radarItems, responseHandler){
-        let url = '/api/User/' + userId + '/Radar/' + radarId + '/Items/Delete';
+    removeItemsFromRadar(subscriptionId, radarId, radarItems, responseHandler){
+        let url = '/api/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Items/Delete';
 
         var itemsToRemove = {};
         itemsToRemove.radarItems = radarItems;
@@ -88,23 +84,23 @@ export class RadarRepository extends RestClient {
         this.postRequest(url, itemsToRemove, responseHandler);
     }
 
-    getMostRecentRadar(isAnonymous, userId, responseHandler){
-        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/Radar/MostRecent'
+    getMostRecentRadar(isAnonymous, subscriptionId, responseHandler){
+        let url = this.generateUrlBase(isAnonymous) + '/Subscription/'  + subscriptionId + '/Radar/MostRecent'
         this.getRequest(url, responseHandler);
     }
 
-    getMostRecentRadarByTemplate(isAnonymous, userId, radarTemplateId, responseHandler){
-        let url = this.generateUrlBase(isAnonymous) + '/User/'  + userId + '/RadarTemplate/' + radarTemplateId + '/Radars/MostRecent'
+    getMostRecentRadarByTemplate(isAnonymous, subscriptionId, radarTemplateId, responseHandler){
+        let url = this.generateUrlBase(isAnonymous) + '/Subscription/'  + subscriptionId + '/RadarTemplate/' + radarTemplateId + '/Radars/MostRecent'
         this.getRequest(url, responseHandler);
     }
 
-    getFullView(isAnonymous, userId, radarTemplateId, responseHandler) {
-       let url = this.generateUrlBase(isAnonymous) + '/User/' + userId + '/RadarTemplate/' + radarTemplateId + '/Radar/FullView';
+    getFullView(isAnonymous, subscriptionId, radarTemplateId, responseHandler) {
+       let url = this.generateUrlBase(isAnonymous) + '/Subscription/' + subscriptionId + '/RadarTemplate/' + radarTemplateId + '/Radar/FullView';
        this.getRequest(url, responseHandler);
     }
 
-    getQuadrant(isAnonymous, userId, radarId, quadrantName, responseHandler) {
-        let url = this.generateUrlBase(isAnonymous) + '/User/' + userId + '/Radar/' + radarId + '/Quadrant/' + quadrantName;
+    getQuadrant(isAnonymous, subscriptionId, radarId, quadrantName, responseHandler) {
+        let url = this.generateUrlBase(isAnonymous) + '/Subscription/' + subscriptionId + '/Radar/' + radarId + '/Quadrant/' + quadrantName;
         this.getRequest(url, responseHandler);
     }
 };

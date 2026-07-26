@@ -11,7 +11,7 @@ import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import { RadarViewParams } from '../Common/RadarViewParams';
 
 export const PublicRadarPage = ({ mostRecent, fullView } ) => {
-    let { userId } = useParams();
+    let { subscriptionId } = useParams();
     let { radarTemplateId } = useParams();
     let { radarId } = useParams();
 
@@ -32,7 +32,7 @@ export const PublicRadarPage = ({ mostRecent, fullView } ) => {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-12">
-                                <SelectRadarControl radarViewParams = { new RadarViewParams(true, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView) } />
+                                <SelectRadarControl radarViewParams = { new RadarViewParams(true, subscriptionId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView) } />
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@ export const PublicRadarPage = ({ mostRecent, fullView } ) => {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-12">
-                                <RadarViewControl handleClickRadarItem = { handleClickRadarItem } userId = { userId } isPublic = { true }/>
+                                <RadarViewControl handleClickRadarItem = { handleClickRadarItem } subscriptionId = { subscriptionId } isPublic = { true }/>
                             </div>
                         </div>
                     </div>

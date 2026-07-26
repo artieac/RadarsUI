@@ -18,7 +18,10 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: true,
             internal: true,
             roles: '',
-            target: '/home/user/' + currentUser.id + '/radars'
+            // Use subscriptionId-based URL; falls back gracefully if subscriptionId not yet loaded
+            target: isValid(currentUser.subscriptionId) && currentUser.subscriptionId > 0
+                ? '/home/subscription/' + currentUser.subscriptionId + '/radars'
+                : '/'
         },
         {
             label: 'Search',
@@ -31,7 +34,7 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             label: 'Account Management',
             loggedInOnly: true,
             internal: false,
-            roles: '',
+            roles: 'ROLE_ACCOUNT_ADMIN',
             target: configurationSettings.getManageRadarsUrlRoot()
         },
         {

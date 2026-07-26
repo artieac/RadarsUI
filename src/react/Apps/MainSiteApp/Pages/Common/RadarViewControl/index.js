@@ -1,5 +1,5 @@
 'use strict'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { RadarRepository } from 'Repositories/RadarRepository'
@@ -10,7 +10,7 @@ import RadarSvg from './components/RadarSvg';
 import SingleQuadrantLegend from './components/SingleQuadrantLegend';
 import LoadingComponent from 'SharedComponents/LoadingComponent';
 
-export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) => {
+export const RadarViewControl = ({ handleClickRadarItem, isPublic, subscriptionId  }) => {
     const [radarData, setRadarData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
@@ -18,11 +18,15 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const lastFetchedRadarIdRef = useRef(null);
+
     useEffect(() => {
-        if (isValid(currentRadar) && isValid(currentRadar.id)) {
+        const incomingId = currentRadar && (currentRadar.radarId || currentRadar.id);
+        if (isValid(currentRadar) && isValid(incomingId) && incomingId !== lastFetchedRadarIdRef.current) {
+            lastFetchedRadarIdRef.current = incomingId;
             fetchRadarData(currentRadar);
         }
-    }, [currentRadar, isPublic, userId]);
+    }, [currentRadar, isPublic, subscriptionId]);
 
     const handleQuadrantTitleClick = (quadrantName) => {
         let baseUrl = isPublic ? "/public/home" : "/home";
@@ -31,19 +35,20 @@ export const RadarViewControl = ({ handleClickRadarItem, isPublic, userId  }) =>
             baseUrl = "/admin";
         }
 
-        const radarId = currentRadar.id;
-        navigate(`${baseUrl}/user/${userId}/radar/${radarId}/quadrant/${quadrantName}`);
+        const radarId = currentRadar.radarId || currentRadar.id;
+        navigate(`${baseUrl}/subscription/${subscriptionId}/radar/${radarId}/quadrant/${quadrantName}`);
     };
 
     const fetchRadarData = (sourceRadar) => {
         setIsLoading(true);
         let radarRepository = new RadarRepository();
-        if (sourceRadar.id > 0) {
-            radarRepository.getByUserIdAndRadarId(isPublic, userId, sourceRadar.id, handleGetRadarResponse);
+        const sourceRadarId = sourceRadar.radarId || sourceRadar.id;
+        if (sourceRadarId > 0) {
+            radarRepository.getByUserIdAndRadarId(isPublic, subscriptionId, sourceRadarId, handleGetRadarResponse);
         } else {
             let completeRadarManager = new CompleteRadarManager();
-            if (completeRadarManager.isRadarTheCompleteView(sourceRadar.id, sourceRadar.name)) {
-                radarRepository.getFullView(isPublic, userId, sourceRadar.radarTemplate.id, handleGetRadarResponse);
+            if (completeRadarManager.isRadarTheCompleteView(sourceRadarId, sourceRadar.name)) {
+                radarRepository.getFullView(isPublic, subscriptionId, sourceRadar.radarTemplate.id, handleGetRadarResponse);
             }
         }
     };
