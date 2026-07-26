@@ -97,20 +97,28 @@ export class AccountAdminRepository extends RestClient {
 
     // ── Grant Access ────────────────────────────────────────────────────────
 
+    getSeatStatus(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/Subscription/${subscriptionId}/seat-status`, responseHandler);
+    }
+
     searchUsers(query: string, responseHandler: Function) {
         const encoded = encodeURIComponent(query);
         this.getRequest(`${BASE}/Users/search?q=${encoded}`, responseHandler);
     }
 
-    getGrants(responseHandler: Function) {
-        this.getRequest(`${BASE}/grants`, responseHandler);
+    getGrants(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/Subscription/${subscriptionId}/grants`, responseHandler);
     }
 
-    grantAccess(targetUserId: number | string, roleId: number, responseHandler: Function) {
-        this.postRequest(`${BASE}/grants`, { targetUserId, roleId }, responseHandler);
+    grantAccess(subscriptionId: number | string, targetUserId: number | string, roleId: number, responseHandler: Function) {
+        this.postRequest(`${BASE}/Subscription/${subscriptionId}/grants`, { targetUserId, roleId }, responseHandler);
     }
 
-    revokeAccess(grantId: number | string, responseHandler: Function) {
-        this.deleteRequest(`${BASE}/grants/${grantId}`, responseHandler);
+    revokeAccess(subscriptionId: number | string, grantId: number | string, responseHandler: Function) {
+        this.deleteRequest(`${BASE}/Subscription/${subscriptionId}/grants/${grantId}`, responseHandler);
+    }
+
+    updateGrantRole(subscriptionId: number | string, grantId: number | string, roleId: number, responseHandler: Function) {
+        this.putRequest(`${BASE}/Subscription/${subscriptionId}/grants/${grantId}`, { roleId }, responseHandler);
     }
 }

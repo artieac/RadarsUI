@@ -13,7 +13,7 @@ import ListComponent from 'SharedComponents/ListComponent'
 import { RadarItemRepository } from 'Repositories/RadarItemRepository.js'
 import { setSelectedRadarItem,disableRadarItemChangedAlert, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 
-export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, radarIsLocked } ) => {
+export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, radarIsLocked, subscriptionId } ) => {
     const [isSaving, setIsSaving] = useState(false);
     const [subjectSearchField, setSubjectSearchField] = useState("");
     const [subjectSearchResults, setSubjectSearchResults] = useState([]);
@@ -113,8 +113,8 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
 
         if (!isValid(currentEditItemId)){
             if (isValid(radarSubject) && isValid(radarSubject.id) && radarSubject.id > 0){
-                radarItemRepository.addRadarItemExistingSubject(authenticatedUser.id,
-                   selectedRadar.id,
+                radarItemRepository.addRadarItemExistingSubject(subscriptionId,
+                   selectedRadar.radarId,
                    radarCategory,
                    radarRing,
                    confidenceLevel,
@@ -123,8 +123,8 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
                    saveRadarItemResponseHandler);
             }
             else{
-                radarItemRepository.addRadarItemNewSubject(authenticatedUser.id,
-                   selectedRadar.id,
+                radarItemRepository.addRadarItemNewSubject(subscriptionId,
+                   selectedRadar.radarId,
                    radarCategory,
                    radarRing,
                    confidenceLevel,
@@ -134,8 +134,8 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
                    saveRadarItemResponseHandler);
             }
         } else {
-            radarItemRepository.updateRadarItem(authenticatedUser.id,
-                selectedRadar.id,
+            radarItemRepository.updateRadarItem(subscriptionId,
+                selectedRadar.radarId,
                 selectedRadarItem.id,
                 radarCategory,
                 radarRing,
@@ -154,7 +154,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
 
     const handleRemoveRadarItem = () => {
         let radarItemRepository = new RadarItemRepository();
-        radarItemRepository.deleteRadarItem(authenticatedUser.id, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
+        radarItemRepository.deleteRadarItem(subscriptionId, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
     }
 
     const handleRemoveRadarItemResponse = (wasSuccessful, userId, radarId) => {

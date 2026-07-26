@@ -38,9 +38,19 @@ export function setSelectedUser(manageUsersSelectedUser: object){
     };
 }
 
-export default function(state = manageUserState, action: IReduxAction) {
- // alert(JSON.stringify(action));
+/**
+ * Updates the current user's Redux state to reflect the subscription they just switched to.
+ * Merges role, tier limits, and subscriptionId from the selected UserSubscriptionViewModel
+ * so all downstream UI (navbar items, canAddItems, etc.) automatically reacts.
+ */
+export function setViewedSubscription(subscription: any){
+    return{
+        type: actionTypes.SET_VIEWED_SUBSCRIPTION,
+        payload: subscription
+    };
+}
 
+export default function(state = manageUserState, action: IReduxAction) {
   switch (action.type) {
     case actionTypes.SETCURRENTUSER:
         return Object.assign({}, state, {
@@ -61,8 +71,21 @@ export default function(state = manageUserState, action: IReduxAction) {
             manageUsersSelectedUser: action.payload
         })
         break;
+    case actionTypes.SET_VIEWED_SUBSCRIPTION:
+        // Merge subscription-context fields into currentUser without replacing identity fields
+        return Object.assign({}, state, {
+            currentUser: Object.assign({}, state.currentUser, {
+                subscriptionRoleName: action.payload.roleName,
+                subscriptionId: action.payload.subscriptionId,
+                subscriptionTierName: action.payload.subscriptionTierName,
+                canHaveNRadarTemplates: action.payload.canHaveNRadarTemplates,
+                canHaveNAssociatedRadarTemplates: action.payload.canHaveNAssociatedRadarTemplates,
+                canHaveNRadars: action.payload.canHaveNRadars,
+                canSeeFullView: action.payload.canSeeFullView,
+            })
+        })
+        break;
     default:
       return state;
   }
 }
-

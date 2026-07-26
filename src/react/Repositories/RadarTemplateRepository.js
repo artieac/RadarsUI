@@ -29,74 +29,63 @@ export class RadarTemplateRepository extends RestClient {
             return retVal;
     }
 
-    getPublicByUserId(userId, responseHandler){
-        var getUrl = '/api/public/User/' + userId + '/RadarTemplates';
-
+    getPublicByUserId(subscriptionId, responseHandler){
+        var getUrl = '/api/public/Subscription/' + subscriptionId + '/RadarTemplates';
         this.getRequest(getUrl, responseHandler);
     }
 
-    getByUserId(userId, responseHandler) {
-        var getUrl = '/api/User/' + userId + '/RadarTemplates';
-
+    getByUserId(subscriptionId, responseHandler) {
+        var getUrl = '/api/Subscription/' + subscriptionId + '/RadarTemplates';
         this.getRequest(getUrl, responseHandler);
     }
 
-    getMostRecentByUserId(userId, responseHandler) {
-        var getUrl = '/api/User/' + userId + '/RadarTemplates?mostRecent=true';
-
+    getMostRecentByUserId(subscriptionId, responseHandler) {
+        var getUrl = '/api/Subscription/' + subscriptionId + '/RadarTemplates?mostRecent=true';
         this.getRequest(getUrl, responseHandler);
     }
 
-    getHistory(userId, radarTemplateId, responseHandler){
-        var getUrl = '/api/User/' + userId + '/RadarTemplate/' + radarTemplateId;
-
+    getHistory(subscriptionId, radarTemplateId, responseHandler){
+        var getUrl = '/api/Subscription/' + subscriptionId + '/RadarTemplate/' + radarTemplateId;
         this.getRequest(getUrl, responseHandler);
     }
 
-    getOwnedAndAssociatedByUserId(userId, responseHandler){
-        var url = '/api/User/' + userId + '/RadarTemplates?includeOwned=true&includeAssociated=true';
-
+    getOwnedAndAssociatedByUserId(subscriptionId, responseHandler){
+        var url = '/api/Subscription/' + subscriptionId + '/RadarTemplates?includeOwned=true&includeAssociated=true';
         this.getRequest(url, responseHandler);
      }
 
-    getOtherUsersSharedRadarTemplates(userId, responseHandler){
-        var url = '/api/RadarTemplates/Shared?excludeUser=' + userId;
-
+    getOtherUsersSharedRadarTemplates(subscriptionId, responseHandler){
+        var url = '/api/RadarTemplates/Shared?excludeUser=' + subscriptionId;
         this.getRequest(url, responseHandler);
     }
 
-    getAssociatedRadarTemplates(userId, responseHandler){
-        let url = '/api/User/' + userId + '/RadarTemplates/Associated';
-
+    getAssociatedRadarTemplates(subscriptionId, responseHandler){
+        let url = '/api/Subscription/' + subscriptionId + '/RadarTemplates/Associated';
         this.getRequest(url, responseHandler);
     }
 
-    addRadarTemplate(userId, radarTemplate, responseHandler) {
-         let url = '/api/User/' + userId + '/RadarTemplate';
-
+    addRadarTemplate(subscriptionId, radarTemplate, responseHandler) {
+         let url = '/api/Subscription/' + subscriptionId + '/RadarTemplate';
          this.postRequest(url, radarTemplate, responseHandler);
     }
 
-    updateRadarTemplate(userId, radarTemplate, responseHandler) {
-         let url = '/api/User/' + userId + '/RadarTemplate/' + radarTemplate.id;
-
+    updateRadarTemplate(subscriptionId, radarTemplate, responseHandler) {
+         let url = '/api/Subscription/' + subscriptionId + '/RadarTemplate/' + radarTemplate.id;
          this.putRequest(url, radarTemplate, responseHandler);
     }
 
-    deleteRadarTemplate(userId, radarTemplateId, responseHandler){
-         let url = '/api/User/' + userId + '/RadarTemplate/' + radarTemplateId;
-
+    deleteRadarTemplate(subscriptionId, radarTemplateId, responseHandler){
+         let url = '/api/Subscription/' + subscriptionId + '/RadarTemplate/' + radarTemplateId;
          this.deleteRequest(url, responseHandler);
     }
 
-    deleteRadarRing(userId, radarTemplateId, radarRingId, responseHandler){
-        let url = '/api/User/' + userId + '/RadarTemplate/' + radarTemplateId + '/ring/' + radarRingId;
-
+    deleteRadarRing(subscriptionId, radarTemplateId, radarRingId, responseHandler){
+        let url = '/api/Subscription/' + subscriptionId + '/RadarTemplate/' + radarTemplateId + '/ring/' + radarRingId;
         this.deleteRequest(url, responseHandler);
     }
 
-    associateRadarTemplate(userId, radarTemplateId, shouldAssociate, responseHandler) {
-         let url = '/api/User/' + userId + '/RadarTemplate/' + radarTemplateId + '/Associate';
+    associateRadarTemplate(subscriptionId, radarTemplateId, shouldAssociate, responseHandler) {
+         let url = '/api/Subscription/' + subscriptionId + '/RadarTemplate/' + radarTemplateId + '/Associate';
 
          var radarTemplateAssociation = {};
          radarTemplateAssociation.shouldAssociate = shouldAssociate;
@@ -106,7 +95,6 @@ export class RadarTemplateRepository extends RestClient {
 
    getPublishedRadarTemplates(responseHandler) {
         let url = '/api/public/RadarTemplates/Published';
-
         this.getRequest(url, responseHandler);
    }
 };

@@ -7,7 +7,7 @@ import RadarViewControl from 'Apps/MainSiteApp/Pages/Common/RadarViewControl'
 import { RadarViewParams } from 'Apps/MainSiteApp/Pages/Common/RadarViewParams';
 
 export const AdminRadarPage = ({ mostRecent, fullView } ) => {
-    let { userId } = useParams();
+    let { subscriptionId } = useParams();
     let { radarTemplateId } = useParams();
     let { radarId } = useParams();
 
@@ -19,11 +19,11 @@ export const AdminRadarPage = ({ mostRecent, fullView } ) => {
 
     // In Admin context, we want to view OTHER users' radars, but we use the "Secure" repository 
     // paths (isPublic = false) because the Admin HAS permission to see private data.
-    const radarViewParams = new RadarViewParams(false, userId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView);
+    const radarViewParams = new RadarViewParams(false, subscriptionId, authenticatedUser, radarTemplateId, radarId, mostRecent, fullView);
 
     return (
         <div className="card">
-            <div className="card-title panel-heading-techradar">Admin View: User {userId} Radar</div>
+            <div className="card-title panel-heading-techradar">Admin View: Subscription {subscriptionId} Radar</div>
             <div className="card-body">
                 <div className="card">
                     <div className="card-body">
@@ -36,7 +36,7 @@ export const AdminRadarPage = ({ mostRecent, fullView } ) => {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-12">
-                                <RadarViewControl handleClickRadarItem = { handleClickRadarItem } userId = { radarViewParams.getUserIdToView() } isPublic = { false }/>
+                                <RadarViewControl handleClickRadarItem = { handleClickRadarItem } subscriptionId = { radarViewParams.getSubscriptionIdToView() } isPublic = { false }/>
                             </div>
                         </div>
                     </div>

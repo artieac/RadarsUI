@@ -36,8 +36,11 @@ export const NavBarItem = ({ rowData, currentPage, currentUser }) => {
                         ? renderNavBarItem(rowData.label, rowData.target, rowData.internal)
                         : null;
                 }
-                // All other role-gated items use the subscription role
-                if(rowData.roles === currentUser.subscriptionRoleName){
+                // All other role-gated items use the subscription role.
+                // ROLE_ACCOUNT_ADMIN items are also visible to site admins.
+                const roleMatches = currentUser.subscriptionRoleName === rowData.roles
+                    || (rowData.roles === 'ROLE_ACCOUNT_ADMIN' && currentUser.isSiteAdmin === true);
+                if(roleMatches){
                     return renderNavBarItem(rowData.label, rowData.target, rowData.internal);
                 }
                 return null;
