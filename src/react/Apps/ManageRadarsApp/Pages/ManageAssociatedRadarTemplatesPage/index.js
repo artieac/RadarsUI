@@ -18,10 +18,12 @@ export const ManageAssociatedRadarTemplatesPage = () => {
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
 
     useEffect(() => {
+        if (!authenticatedUser || !authenticatedUser.subscriptionId) return;
+        const subscriptionId = authenticatedUser.subscriptionId;
         let repo = new AccountAdminRepository();
         
         // Fetch User's templates to identify which are shared
-        repo.getRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+        repo.getRadarTemplates(subscriptionId, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 setMySharedTemplates(data.filter(t => t.isPublished));
             }
@@ -39,12 +41,12 @@ export const ManageAssociatedRadarTemplatesPage = () => {
         });
 
         // Also fetch currently associated templates to keep state in sync
-        repo.getAssociatedRadarTemplates(authenticatedUser.id, (wasSuccessful, data) => {
+        repo.getAssociatedRadarTemplates(subscriptionId, (wasSuccessful, data) => {
             if (wasSuccessful) {
                 dispatch(addAssociatedRadarTemplatesToState(data));
             }
         });
-    }, []);
+    }, [authenticatedUser.subscriptionId]);
 
     const handleViewTemplateClick = (rowData) => {
         setSelectedRadarTemplate(rowData);
