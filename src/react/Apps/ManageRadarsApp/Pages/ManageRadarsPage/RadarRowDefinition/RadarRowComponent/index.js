@@ -39,14 +39,14 @@ export const RadarRowComponent = ({ rowData }) => {
         if(shouldProcess==true){
            setIsPublished(event.target.checked);
            let repo = new AccountAdminRepository();
-           repo.publishRadar(authenticatedUser.id, rowData.id, event.target.checked, handleRadarChangeResponse);
+           repo.publishRadar(authenticatedUser.subscriptionId, rowData.id, event.target.checked, handleRadarChangeResponse);
         }
     }
 
     const handleRadarChangeResponse = (wasSuccessful) => {
         if(wasSuccessful==true){
             let repo = new AccountAdminRepository();
-            repo.getRadars(authenticatedUser.id, handleGetUserRadarResponse);
+            repo.getRadars(authenticatedUser.subscriptionId, handleGetUserRadarResponse);
         }
     }
 
@@ -59,12 +59,12 @@ export const RadarRowComponent = ({ rowData }) => {
     const handleIsLockedClick = (event) => {
         setIsLocked(event.target.checked);
         let repo = new AccountAdminRepository();
-        repo.lockRadar(authenticatedUser.id, rowData.id, event.target.checked, handleRadarChangeResponse);
+        repo.lockRadar(authenticatedUser.subscriptionId, rowData.id, event.target.checked, handleRadarChangeResponse);
     }
 
     const handleDeleteClick = (event) => {
         let repo = new AccountAdminRepository();
-        repo.deleteRadar(authenticatedUser.id, rowData.id, handleRadarChangeResponse);
+        repo.deleteRadar(authenticatedUser.subscriptionId, rowData.id, handleRadarChangeResponse);
     }
 
     const getRadarViewLink = (authenticatedUser, rowData) => {

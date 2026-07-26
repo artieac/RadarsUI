@@ -53,10 +53,10 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
             let repo = new AccountAdminRepository();
 
             if(isValid(selectedTemplate.id) && selectedTemplate.id > 0){
-                repo.updateRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
+                repo.updateRadarTemplate(authenticatedUser.subscriptionId, selectedTemplate, handleEditChangeResponse);
             }
             else{
-                repo.addRadarTemplate(authenticatedUser.id, selectedTemplate, handleEditChangeResponse);
+                repo.addRadarTemplate(authenticatedUser.subscriptionId, selectedTemplate, handleEditChangeResponse);
             }
         }
     }
@@ -65,7 +65,7 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
         if(wasSuccessful==true){
             dispatch(addSelectedRadarTemplateToState(data));
             let repo = new AccountAdminRepository();
-            repo.getRadarTemplates(authenticatedUser.id, handleGetRadarTemplatesResponse);
+            repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesResponse);
         }
     }
 

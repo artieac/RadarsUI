@@ -21,8 +21,8 @@ export const ManageRadarTemplatesPage = () => {
 
     useEffect(() => {
         let repo = new AccountAdminRepository();
-        repo.getRadarTemplates(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
-        repo.getRadars(authenticatedUser.id, handleGetUserRadarResponse);
+        repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesByUserIdResponse);
+        repo.getRadars(authenticatedUser.subscriptionId, handleGetUserRadarResponse);
     },[]);
 
     const handleGetUserRadarResponse = (wasSuccessful, data) => {
@@ -63,14 +63,14 @@ export const ManageRadarTemplatesPage = () => {
     const handleDeleteClick = (radarTemplate) => {
         if(confirm("This will permanently remove all radars of this type.  Are you sure you want to proceed?")){
             let repo = new AccountAdminRepository();
-            repo.deleteRadarTemplate(authenticatedUser.id, radarTemplate.id, handleDeleteResponse);
+            repo.deleteRadarTemplate(authenticatedUser.subscriptionId, radarTemplate.id, handleDeleteResponse);
         }
     }
 
     const handleDeleteResponse = (wasSuccessful) => {
         if(wasSuccessful==true){
             let repo = new AccountAdminRepository();
-            repo.getRadarTemplates(authenticatedUser.id, handleGetRadarTemplatesByUserIdResponse);
+            repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesByUserIdResponse);
         }
     }
 
