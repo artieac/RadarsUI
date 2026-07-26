@@ -18,7 +18,9 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             loggedInOnly: false,
             internal: false,
             roles: '',
-            target: configurationSettings.getMainSiteUrlRoot() + "?subscriptionId=" + currentUser.subscriptionId
+            target: isValid(currentUser.currentlyViewedSubscriptionId) && currentUser.currentlyViewedSubscriptionId > 0
+                ? configurationSettings.getMainSiteUrlRoot() + '/home/subscription/' + currentUser.currentlyViewedSubscriptionId + '/radars'
+                : configurationSettings.getMainSiteUrlRoot()
         },
         {
             label: 'Radars',

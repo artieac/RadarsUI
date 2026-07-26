@@ -17,14 +17,15 @@ export const ManageRadarTemplatesPage = () => {
     const dispatch = useDispatch();
 
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
+    const currentlyViewedSubscriptionId = authenticatedUser?.currentlyViewedSubscriptionId;
     const radarTemplates = useSelector((state) => state.radarTemplateReducer.radarTemplates);
 
     useEffect(() => {
         if (!authenticatedUser || !authenticatedUser.subscriptionId) return;
         let repo = new AccountAdminRepository();
-        repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesByUserIdResponse);
-        repo.getRadars(authenticatedUser.subscriptionId, handleGetUserRadarResponse);
-    },[authenticatedUser.subscriptionId]);
+        repo.getRadarTemplates(currentlyViewedSubscriptionId, handleGetRadarTemplatesByUserIdResponse);
+        repo.getRadars(currentlyViewedSubscriptionId, handleGetUserRadarResponse);
+    },[]);
 
     const handleGetUserRadarResponse = (wasSuccessful, data) => {
         if(wasSuccessful==true){
@@ -64,14 +65,14 @@ export const ManageRadarTemplatesPage = () => {
     const handleDeleteClick = (radarTemplate) => {
         if(confirm("This will permanently remove all radars of this type.  Are you sure you want to proceed?")){
             let repo = new AccountAdminRepository();
-            repo.deleteRadarTemplate(authenticatedUser.subscriptionId, radarTemplate.id, handleDeleteResponse);
+            repo.deleteRadarTemplate(currentlyViewedSubscriptionId, radarTemplate.id, handleDeleteResponse);
         }
     }
 
     const handleDeleteResponse = (wasSuccessful) => {
         if(wasSuccessful==true){
             let repo = new AccountAdminRepository();
-            repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesByUserIdResponse);
+            repo.getRadarTemplates(currentlyViewedSubscriptionId, handleGetRadarTemplatesByUserIdResponse);
         }
     }
 
@@ -131,4 +132,4 @@ export const ManageRadarTemplatesPage = () => {
 };
 
 
-export default ManageRadarTemplatesPage;
+export default ManageRadarTemplatesPage;

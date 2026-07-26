@@ -19,8 +19,8 @@ export const NavBarRowDefinition = (currentUser, currentPage) => {
             internal: true,
             roles: '',
             // Use subscriptionId-based URL; falls back gracefully if subscriptionId not yet loaded
-            target: isValid(currentUser.subscriptionId) && currentUser.subscriptionId > 0
-                ? '/home/subscription/' + currentUser.subscriptionId + '/radars'
+            target: isValid(currentUser.currentlyViewedSubscriptionId) && currentUser.currentlyViewedSubscriptionId > 0
+                ? '/home/subscription/' + currentUser.currentlyViewedSubscriptionId + '/radars'
                 : '/'
         },
         {

@@ -53,8 +53,8 @@ export class AccountAdminRepository extends RestClient {
         this.getRequest(`${BASE}/Subscription/${subscriptionId}/RadarTemplates/Associated`, responseHandler);
     }
 
-    getSharedRadarTemplates(excludeUserId: number | string, responseHandler: Function) {
-        this.getRequest(`${BASE}/RadarTemplates/Shared?excludeUser=${excludeUserId}`, responseHandler);
+    getSharedRadarTemplates(subscriptionId: number | string, responseHandler: Function) {
+        this.getRequest(`${BASE}/RadarTemplates/Shared?excludeSubscription=${subscriptionId}`, responseHandler);
     }
 
     addRadarTemplate(subscriptionId: number | string, radarTemplate: any, responseHandler: Function) {

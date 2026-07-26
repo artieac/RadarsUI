@@ -23,9 +23,9 @@ export const ManageRadarsPage = ({ authenticatedUser }) => {
     }, [authenticatedUser.subscriptionId]);
 
     const getUserRadars = (user) => {
-        if(isValid(user) && isValid(user.subscriptionId)){
+        if(isValid(user) && isValid(user.currentlyViewedSubscriptionId)){
             let repo = new AccountAdminRepository();
-            repo.getRadars(user.subscriptionId, handleGetUserRadarResponse);
+            repo.getRadars(user.currentlyViewedSubscriptionId, handleGetUserRadarResponse);
         }
     }
 

@@ -30,8 +30,8 @@ export class RadarViewParams {
             return this.subscriptionIdParam;
         } else {
             // Fall back to the authenticated user's own subscriptionId
-            if(isValid(this.authenticatedUser) && isValid(this.authenticatedUser.subscriptionId)){
-                return this.authenticatedUser.subscriptionId;
+            if(isValid(this.authenticatedUser) && isValid(this.authenticatedUser.currentlyViewedSubscriptionId)){
+                return this.authenticatedUser.currentlyViewedSubscriptionId;
             }
         }
         return -1;

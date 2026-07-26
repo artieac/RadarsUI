@@ -26,7 +26,7 @@ export const SearchPage = () => {
         const radarTemplateRepository = new RadarTemplateRepository();
         
         if (isValid(authenticatedUser) && authenticatedUser.id > 0) {
-            radarTemplateRepository.getOwnedAndAssociatedByUserId(authenticatedUser.id, (wasSuccessful, data) => {
+            radarTemplateRepository.getOwnedAndAssociatedBySubscriptionId(authenticatedUser.subscriptionId, (wasSuccessful, data) => {
                 if (wasSuccessful) {
                     // Start with user's templates
                     let combinedTemplates = [...data];

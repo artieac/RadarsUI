@@ -13,6 +13,7 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
     const [isPublished, setIsPublished] = useState(false);
 
     const authenticatedUser = useSelector((state)=>state.userReducer.currentUser);
+    const currentlyViewedSubscriptionId = authenticatedUser?.currentlyViewedSubscriptionId;
     const radars = useSelector((state) => state.radarReducer.radars);
 
     const dispatch = useDispatch();
@@ -53,10 +54,10 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
             let repo = new AccountAdminRepository();
 
             if(isValid(selectedTemplate.id) && selectedTemplate.id > 0){
-                repo.updateRadarTemplate(authenticatedUser.subscriptionId, selectedTemplate, handleEditChangeResponse);
+                repo.updateRadarTemplate(currentlyViewedSubscriptionId, selectedTemplate, handleEditChangeResponse);
             }
             else{
-                repo.addRadarTemplate(authenticatedUser.subscriptionId, selectedTemplate, handleEditChangeResponse);
+                repo.addRadarTemplate(currentlyViewedSubscriptionId, selectedTemplate, handleEditChangeResponse);
             }
         }
     }
@@ -65,7 +66,7 @@ export const RadarTemplateDetails = ({ editMode, selectedTemplate }) => {
         if(wasSuccessful==true){
             dispatch(addSelectedRadarTemplateToState(data));
             let repo = new AccountAdminRepository();
-            repo.getRadarTemplates(authenticatedUser.subscriptionId, handleGetRadarTemplatesResponse);
+            repo.getRadarTemplates(currentlyViewedSubscriptionId, handleGetRadarTemplatesResponse);
         }
     }
 

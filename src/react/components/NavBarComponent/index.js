@@ -6,6 +6,7 @@ import { isValid } from 'Apps/Common/Utilities'
 import ConfigurationSettings from 'Apps/Common/ConfigurationSettings'
 import { UserRepository } from 'Repositories/UserRepository'
 import { setViewedSubscription } from 'Redux/UserReducer'
+import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
 import "./component.css"
 
 const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
@@ -68,6 +69,10 @@ const NavBarComponent = ({ navBarRowDefinition, currentUser, loginUrl }) => {
     }
 
     const onSubscriptionClick = (sub) => {
+        // Clear the current radar BEFORE navigating so that RadarViewControl's remount
+        // (triggered by key={subscriptionId}) sees null in Redux and does not attempt
+        // to fetch the old subscription's radar with the new subscriptionId.
+        dispatch(setCurrentRadarInstanceToState(null));
         // Update Redux with the new subscription's role and tier limits
         dispatch(setViewedSubscription(sub));
         // Close dropdown
