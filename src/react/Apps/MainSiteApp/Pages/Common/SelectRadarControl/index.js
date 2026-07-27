@@ -6,7 +6,8 @@ import { connect, useSelector, useDispatch } from "react-redux"
 import { useParams, useNavigate } from 'react-router-dom'
 import { addRadarTemplatesToState} from 'Redux/RadarTemplateReducer'
 import { RadarTemplateRepository } from 'Repositories/RadarTemplateRepository'
-import { addRadarsToState, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
+import { addRadarsToState, setCurrentRadarInstanceToState, setCurrentDiagramToState } from 'Redux/RadarReducer'
+
 import { RadarRepository} from 'Repositories/RadarRepository'
 import DropdownComponent from 'SharedComponents/DropdownComponent'
 import { radarTemplateDropdownMap } from './radarTemplateDropdownMap'
@@ -90,9 +91,13 @@ export const SelectRadarControl = ({ radarViewParams }) => {
 
     const handleRadarTemplateSelection = (targetRadarTemplate) => {
         setSelectedRadarTemplate(targetRadarTemplate);
+        // Clear both the simple selection and the rendered diagram so
+        // RadarViewControl shows the placeholder until a new radar is fetched.
         dispatch(setCurrentRadarInstanceToState(null));
+        dispatch(setCurrentDiagramToState(null));
         generateSharingLinks(targetRadarTemplate);
     }
+
 
     const onRadarTemplateSelectionChanged = (targetRadarTemplate) => {
         handleRadarTemplateSelection(targetRadarTemplate);

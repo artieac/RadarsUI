@@ -11,7 +11,8 @@ import { confidenceItemMap, confidenceOptions } from './confidenceItemMap'
 import DropdownComponent from 'SharedComponents/DropdownComponent'
 import ListComponent from 'SharedComponents/ListComponent'
 import { RadarItemRepository } from 'Repositories/RadarItemRepository.js'
-import { setSelectedRadarItem,disableRadarItemChangedAlert, setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
+import { setSelectedRadarItem, disableRadarItemChangedAlert, setCurrentDiagramToState } from 'Redux/RadarReducer'
+
 
 export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, radarIsLocked, subscriptionId } ) => {
     const [isSaving, setIsSaving] = useState(false);
@@ -26,8 +27,9 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
     const [assessmentDetails, setAssessmentDetails] = useState("");
 
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
-    const radarState = useSelector((state) => state.radarReducer);
-    const selectedRadar = useSelector((state) => state.radarReducer.currentRadar);
+    // currentDiagram: full DiagramPresentation — the single source for template data, radar ID,
+    // and the target for post-save updates dispatched by saveRadarItemResponseHandler.
+    const currentDiagram = useSelector((state) => state.radarReducer.currentDiagram);
 
     const dispatch = useDispatch();
 
@@ -114,7 +116,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
         if (!isValid(currentEditItemId)){
             if (isValid(radarSubject) && isValid(radarSubject.id) && radarSubject.id > 0){
                 radarItemRepository.addRadarItemExistingSubject(subscriptionId,
-                   selectedRadar.radarId,
+                   currentDiagram.radarId,
                    radarCategory,
                    radarRing,
                    confidenceLevel,
@@ -124,7 +126,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
             }
             else{
                 radarItemRepository.addRadarItemNewSubject(subscriptionId,
-                   selectedRadar.radarId,
+                   currentDiagram.radarId,
                    radarCategory,
                    radarRing,
                    confidenceLevel,
@@ -135,7 +137,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
             }
         } else {
             radarItemRepository.updateRadarItem(subscriptionId,
-                selectedRadar.radarId,
+                currentDiagram.radarId,
                 selectedRadarItem.id,
                 radarCategory,
                 radarRing,
@@ -148,13 +150,15 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
 
     const saveRadarItemResponseHandler = (wasSuccessful, data) => {
         if(wasSuccessful == true){
-            dispatch(setCurrentRadarInstanceToState(data));
+            // Dispatch the fresh DiagramPresentation returned by the API into currentDiagram.
+            // RadarViewControl watches currentDiagram and re-renders immediately.
+            dispatch(setCurrentDiagramToState(data));
         }
     }
 
     const handleRemoveRadarItem = () => {
         let radarItemRepository = new RadarItemRepository();
-        radarItemRepository.deleteRadarItem(subscriptionId, selectedRadar.id, currentEditItemId, handleRemoveRadarItemResponse)
+        radarItemRepository.deleteRadarItem(subscriptionId, currentDiagram.radarId, currentEditItemId, handleRemoveRadarItemResponse)
     }
 
     const handleRemoveRadarItemResponse = (wasSuccessful, userId, radarId) => {
@@ -207,7 +211,7 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
         setAssessmentDetails(event.target.value);
     }
 
-    if (!radarState.currentRadar || !radarState.currentRadar.radarTemplate) {
+    if (!currentDiagram || !currentDiagram.radarTemplate) {
         return null;
     }
 
@@ -228,11 +232,11 @@ export const ModifyRadarItemsControl = ({ selectedRadarItem, closePanelHandler, 
                        </div>
                        <div className="col-md-2">
                            <label className="form-label mb-1 small fw-bold">Category</label>
-                           <DropdownComponent title = { radarCategory.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarCategory) } data = { radarState.currentRadar.radarTemplate.radarCategories } disabled={ radarIsLocked } />
+                            <DropdownComponent title = { radarCategory.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarCategory) } data = { currentDiagram.radarTemplate.radarCategories } disabled={ radarIsLocked } />
                        </div>
                        <div className="col-md-2">
                            <label className="form-label mb-1 small fw-bold">Ring</label>
-                           <DropdownComponent title = { radarRing.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarRing) } data = { radarState.currentRadar.radarTemplate.radarRings } disabled={ radarIsLocked } />
+                            <DropdownComponent title = { radarRing.name } itemMap = { nameIdValueDropdownMap(handleSelectRadarRing) } data = { currentDiagram.radarTemplate.radarRings } disabled={ radarIsLocked } />
                        </div>
                        <div className="col-md-3">
                            <label className="form-label mb-1 small fw-bold">URL</label>
