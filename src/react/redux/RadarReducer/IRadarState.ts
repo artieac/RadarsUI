@@ -4,5 +4,7 @@ export default interface IRadarState {
   sourceRadar: object | null,
   radarTemplates: [],
   selectedRadarItem: object | null,
-  selectedRadarItemChanged: boolean
-}
+  selectedRadarItemChanged: boolean,
+  /** Full DiagramPresentation returned by the API. Separate from currentRadar (simple selection). */
+  currentDiagram: object | null
+}

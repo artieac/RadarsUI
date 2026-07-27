@@ -9,8 +9,10 @@ const radarManagementState: IRadarState = {
   sourceRadar: {},
   radarTemplates: [],
   selectedRadarItem: {},
-  selectedRadarItemChanged: false
+  selectedRadarItemChanged: false,
+  currentDiagram: null
 };
+
 
 export function addRadarsToState(radars: []){
     return {
@@ -44,6 +46,13 @@ export function setSelectedRadarItem(radarItem: object) {
     return {
         type : actionTypes.SETSELECTEDRADARITEM,
         payload: radarItem
+    };
+}
+
+export function setCurrentDiagramToState(diagram: object) {
+    return {
+        type : actionTypes.SETCURRENTDIAGRAM,
+        payload: diagram
     };
 }
 
@@ -87,6 +96,11 @@ export default function(state = radarManagementState, action: IReduxAction) {
     case actionTypes.SETSELECTEDRADARITEMCHANGED:
         return Object.assign({}, state, {
             selectedRadarItemChanged: action.payload
+        })
+        break;
+    case actionTypes.SETCURRENTDIAGRAM:
+        return Object.assign({}, state, {
+            currentDiagram: action.payload
         })
         break;
     default:

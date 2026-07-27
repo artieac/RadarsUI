@@ -9,7 +9,8 @@ import SelectRadarControl from '../Common/SelectRadarControl'
 import RadarViewControl from '../Common/RadarViewControl'
 import { StaticDataLoader } from 'Apps/Common/StaticDataLoader'
 import ModifyRadarItemsControl from './ModifyRadarItemsControl'
-import { setCurrentRadarInstanceToState } from 'Redux/RadarReducer'
+import { setCurrentRadarInstanceToState, setCurrentDiagramToState } from 'Redux/RadarReducer'
+
 import { isValid } from 'Apps/Common/Utilities'
 import { RadarViewParams } from '../Common/RadarViewParams'
 import CompleteRadarManager from '../Common/CompleteRadarManager'
@@ -27,7 +28,9 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
 
     const authenticatedUser = useSelector((state) => state.userReducer.currentUser);
     const currentRadar = useSelector((state) => state.radarReducer.currentRadar);
+    const currentDiagram = useSelector((state) => state.radarReducer.currentDiagram);
     const dispatch = useDispatch();
+
 
     // Sync Redux subscription context whenever the URL subscription changes.
     // This handles direct navigation (bookmarks, nav links) where setViewedSubscription
@@ -44,21 +47,21 @@ export const SecureRadarPage = ({ mostRecent, fullView }) => {
         });
     }, [subscriptionId]);
 
-    // Clear stale radar data from Redux whenever the subscription changes.
+    // Clear both the simple selection and the rendered diagram whenever the subscription changes.
     // Without this, RadarViewControl remounts (due to key={subscriptionId}) and immediately
-    // reads the previous subscription's radar from Redux, causing RadarSvg to crash when
-    // the old radar's structure doesn't match the new subscription's template.
+    // reads the previous subscription's diagram from Redux, causing RadarSvg to crash.
     useEffect(() => {
         dispatch(setCurrentRadarInstanceToState(null));
+        dispatch(setCurrentDiagramToState(null));
     }, [subscriptionId]);
 
-    // Only update lock state when a real radar is dispatched (has a valid id).
-    // This prevents the transient null/sentinel dispatches from clearing the locked state.
+    // Update lock state from the currentDiagram (always a DiagramPresentation when set).
     useEffect(() => {
-        if (currentRadar && (currentRadar.radarId || currentRadar.id)) {
-            setRadarIsLocked(currentRadar.isLocked === true);
+        if (currentDiagram && currentDiagram.radarId) {
+            setRadarIsLocked(currentDiagram.isLocked === true);
         }
-    }, [currentRadar]);
+    }, [currentDiagram]);
+
 
     const handleShowAddItemPanel = () => {
         setSelectedRadarItem(null);
