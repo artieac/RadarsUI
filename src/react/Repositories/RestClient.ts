@@ -2,6 +2,16 @@ import jQuery from 'jquery';
 import { isValid } from '../Apps/Common/Utilities'
 
 export class RestClient {
+    getXsrfToken(): string | undefined {
+        const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/);
+        return match ? decodeURIComponent(match[1]) : undefined;
+    }
+
+    getXsrfHeaders(): Record<string, string> {
+        const xsrfToken = this.getXsrfToken();
+        return xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {};
+    }
+
     getWebServiceUrlRoot() {
         let url = import.meta.env.REACT_APP_TECHNOLOGY_API_URL;
         return this.ensureHttpsIfRequired(url);
@@ -51,6 +61,7 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
+                     ...this.getXsrfHeaders(),
                   },
                   type: "POST",
                   url: this.getWebServiceUrlRoot() + url,
@@ -71,6 +82,7 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
+                     ...this.getXsrfHeaders(),
                   },
                   type: "POST",
                   url: this.getWebServiceUrlRoot() + url,
@@ -101,6 +113,7 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
+                     ...this.getXsrfHeaders(),
                   },
                   type: "PUT",
                   url: this.getWebServiceUrlRoot() + url,
@@ -121,6 +134,7 @@ export class RestClient {
                   headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
+                     ...this.getXsrfHeaders(),
                   },
                   type: "PUT",
                   url: this.getWebServiceUrlRoot() + url,
@@ -142,6 +156,7 @@ export class RestClient {
               headers: {
                      'Accept': 'application/json',
                      'Content-Type': 'application/json',
+                     ...this.getXsrfHeaders(),
               },
               type: "DELETE",
               url: this.getWebServiceUrlRoot() + url,
